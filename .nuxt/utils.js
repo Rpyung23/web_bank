@@ -200,7 +200,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: app.router.options.base,
-      env: {"baseUrl":"http://localhost:3010","nameCoop":"Cooperativa De Ahorro Y Credito Nizag Ltda"}
+      env: {"baseUrl":"http://localhost:3010","nameCoop":"Cooperativa De Ahorro Y Credito Nizag Ltda","nameCoopCorto":"COOPERATIVA NIZAG LTDA"}
     }
     // Only set once
 

@@ -7,6 +7,7 @@ import scrollBehavior from './router.scrollBehavior.js'
 const _18048310 = () => interopDefault(import('..\\pages\\alternative.vue' /* webpackChunkName: "pages/alternative" */))
 const _25819103 = () => interopDefault(import('..\\pages\\calendar.vue' /* webpackChunkName: "pages/calendar" */))
 const _56b1fdda = () => interopDefault(import('..\\pages\\charts.vue' /* webpackChunkName: "pages/charts" */))
+const _ffbcca2a = () => interopDefault(import('..\\pages\\contact.vue' /* webpackChunkName: "pages/contact" */))
 const _22be72c2 = () => interopDefault(import('..\\pages\\dashboard.vue' /* webpackChunkName: "pages/dashboard" */))
 const _1436baf0 = () => interopDefault(import('..\\pages\\lock.vue' /* webpackChunkName: "pages/lock" */))
 const _46350a74 = () => interopDefault(import('..\\pages\\login.vue' /* webpackChunkName: "pages/login" */))
@@ -55,6 +56,10 @@ export const routerOptions = {
     path: "/charts",
     component: _56b1fdda,
     name: "charts"
+  }, {
+    path: "/contact",
+    component: _ffbcca2a,
+    name: "contact"
   }, {
     path: "/dashboard",
     component: _22be72c2,

@@ -24,7 +24,7 @@
           :link="{
             name: 'Contactos',
             icon: 'ni ni-single-02 text-success',
-            path: '/transferencia'
+            path: '/contact'
           }">
       </sidebar-item>
 

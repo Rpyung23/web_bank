@@ -115,6 +115,7 @@ module.exports = {
 
   env: {
     baseUrl: "http://localhost:3010",
-    nameCoop: "Cooperativa De Ahorro Y Credito Nizag Ltda"
+    nameCoop: "Cooperativa De Ahorro Y Credito Nizag Ltda",
+    nameCoopCorto : "COOPERATIVA NIZAG LTDA"
   },
 };

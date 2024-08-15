@@ -3,189 +3,168 @@
     "name": "alternative",
     "path": "/alternative",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\alternative.vue",
-    "chunkName": "pages/alternative",
-    "_name": "_18048310"
+    "chunkName": "pages/alternative"
   },
   {
     "name": "calendar",
     "path": "/calendar",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\calendar.vue",
-    "chunkName": "pages/calendar",
-    "_name": "_25819103"
+    "chunkName": "pages/calendar"
   },
   {
     "name": "charts",
     "path": "/charts",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\charts.vue",
-    "chunkName": "pages/charts",
-    "_name": "_56b1fdda"
+    "chunkName": "pages/charts"
+  },
+  {
+    "name": "contact",
+    "path": "/contact",
+    "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\contact.vue",
+    "chunkName": "pages/contact"
   },
   {
     "name": "dashboard",
     "path": "/dashboard",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\dashboard.vue",
-    "chunkName": "pages/dashboard",
-    "_name": "_22be72c2"
+    "chunkName": "pages/dashboard"
   },
   {
     "name": "lock",
     "path": "/lock",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\lock.vue",
-    "chunkName": "pages/lock",
-    "_name": "_1436baf0"
+    "chunkName": "pages/lock"
   },
   {
     "name": "login",
     "path": "/login",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\login.vue",
-    "chunkName": "pages/login",
-    "_name": "_46350a74"
+    "chunkName": "pages/login"
   },
   {
     "name": "pricing",
     "path": "/pricing",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\pricing.vue",
-    "chunkName": "pages/pricing",
-    "_name": "_4ade58de"
+    "chunkName": "pages/pricing"
   },
   {
     "name": "register",
     "path": "/register",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\register.vue",
-    "chunkName": "pages/register",
-    "_name": "_5686ec30"
+    "chunkName": "pages/register"
   },
   {
     "name": "transferencia",
     "path": "/transferencia",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\transferencia.vue",
-    "chunkName": "pages/transferencia",
-    "_name": "_06f3d91c"
+    "chunkName": "pages/transferencia"
   },
   {
     "name": "widgets",
     "path": "/widgets",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\widgets.vue",
-    "chunkName": "pages/widgets",
-    "_name": "_47b885fa"
+    "chunkName": "pages/widgets"
   },
   {
     "name": "components-buttons",
     "path": "/components/buttons",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\components\\\\buttons.vue",
-    "chunkName": "pages/components/buttons",
-    "_name": "_4db05e76"
+    "chunkName": "pages/components/buttons"
   },
   {
     "name": "components-cards",
     "path": "/components/cards",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\components\\\\cards.vue",
-    "chunkName": "pages/components/cards",
-    "_name": "_62454ed0"
+    "chunkName": "pages/components/cards"
   },
   {
     "name": "components-grid-system",
     "path": "/components/grid-system",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\components\\\\grid-system.vue",
-    "chunkName": "pages/components/grid-system",
-    "_name": "_3e12e6ea"
+    "chunkName": "pages/components/grid-system"
   },
   {
     "name": "components-icons",
     "path": "/components/icons",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\components\\\\icons.vue",
-    "chunkName": "pages/components/icons",
-    "_name": "_eacfde62"
+    "chunkName": "pages/components/icons"
   },
   {
     "name": "components-notifications",
     "path": "/components/notifications",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\components\\\\notifications.vue",
-    "chunkName": "pages/components/notifications",
-    "_name": "_c24162c6"
+    "chunkName": "pages/components/notifications"
   },
   {
     "name": "components-typography",
     "path": "/components/typography",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\components\\\\typography.vue",
-    "chunkName": "pages/components/typography",
-    "_name": "_40305a4a"
+    "chunkName": "pages/components/typography"
   },
   {
     "name": "forms-components",
     "path": "/forms/components",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\forms\\\\components.vue",
-    "chunkName": "pages/forms/components",
-    "_name": "_673064d0"
+    "chunkName": "pages/forms/components"
   },
   {
     "name": "forms-elements",
     "path": "/forms/elements",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\forms\\\\elements.vue",
-    "chunkName": "pages/forms/elements",
-    "_name": "_1460eab1"
+    "chunkName": "pages/forms/elements"
   },
   {
     "name": "forms-validation",
     "path": "/forms/validation",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\forms\\\\validation.vue",
-    "chunkName": "pages/forms/validation",
-    "_name": "_03cbc0b3"
+    "chunkName": "pages/forms/validation"
   },
   {
     "name": "maps-google",
     "path": "/maps/google",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\maps\\\\google.vue",
-    "chunkName": "pages/maps/google",
-    "_name": "_44fcb0d6"
+    "chunkName": "pages/maps/google"
   },
   {
     "name": "maps-vector",
     "path": "/maps/vector",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\maps\\\\vector.vue",
-    "chunkName": "pages/maps/vector",
-    "_name": "_3a1b959f"
+    "chunkName": "pages/maps/vector"
   },
   {
     "name": "pages-timeline",
     "path": "/pages/timeline",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\pages\\\\timeline.vue",
-    "chunkName": "pages/pages/timeline",
-    "_name": "_51bc43d0"
+    "chunkName": "pages/pages/timeline"
   },
   {
     "name": "pages-user",
     "path": "/pages/user",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\pages\\\\user.vue",
-    "chunkName": "pages/pages/user",
-    "_name": "_45a2d9da"
+    "chunkName": "pages/pages/user"
   },
   {
     "name": "tables-paginated",
     "path": "/tables/paginated",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\tables\\\\paginated.vue",
-    "chunkName": "pages/tables/paginated",
-    "_name": "_c9c5525a"
+    "chunkName": "pages/tables/paginated"
   },
   {
     "name": "tables-regular",
     "path": "/tables/regular",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\tables\\\\regular.vue",
-    "chunkName": "pages/tables/regular",
-    "_name": "_8a7730bc"
+    "chunkName": "pages/tables/regular"
   },
   {
     "name": "tables-sortable",
     "path": "/tables/sortable",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\tables\\\\sortable.vue",
-    "chunkName": "pages/tables/sortable",
-    "_name": "_182f2ce2"
+    "chunkName": "pages/tables/sortable"
   },
   {
     "name": "index",
     "path": "/",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_7c8d675d"
+    "chunkName": "pages/index"
   }
 ]
