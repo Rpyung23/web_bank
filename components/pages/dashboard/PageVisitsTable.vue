@@ -6,7 +6,7 @@
           <h3 class="mb-0">Transacciones recientes</h3>
         </div>
         <div class="col" style="display: flex;align-items: flex-end;justify-content: flex-end;">
-          <base-button size="sm" type="success">NUEVA TRANSFERENCIA</base-button>
+          <base-button size="sm" @click="onClickNuevaTransfer()" type="success">NUEVA TRANSFERENCIA</base-button>
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
       </el-table-column>
 
       <el-table-column
-        label="CUENTA ORIGIN"
+        label="CUENTA DE ORIGEN"
         min-width="80"
         prop="dmcta_cod_ctadp"
       >
@@ -190,6 +190,9 @@ export default {
     };
   },
   methods: {
+    onClickNuevaTransfer(){
+      this.$router.push('/transferencia');
+    },
     async reasLastTransaction(account) {
       this.mListLastTransaction = [];
       var response = await this.$axios.get(

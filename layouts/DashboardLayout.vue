@@ -6,7 +6,7 @@
 
       <sidebar-item
           :link="{
-            name: 'Inicio',
+            name: 'Mis Cuentas',
             icon: 'ni ni-shop text-success',
             path: '/dashboard'
           }">
@@ -19,6 +19,31 @@
             path: '/transferencia'
           }">
       </sidebar-item>
+
+      <sidebar-item
+          :link="{
+            name: 'Mis Préstamos',
+            icon: 'ni ni-active-40 text-success',
+            path: '/prestamo'
+          }">
+      </sidebar-item>
+
+      <sidebar-item
+          :link="{
+            name: 'Mis Inversiones',
+            icon: 'ni ni-sound-wave text-success',
+            path: '/inversion'
+          }">
+      </sidebar-item>
+
+      <sidebar-item
+          :link="{
+            name: 'Servicios',
+            icon: 'bx bx-coin text-success',
+            path: '/servicio'
+          }">
+      </sidebar-item>
+
 
       <sidebar-item
           :link="{
@@ -170,7 +195,7 @@
       <div @click="$sidebar.displaySidebar(false)">
         <nuxt></nuxt>
       </div>
-      <content-footer v-if="!$route.meta.hideFooter"></content-footer>
+  
     </div>
   </div>
 </template>

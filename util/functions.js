@@ -57,3 +57,7 @@ export function  formatNumber(number) {
         return '0.00';
     }
 }
+
+export function eliminarcaractExpecial(cadena){
+    return cadena.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s-']/g, '');
+}

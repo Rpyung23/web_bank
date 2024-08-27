@@ -113,7 +113,7 @@ export default {
         this.$cookies.set('jwtBancaWeb',response.data,1)
         //nuxtStorage.sessionStorage.setData('jwtNizag', response.data,1,'d');
         //console.log(nuxtStorage.sessionStorage.getData('jwtNizag'));
-        this.$router.push('dashboard');
+        this.$router.push('/dashboard');
       } catch (error) {
         console.log(error)
         if (error.response) {

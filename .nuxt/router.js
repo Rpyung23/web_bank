@@ -9,10 +9,13 @@ const _25819103 = () => interopDefault(import('..\\pages\\calendar.vue' /* webpa
 const _56b1fdda = () => interopDefault(import('..\\pages\\charts.vue' /* webpackChunkName: "pages/charts" */))
 const _ffbcca2a = () => interopDefault(import('..\\pages\\contact.vue' /* webpackChunkName: "pages/contact" */))
 const _22be72c2 = () => interopDefault(import('..\\pages\\dashboard.vue' /* webpackChunkName: "pages/dashboard" */))
+const _6372f09e = () => interopDefault(import('..\\pages\\inversion.vue' /* webpackChunkName: "pages/inversion" */))
 const _1436baf0 = () => interopDefault(import('..\\pages\\lock.vue' /* webpackChunkName: "pages/lock" */))
 const _46350a74 = () => interopDefault(import('..\\pages\\login.vue' /* webpackChunkName: "pages/login" */))
+const _8151e778 = () => interopDefault(import('..\\pages\\prestamo.vue' /* webpackChunkName: "pages/prestamo" */))
 const _4ade58de = () => interopDefault(import('..\\pages\\pricing.vue' /* webpackChunkName: "pages/pricing" */))
 const _5686ec30 = () => interopDefault(import('..\\pages\\register.vue' /* webpackChunkName: "pages/register" */))
+const _57a31a9b = () => interopDefault(import('..\\pages\\servicio.vue' /* webpackChunkName: "pages/servicio" */))
 const _06f3d91c = () => interopDefault(import('..\\pages\\transferencia.vue' /* webpackChunkName: "pages/transferencia" */))
 const _47b885fa = () => interopDefault(import('..\\pages\\widgets.vue' /* webpackChunkName: "pages/widgets" */))
 const _4db05e76 = () => interopDefault(import('..\\pages\\components\\buttons.vue' /* webpackChunkName: "pages/components/buttons" */))
@@ -65,6 +68,10 @@ export const routerOptions = {
     component: _22be72c2,
     name: "dashboard"
   }, {
+    path: "/inversion",
+    component: _6372f09e,
+    name: "inversion"
+  }, {
     path: "/lock",
     component: _1436baf0,
     name: "lock"
@@ -73,6 +80,10 @@ export const routerOptions = {
     component: _46350a74,
     name: "login"
   }, {
+    path: "/prestamo",
+    component: _8151e778,
+    name: "prestamo"
+  }, {
     path: "/pricing",
     component: _4ade58de,
     name: "pricing"
@@ -80,6 +91,10 @@ export const routerOptions = {
     path: "/register",
     component: _5686ec30,
     name: "register"
+  }, {
+    path: "/servicio",
+    component: _57a31a9b,
+    name: "servicio"
   }, {
     path: "/transferencia",
     component: _06f3d91c,

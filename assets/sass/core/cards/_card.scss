@@ -7,7 +7,8 @@
 
     @if $enable-shadows {
         box-shadow: $card-box-shadow;
-        border: 0;
+        border: 1;
+        border-color: #144c24;
     }
 }
 

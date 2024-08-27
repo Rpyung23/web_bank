@@ -30,6 +30,12 @@
     "chunkName": "pages/dashboard"
   },
   {
+    "name": "inversion",
+    "path": "/inversion",
+    "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\inversion.vue",
+    "chunkName": "pages/inversion"
+  },
+  {
     "name": "lock",
     "path": "/lock",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\lock.vue",
@@ -42,6 +48,12 @@
     "chunkName": "pages/login"
   },
   {
+    "name": "prestamo",
+    "path": "/prestamo",
+    "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\prestamo.vue",
+    "chunkName": "pages/prestamo"
+  },
+  {
     "name": "pricing",
     "path": "/pricing",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\pricing.vue",
@@ -52,6 +64,12 @@
     "path": "/register",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\register.vue",
     "chunkName": "pages/register"
+  },
+  {
+    "name": "servicio",
+    "path": "/servicio",
+    "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\servicio.vue",
+    "chunkName": "pages/servicio"
   },
   {
     "name": "transferencia",

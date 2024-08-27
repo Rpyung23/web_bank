@@ -21,7 +21,7 @@
                     <img alt="Image placeholder" src="img/theme/team-4.jpg">
                   </span>
             <div class="media-body ml-2 d-none d-lg-block">
-              <span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+              <span class="mb-0 text-sm  font-weight-bold">{{nameWebBanca}}</span>
             </div>
           </div>
         </a>
@@ -73,11 +73,12 @@
     },
     data() {
       return {
+        nameWebBanca:"",
         activeNotifications: false,
         showMenu: false,
         searchModalVisible: false,
         searchQuery: ''
-      };
+      }
     },
     methods: {
       capitalizeFirstLetter(string) {
@@ -95,6 +96,9 @@
       hideSidebar() {
         this.$sidebar.displaySidebar(false);
       }
+    },
+    mounted(){
+      this.$cookies.get();
     }
   };
 </script>

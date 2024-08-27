@@ -14,7 +14,7 @@
         </div>
       </div>
       Card stats -->
-      <div class="row py-4">
+      <div class="row py-2">
         <div v-for="account in mListAccountClient" class="col-xl-3 col-md-6">
           <stats-card
             :title="account.ctadp_cod_ctadp_4dig"

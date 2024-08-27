@@ -138,7 +138,7 @@
                       ></base-input>
                     </div>
                   </div>
-                  <base-button type="success" native-type="submit"
+                  <base-button type="success" native-type="submit" style="width: 100%;"
                     >CONFIRMAR TRANSFERENCIA</base-button
                   >
                 </form>
@@ -153,8 +153,8 @@
 
 <script>
 import { Select, Option } from "element-ui";
-import swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.css';
+import swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
 
 export default {
   name: "form-components",
@@ -175,22 +175,22 @@ export default {
       typeAccountContact: null,
       valorTransferencia: null,
       motivoTransfer: null,
+      oComisionTransfer: null,
     };
   },
   methods: {
-    showProgressAlert()
-    {
+    showProgressAlert() {
       swal.fire({
-            title: `Generando Transferencia`,
-            text: `Por favor, espere un momento mientras procesamos su solicitud.`,
-            showCancelButton: false,
-            showConfirmButton: false,
-            allowOutsideClick: false, // No permite el cierre al hacer clic fuera del modal
-  allowEscapeKey: false,
-            didOpen:() => {
-              swal.showLoading();
-            }
-          });
+        title: `Generando Transferencia`,
+        text: `Por favor, espere un momento mientras procesamos su solicitud.`,
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false, // No permite el cierre al hacer clic fuera del modal
+        allowEscapeKey: false,
+        didOpen: () => {
+          swal.showLoading();
+        },
+      });
     },
     async readMyContact() {
       this.mListContact = [];
@@ -225,7 +225,14 @@ export default {
         );
 
         if (response.status == 200) {
-          this.mListAccount.push(...response.data);
+          for(var i = 0;i<response.data.length;i++)
+          {
+            console.log(response.data[i])
+            if(response.data[i].ctadp_cod_depos == 1)
+            {
+              this.mListAccount.push(response.data[i]);
+            }
+          }
         }
       } catch (error) {
         console.log(error);
@@ -283,21 +290,23 @@ export default {
             return;
           }
 
-          if (
-            parseFloat(this.valorTransferencia) >
-            parseFloat(objAccount.ctadp_sal_dispo)
-          ) {
-            this.$notify({
-              message:
-                "Fondos insuficientes. No puedes completar esta transacción.",
-              timeout: 2000,
-              icon: "ni ni-fat-remove",
-              type: "danger",
-            });
-            return;
+          if (objContact.isexterno == 0) {
+            if (
+              parseFloat(this.valorTransferencia) >
+              parseFloat(objAccount.ctadp_sal_dispo)
+            ) {
+              this.$notify({
+                message:
+                  "Fondos insuficientes. No puedes completar esta transacción.",
+                timeout: 2000,
+                icon: "ni ni-fat-remove",
+                type: "danger",
+              });
+              return;
+            }
           }
 
-          console.log(objContact)
+          console.log(objContact);
 
           if (objContact.isexterno == 0) {
             this.sendCreateTransferLocalExternal(
@@ -313,6 +322,32 @@ export default {
           }
 
           if (objContact.isexterno == 1) {
+            if (this.oComisionTransfer == null || this.oComisionTransfer == 0) {
+              this.$notify({
+                message:
+                  "No fue posible obtener el valor correspondiente a la comisión.",
+                timeout: 2000,
+                icon: "ni ni-fat-remove",
+                type: "danger",
+              });
+              return;
+            }
+
+            if (
+              this.oComisionTransfer.profi_val_decmn +
+                parseFloat(this.valorTransferencia) >
+              parseFloat(objAccount.ctadp_sal_dispo)
+            ) {
+              this.$notify({
+                message:
+                  "Fondos insuficientes. No puedes completar esta transacción interbancaria.",
+                timeout: 2000,
+                icon: "ni ni-fat-remove",
+                type: "danger",
+              });
+              return;
+            }
+
             this.sendCreateTransferLocalExternal(
               {
                 account_origin: objAccount.ctadp_cod_ctadp,
@@ -338,9 +373,8 @@ export default {
       }
     },
     async sendCreateTransferLocalExternal(data, url) {
-      
       try {
-        this.showProgressAlert()
+        this.showProgressAlert();
 
         var response = await this.$axios.post(
           process.env.baseUrl + "/" + url,
@@ -351,12 +385,11 @@ export default {
               Authorization: this.$jwtBancaWeb().token,
             },
           }
-        )
+        );
 
-        swal.close()
+        swal.close();
 
-        if (response.status == 200) 
-        {
+        if (response.status == 200) {
           //console.log(response.data)
           this.$notify({
             message: "Transferencia realiza con éxito",
@@ -375,7 +408,7 @@ export default {
           });
         }
       } catch (error) {
-        swal.close()
+        swal.close();
         this.$notify({
           message: error.toString(),
           timeout: 3000,
@@ -384,7 +417,6 @@ export default {
         });
       }
     },
-
     clearForm() {
       this.oSelectAccount = null;
       this.oSelectContact = null;
@@ -424,10 +456,25 @@ export default {
       // Actualizar el valor del input en tiempo real solo si hay un punto decimal
       event.target.value = numericValue;
     },
+    async readComisionTransfer() {
+      var response = await this.$axios.get(
+        process.env.baseUrl + "/comisionTransacion",
+        {
+          headers: {
+            Authorization: this.$jwtBancaWeb().token,
+          },
+        }
+      );
+      if (response.status == 200) {
+        console.log(response.data);
+        this.oComisionTransfer = response.data;
+      }
+    },
   },
   mounted() {
-    this.readMyContact()
-    this.reasMyAccount()
+    this.readMyContact();
+    this.reasMyAccount();
+    this.readComisionTransfer();
   },
 };
 </script>

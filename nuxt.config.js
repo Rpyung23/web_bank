@@ -21,8 +21,8 @@ console.log("ENV", process.env.NODE_ENV);
 module.exports = {
   router: {
     base: "/",
-    linkExactActiveClass: "active"/*,
-    middleware: ['redirect']*/
+    linkExactActiveClass: "active" /*,
+    middleware: ['redirect']*/,
   },
   /*
    ** Headers of the page
@@ -44,12 +44,18 @@ module.exports = {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700",
       },
+      { rel: 'stylesheet', href: 'https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' },
       {
         rel: "stylesheet",
         href: "https://use.fontawesome.com/releases/v5.6.3/css/all.css",
         integrity:
           "sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/",
         crossorigin: "anonymous",
+      },
+    ],
+    script: [
+      {
+        src: "https://unpkg.com/boxicons@2.1.2/dist/boxicons.js",
       },
     ],
   },
@@ -69,7 +75,7 @@ module.exports = {
    */
   plugins: [
     "~/plugins/dashboard/dashboard-plugin",
-    '~/plugins/token.js',
+    "~/plugins/token.js",
     { src: "~/plugins/dashboard/full-calendar", ssr: false },
     { src: "~/plugins/dashboard/world-map", ssr: false },
   ],
@@ -81,7 +87,7 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
     "@nuxtjs/pwa",
-    'cookie-universal-nuxt',
+    "cookie-universal-nuxt",
   ],
   /*
    ** Axios module configuration
@@ -116,6 +122,6 @@ module.exports = {
   env: {
     baseUrl: "http://localhost:3010",
     nameCoop: "Cooperativa De Ahorro Y Credito Nizag Ltda",
-    nameCoopCorto : "COOPERATIVA NIZAG LTDA"
+    nameCoopCorto: "COOPERATIVA NIZAG LTDA",
   },
 };

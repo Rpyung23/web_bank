@@ -67,13 +67,12 @@
 
       <el-table-column label="" min-width="80" prop="page">
         <template v-slot="{ row }">
-          <base-button icon type="primary" size="sm">
-            <span class="btn-inner--icon"
-              ><i class="ni ni-ruler-pencil"></i
-            ></span>
-          </base-button>
-
-          <base-button @click="deleteContact(row.id_cnxcontact)" icon type="danger" size="sm">
+          <base-button
+            @click="deleteContact(row.id_cnxcontact)"
+            icon
+            type="danger"
+            size="sm"
+          >
             <span class="btn-inner--icon"
               ><i class="ni ni-fat-remove"></i
             ></span>
@@ -85,6 +84,20 @@
     <!--Classic modal-->
     <modal size="xl" :show.sync="modalAddContact">
       <form>
+        <div class="row" style="display: flex; justify-content: center">
+          <div>
+            <el-radio-group
+              fill="#144c24"
+              v-model="oRadioTypeContact"
+              @change="changeTypeAccount"
+            >
+              <el-radio-button label="local">CONTACTO NIZAG LTDA</el-radio-button>
+              <el-radio-button
+                label="external"
+              >OTRAS ENTIDADES BANCARIAS</el-radio-button>
+            </el-radio-group>
+          </div>
+        </div>
         <div class="row">
           <div class="col-md-6">
             <base-input label="Entidad Bancaria">
@@ -92,7 +105,7 @@
                 v-model="oSelectBank"
                 :clearable="true"
                 filterable
-                @change="changueSelectBank"
+                :disabled="activeEntiddadBancaria"
                 placeholder="Entidad Bancaria"
               >
                 <el-option
@@ -128,7 +141,7 @@
               v-if="isSearchAccountLocal"
               icon
               type="primary"
-              @click="checkContactExist()"
+              @click="readDataContactLocal()"
               style="margin-left: 0.5rem"
               size="sm"
             >
@@ -227,7 +240,7 @@
   </div>
 </template>
 <script>
-import { Select, Option } from "element-ui";
+import { Select, Option,RadioButton,RadioGroup } from "element-ui";
 import swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 import {
@@ -247,9 +260,12 @@ export default {
     [DropdownMenu.name]: DropdownMenu,
     [Select.name]: Select,
     [Option.name]: Option,
+    [RadioButton.name]:RadioButton,
+    [RadioGroup.name]:RadioGroup
   },
   data() {
     return {
+      oRadioTypeContact: null,
       mListContact: [],
       mListInstitucionBank: [],
       mListTypeAccount: [],
@@ -271,6 +287,7 @@ export default {
       activeNameClient: true,
       activeTypeIdentity: true,
       activeNumberIdentity: true,
+      activeEntiddadBancaria:true,
 
       valueNumberAccountContact: null,
       valueNameCompleteAccountContact: null,
@@ -279,6 +296,27 @@ export default {
     };
   },
   methods: {
+    async changeTypeAccount(){
+      console.log("CHANGUE RADIO CONTACTO ");
+      console.log(this.oRadioTypeContact);
+
+      if(this.oRadioTypeContact == null){
+        this.isSearchAccountLocal = false;
+        this.inactiveAllInput();
+      }
+      if(this.oRadioTypeContact  == 'local')
+      {
+        this.inactiveAllInput();
+          this.isSearchAccountLocal = true;
+          this.activeNumberAccount = false;
+          this.activeEntiddadBancaria = true
+      }
+
+      if(this.oRadioTypeContact  == 'external'){
+        this.activeCreateAccountExterno();
+      }
+      console.log("************************************");
+    },
     showProgressAlert() {
       swal.fire({
         text: `Por favor, espere un momento mientras procesamos su solicitud.`,
@@ -298,6 +336,7 @@ export default {
       this.valueEmailContact = null;
       this.oSelectTypeAccount = null;
       this.oSelectTypeIdentity = null;
+      this.oSelectBank = null
     },
     inactiveAllInput() {
       this.activeNumberAccount = true;
@@ -306,6 +345,7 @@ export default {
       this.activeTypeIdentity = true;
       this.activeNumberIdentity = true;
       this.activiButtonSaveContact = false;
+      this.activeEntiddadBancaria = true
     },
     activeCreateAccountExterno() {
       this.activeNumberAccount = false;
@@ -315,10 +355,13 @@ export default {
       this.activeNumberIdentity = false;
       this.isSearchAccountLocal = false;
       this.activiButtonSaveContact = true;
+      this.activeEntiddadBancaria = false
     },
     showModalAddContact() {
+      this.oRadioTypeContact = null
       this.clearAllInput();
       this.inactiveAllInput();
+      this.isSearchAccountLocal = false
       this.modalAddContact = !this.modalAddContact;
     },
     getObjBank(idBank) {
@@ -347,7 +390,7 @@ export default {
       if (response.status == 200) {
         this.mListInstitucionBank.push(...response.data);
       }
-      //console.log(response.data);
+      console.log(response.data);
     },
     async readAllTypeAccount() {
       try {
@@ -369,7 +412,6 @@ export default {
     },
     async changueSelectBank(value) {
       this.clearAllInput();
-      console.log("************************************");
       var bank = this.getObjBank(value);
       if (bank == null) {
         this.isSearchAccountLocal = false;
@@ -384,15 +426,13 @@ export default {
         }
       }
     },
-    async checkContactExist(isexterno, dataExternal) {
+    async checkContactExist(isexterno, dataExternal) 
+    {
       if (isexterno == 1) {
         if (
           this.valueNumberAccountContact == null ||
           this.valueNameCompleteAccountContact == null ||
-          this.valueNumberIdentityContact == null ||
-          this.oSelectTypeAccount == null ||
-          this.oSelectBank == null ||
-          this.oSelectTypeIdentity == null
+          this.valueNumberIdentityContact == null
         ) {
           swal.close();
           this.$notify({
@@ -418,9 +458,11 @@ export default {
           }
         );
 
+        //console.log(response.data)
+
         if (response.status == 200) {
           if (isexterno == 0) {
-            await this.readDataContactLocal(this.valueNumberAccountContact);
+            await this.createContactLocal(dataExternal);
           } else {
             await this.createContactExternal(dataExternal);
           }
@@ -435,16 +477,20 @@ export default {
       }
       swal.close();
     },
-    async readDataContactLocal(account) {
-      var response = await this.$axios.get(
-        process.env.baseUrl + "/readnewdatacontactlocal/" + account,
+    async readDataContactLocal() 
+    {
+      this.showProgressAlert()
+      try {
+        var response = await this.$axios.get(
+        process.env.baseUrl + "/readnewdatacontactlocal/" + this.valueNumberAccountContact,
         {
           headers: {
             Authorization: this.$jwtBancaWeb().token,
           },
         }
       );
-      if (response.status == 200) {
+      if (response.status == 200) 
+      {
         console.log(response.data);
         this.activiButtonSaveContact = true;
         //this.valueNumberAccountContact = response.data.
@@ -452,30 +498,62 @@ export default {
         this.valueNumberIdentityContact = response.data.clien_ide_clien;
         this.valueEmailContact = response.data.clien_dir_email;
       }
+      } catch (error) {
+        this.$notify({
+            message:
+              "Lo sentimos, no se han encontrado datos de esa cuenta.",
+            timeout: 2000,
+            icon: "ni ni-fat-remove",
+            type: "danger",
+          });
+      }
+
+      swal.close()
     },
-    onClickButtonCreateContactModal() {
-      var oBank = this.getObjBank(this.oSelectBank);
-      if (oBank != null) {
-        if (oBank.isexterno == 0) {
-          this.createContactLocal({
+    onClickButtonCreateContactModal() 
+    {
+      if(this.oRadioTypeContact == 'local')
+      {
+        this.checkContactExist(0, {
             account: this.valueNumberAccountContact,
             name: this.valueNameCompleteAccountContact,
             codeContact: this.valueNumberIdentityContact,
+            codifina: null,
+            typecodecontact: 1,
+            typeaccount: 1,
+            email_contact: this.valueEmailContact,
           });
-        } else {
-          this.checkContactExist(1, {
+      }
+
+      if(this.oRadioTypeContact == 'external')
+      {
+        var oBank = this.getObjBank(this.oSelectBank);
+        if(oBank != null){
+          this.createContactExternal({
             account: this.valueNumberAccountContact,
             name: this.valueNameCompleteAccountContact,
             codecontact: this.valueNumberIdentityContact,
-            ifina_cod_ifina: this.oSelectBank,
-            typecodecontact: this.oSelectTypeIdentity,
-            typeaccount: this.oSelectTypeAccount,
-            email: this.valueEmailContact,
+            ifina_cod_ifina:oBank.ifina_cod_ifina,
+            typecodecontact:this.oSelectTypeIdentity,
+            email:this.valueEmailContact,
+            typeaccount:this.oSelectTypeAccount
+          });
+        }else{
+          this.$notify({
+            message: "Por favor, seleccione una institución bancaria.",
+            timeout: 2000,
+            icon: "ni ni-check-bold",
+            type: "danger",
           });
         }
       }
+
     },
     async createContactLocal(data) {
+      console.log("CONTACTO CREATE LOCAL")
+
+
+
       this.showProgressAlert();
       try {
         var response = await this.$axios.post(
@@ -509,7 +587,10 @@ export default {
       }
       swal.close();
     },
-    async createContactExternal(data) {
+    async createContactExternal(data) 
+    {
+      this.showProgressAlert();
+      console.log(this.oRadioTypeContact);
       try {
         if (
           this.valueNumberAccountContact == null ||
@@ -555,7 +636,7 @@ export default {
         }
       } catch (error) {
         this.$notify({
-          message: error.toString(),
+          message: "Lo sentimos, el contacto ya se encuentra creado.",
           timeout: 2000,
           icon: "ni ni-fat-remove",
           type: "danger",
@@ -569,11 +650,11 @@ export default {
         var response = await this.$axios.delete(
           process.env.baseUrl + "/deleteContact",
           {
-            data:{ idContact: contact },
+            data: { idContact: contact },
             headers: {
               "Content-Type": "application/json",
               Authorization: this.$jwtBancaWeb().token,
-            }
+            },
           }
         );
 
@@ -583,8 +664,8 @@ export default {
             timeout: 2000,
             icon: "ni ni-check-bold",
             type: "success",
-          })
-          this.readAllContact()
+          });
+          this.readAllContact();
         }
       } catch (error) {
         this.$notify({
