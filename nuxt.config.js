@@ -76,6 +76,7 @@ module.exports = {
   plugins: [
     "~/plugins/dashboard/dashboard-plugin",
     "~/plugins/token.js",
+    "~/plugins/tokenPFacil.js",
     { src: "~/plugins/dashboard/full-calendar", ssr: false },
     { src: "~/plugins/dashboard/world-map", ssr: false },
   ],

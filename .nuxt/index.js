@@ -19,6 +19,7 @@ import nuxt_plugin_metaplugin_18bfd525 from 'nuxt_plugin_metaplugin_18bfd525' //
 import nuxt_plugin_axios_00ee6ec9 from 'nuxt_plugin_axios_00ee6ec9' // Source: .\\axios.js (mode: 'all')
 import nuxt_plugin_dashboardplugin_064d869d from 'nuxt_plugin_dashboardplugin_064d869d' // Source: ..\\plugins\\dashboard\\dashboard-plugin (mode: 'all')
 import nuxt_plugin_token_9d685258 from 'nuxt_plugin_token_9d685258' // Source: ..\\plugins\\token.js (mode: 'all')
+import nuxt_plugin_tokenPFacil_c53c310e from 'nuxt_plugin_tokenPFacil_c53c310e' // Source: ..\\plugins\\tokenPFacil.js (mode: 'all')
 import nuxt_plugin_fullcalendar_cddfef6a from 'nuxt_plugin_fullcalendar_cddfef6a' // Source: ..\\plugins\\dashboard\\full-calendar (mode: 'client')
 import nuxt_plugin_worldmap_e20b10a0 from 'nuxt_plugin_worldmap_e20b10a0' // Source: ..\\plugins\\dashboard\\world-map (mode: 'client')
 
@@ -239,6 +240,10 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_token_9d685258 === 'function') {
     await nuxt_plugin_token_9d685258(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_tokenPFacil_c53c310e === 'function') {
+    await nuxt_plugin_tokenPFacil_c53c310e(app.context, inject)
   }
 
   if (process.client && typeof nuxt_plugin_fullcalendar_cddfef6a === 'function') {

@@ -6,7 +6,8 @@
           <h3 class="mb-0">Transacciones recientes</h3>
         </div>
         <div class="col" style="display: flex;align-items: flex-end;justify-content: flex-end;">
-          <base-button size="sm" @click="onClickNuevaTransfer()" type="success">NUEVA TRANSFERENCIA</base-button>
+          <base-button v-if="mListLastTransaction.length > 0" size="sm" @click="$emit('onShowMiQR')" icon="fa fa-qrcode" type="default">MI Qr</base-button>
+          <base-button v-if="mListLastTransaction.length > 0" size="sm" @click="onClickNuevaTransfer()" type="success">NUEVA TRANSFERENCIA</base-button>
         </div>
       </div>
     </div>
@@ -190,6 +191,7 @@ export default {
     };
   },
   methods: {
+
     onClickNuevaTransfer(){
       this.$router.push('/transferencia');
     },

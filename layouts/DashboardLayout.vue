@@ -68,7 +68,7 @@
           <sidebar-item
             :link="{ name: 'Alternative', path: '/alternative' }"
           ></sidebar-item>
-        </sidebar-item>-->
+        </sidebar-item>
 
         <sidebar-item :link="{
                   name: 'Examples',
@@ -147,47 +147,11 @@
             icon: 'ni ni-calendar-grid-58 text-red',
             path: '/calendar'
           }">
-        </sidebar-item>
+        </sidebar-item> -->
       </template>
 
-      <template slot="links-after">
-        <hr class="my-3">
-        <h6 class="navbar-heading p-0 text-muted">Documentation</h6>
+    
 
-        <ul class="navbar-nav mb-md-3">
-          <li class="nav-item">
-            <a class="nav-link" href="https://demos.creative-tim.com/nuxt-argon-dashboard-pro/documentation"
-               target="_blank" rel="noopener">
-              <i class="ni ni-spaceship"></i>
-              <span class="nav-link-text">Getting started</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link"
-               href="https://demos.creative-tim.com/nuxt-argon-dashboard-pro/documentation/foundation/colors.html"
-               target="_blank" rel="noopener">
-              <i class="ni ni-palette"></i>
-              <span class="nav-link-text">Foundation</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link"
-               href="https://demos.creative-tim.com/nuxt-argon-dashboard-pro/documentation/components/avatars.html"
-               target="_blank" rel="noopener">
-              <i class="ni ni-ui-04"></i>
-              <span class="nav-link-text">Components</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link"
-               href="https://demos.creative-tim.com/nuxt-argon-dashboard-pro/documentation/components/plugin_datepicker.html"
-               target="_blank" rel="noopener">
-              <i class="ni ni-chart-pie-35"></i>
-              <span class="nav-link-text">Plugins</span>
-            </a>
-          </li>
-        </ul>
-      </template>
     </side-bar>
     <div class="main-content">
       <dashboard-navbar :type="$route.name === 'alternative' ? 'light': 'default'"></dashboard-navbar>

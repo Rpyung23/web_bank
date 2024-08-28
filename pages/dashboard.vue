@@ -24,7 +24,9 @@
             @onClickStatsCard="readLastTransaction(account)"
           >
             <template slot="footer">
-              <span class="text-nowrap overlay-container">{{account.ctadp_nom_impri.substring(0,25)}}</span>
+              <span class="text-nowrap overlay-container">{{
+                account.ctadp_nom_impri.substring(0, 25)
+              }}</span>
             </template>
           </stats-card>
         </div>
@@ -36,21 +38,44 @@
       <!--Tables-->
       <div class="row">
         <div class="col-xl-12">
-          <ComponentTableTransaction ref="ComponentTableTransaction"></ComponentTableTransaction>
+          <ComponentTableTransaction
+            @onShowMiQR="onShowMiQR()"
+            ref="ComponentTableTransaction"
+          ></ComponentTableTransaction>
         </div>
       </div>
       <!--End tables-->
     </div>
+
+    <modal :show.sync="oModalMiQr" size="xl" body-classes="p-0">
+      <card
+        type="secondary"
+        header-classes="bg-transparent"
+        body-classes=""
+        class="border-0 mb-0"
+      >
+
+        <template>
+          <iframe
+            :src="baseURlPDFMiQR"
+            style="width: 100%; height: calc(100vh - 10rem)"
+          ></iframe>
+        </template>
+      </card>
+    </modal>
+
   </div>
 </template>
 <script>
+import pdfMake from "pdfmake/build/pdfmake.js";
+import pdfFonts from "pdfmake/build/vfs_fonts.js";
 
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 import { obtenerUltimosDigitos } from "../util/functions";
 
-
 import StatsCard from "@/components/argon-core/Cards/StatsCard";
-
+import {getBase64FondoQr} from "../util/base64Img"
 // Tables
 
 import PageVisitsTable from "@/components/pages/dashboard/PageVisitsTable.vue";
@@ -59,59 +84,85 @@ export default {
   layout: "DashboardLayout",
   components: {
     StatsCard,
-    ComponentTableTransaction:PageVisitsTable,
+    ComponentTableTransaction: PageVisitsTable,
   },
   data() {
     return {
-
-      mListAccountClient:[],
-      
+      oModalMiQr:false,
+      baseURlPDFMiQR: null,
+      oSelectAccount: null,
+      mListAccountClient: [],
     };
   },
   methods: {
+    onShowMiQR() {
+      if (this.oSelectAccount != null) 
+      {
+        this.oModalMiQr = true
+        //alert(this.oSelectAccount);
+
+        var docDefinition = {
+          pageSize: "A5",
+          pageOrientation: "portrait",
+          background:{image: getBase64FondoQr(),alignment:'center',fit: [400, 500],},
+          content: [
+            { qr: JSON.stringify(this.oSelectAccount), fit: "165",alignment:'center',absolutePosition: { x: 50, y: 110 }},
+          ],
+        };
+
+        var pdfDocGenerator = pdfMake.createPdf(docDefinition);
+
+        pdfDocGenerator.getDataUrl((dataUrl) => {
+          this.baseURlPDFMiQR = dataUrl;
+        });
+      }
+    },
 
     async readAccountClient() {
       //console.log(this.$jwtBancaWeb().token)
-      
+
       try {
         var response = await this.$axios.get(
-        process.env.baseUrl + "/read_accounts",
-        {
-          headers: {
-            Authorization: this.$jwtBancaWeb().token,
-          },
-        }
-      )
-
-      console.log(response.data)
-      if(response.status == 200){
-
-        for(var i = 0;i<response.data.length;i++)
-        {
-          console.log(response.data[i].ctadp_cod_ctadp)
-          response.data[i].ctadp_cod_ctadp_4dig = obtenerUltimosDigitos(response.data[i].ctadp_cod_ctadp)
-          if(i == 0){
-            this.$refs.ComponentTableTransaction.reasLastTransaction(response.data[i].ctadp_cod_ctadp)
+          process.env.baseUrl + "/read_accounts",
+          {
+            headers: {
+              Authorization: this.$jwtBancaWeb().token,
+            },
           }
-        }
+        );
 
-        this.mListAccountClient.push(...response.data)
-      }
+        console.log(response.data);
+        if (response.status == 200) {
+          for (var i = 0; i < response.data.length; i++) {
+            console.log(response.data[i].ctadp_cod_ctadp);
+            response.data[i].ctadp_cod_ctadp_4dig = obtenerUltimosDigitos(
+              response.data[i].ctadp_cod_ctadp
+            );
+            if (i == 0) {
+              this.readLastTransaction(response.data[i]);
+              //this.$refs.ComponentTableTransaction.reasLastTransaction(response.data[i].ctadp_cod_ctadp)
+            }
+          }
+
+          this.mListAccountClient.push(...response.data);
+        }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
 
       //console.log(data)
     },
 
-    async readLastTransaction(account){
-      this.$refs.ComponentTableTransaction.reasLastTransaction(account.ctadp_cod_ctadp)
-    }
-    
+    async readLastTransaction(account) {
+      this.oSelectAccount = account;
+      this.$refs.ComponentTableTransaction.reasLastTransaction(
+        account.ctadp_cod_ctadp
+      );
+    },
   },
   mounted() {
     //this.initBigChart(0);
-    this.readAccountClient()
+    this.readAccountClient();
   },
 };
 </script>

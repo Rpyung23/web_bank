@@ -88,8 +88,10 @@
   </div>
 </template>
 <script>
-import nuxtStorage from 'nuxt-storage';
 
+import nuxtStorage from "nuxt-storage";
+import swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
 export default {
   layout: "AuthLayout",
   data() {
@@ -99,8 +101,30 @@ export default {
     };
   },
   methods: {
+    showProgressAlert() {
+      swal.fire({
+        text: `Por favor, espere un momento mientras procesamos su solicitud.`,
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false, // No permite el cierre al hacer clic fuera del modal
+        allowEscapeKey: false,
+        didOpen: () => {
+          swal.showLoading();
+        },
+      });
+    },
+
+    async loginPagoFacil() {
+      var response = await this.$axios.get(
+        process.env.baseUrl + "/AuthPagoFacil"
+      );
+      if (response.status == 200) {
+        this.$cookies.set("jwtBancaWebPagoFacil", response.data.accessToken);
+      }
+    },
     async onSubmit() {
       try {
+        this.showProgressAlert()
         var response = await this.$axios.post(
           process.env.baseUrl + "/login_client",
           {
@@ -110,12 +134,14 @@ export default {
         );
         //console.log(response.data)
         //var sessionLogin = useCookie('jwtNizag')
-        this.$cookies.set('jwtBancaWeb',response.data,1)
+
+        await this.loginPagoFacil();
+        this.$cookies.set("jwtBancaWeb", response.data, 1);
         //nuxtStorage.sessionStorage.setData('jwtNizag', response.data,1,'d');
         //console.log(nuxtStorage.sessionStorage.getData('jwtNizag'));
-        this.$router.push('/dashboard');
+        this.$router.push("/dashboard");
       } catch (error) {
-        console.log(error)
+        console.log(error);
         if (error.response) {
           this.$notify({
             message: error.response.data.msm,
@@ -125,6 +151,8 @@ export default {
           });
         }
       }
+
+      swal.close()
     },
   },
 };

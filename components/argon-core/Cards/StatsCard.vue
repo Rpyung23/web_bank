@@ -16,7 +16,6 @@
             }}</span>
           </slot>
         </div>
-
         <div
           class="col-auto"
           v-if="$slots.icon || icon"
@@ -34,7 +33,7 @@
         </div>
       </div>
       <p class="mt-3 mb-0 text-sm">
-        <slot name="footer"> </slot>
+        <slot name="footer">  <base-button size="sm" icon="fa fa-qrcode" type="default">MI Qr</base-button> </slot>
       </p>
     </div>
   </card>
