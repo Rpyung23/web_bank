@@ -17,7 +17,7 @@
     </base-header>
     <div class="container-fluid mt--6">
       <!--Tables-->
-      <div class="row py-4">
+      <div class="row py-2">
         <div v-for="investment in mListInvestment" class="col-xl-3 col-md-6">
           <CardInvestmentComponent
             :title="investment.inver_cod_inver"

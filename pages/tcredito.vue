@@ -14,7 +14,8 @@
         </div>
       </div>
       Card stats -->
-      <div class="row align-items-center py-2"></div>
+      <div class="row py-2">
+      </div>
     </base-header>
 
     <!--Modal Add Contact-->
@@ -22,7 +23,7 @@
       <!--Tables-->
       <div class="row">
         <div class="col-xl-12">
-          <ComponentPageContactTable ref="ComponentPageContactTable"></ComponentPageContactTable>
+          <ComponentPageTCreditoTable ref="ComponentPageContactTable"></ComponentPageTCreditoTable>
         </div>
       </div>
       <!--End tables-->
@@ -37,12 +38,12 @@
 
 // Tables
 
-import PageContactTable from "@/components/pages/dashboard/PageContactTable.vue";
+import PageTCreditoTable from "@/components/pages/dashboard/PageTCreditoTable.vue";
 
 export default {
   layout: "DashboardLayout",
   components: {
-    ComponentPageContactTable:PageContactTable,
+    ComponentPageTCreditoTable:PageTCreditoTable,
   },
   data() {
     return {

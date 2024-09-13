@@ -133,7 +133,7 @@
               disabled
               class="mb-3"
               label="Realizado En"
-              value="Banca Virtual Movíl / Web / Agencia"
+              value="Cooperativa Virtual Movil / Web / Agencia"
               placeholder="Realizado En"
               prepend-icon="ni ni-email-83"
             >

@@ -88,7 +88,7 @@
   </div>
 </template>
 <script>
-
+import { setupInactivityTimer } from '../util/functions';
 import nuxtStorage from "nuxt-storage";
 import swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
@@ -113,7 +113,6 @@ export default {
         },
       });
     },
-
     async loginPagoFacil() {
       var response = await this.$axios.get(
         process.env.baseUrl + "/AuthPagoFacil"
@@ -132,11 +131,11 @@ export default {
             password: this.password,
           }
         );
-        //console.log(response.data)
+        console.log(response.data)
         //var sessionLogin = useCookie('jwtNizag')
 
         await this.loginPagoFacil();
-        this.$cookies.set("jwtBancaWeb", response.data, 1);
+        await this.$cookies.set("jwtBancaWeb", response.data, 1);
         //nuxtStorage.sessionStorage.setData('jwtNizag', response.data,1,'d');
         //console.log(nuxtStorage.sessionStorage.getData('jwtNizag'));
         this.$router.push("/dashboard");
@@ -154,6 +153,13 @@ export default {
 
       swal.close()
     },
+  },mounted(){
+    //this.cleanUpInactivityTimer = setupInactivityTimer(this.$cookies, this.$router);
   },
+  beforeDestroy() {
+    /*if (this.cleanUpInactivityTimer) {
+      this.cleanUpInactivityTimer();
+    }*/
+  }
 };
 </script>

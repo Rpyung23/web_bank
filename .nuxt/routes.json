@@ -14,6 +14,13 @@
     "_name": "_25819103"
   },
   {
+    "name": "camera",
+    "path": "/camera",
+    "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\camera.vue",
+    "chunkName": "pages/camera",
+    "_name": "_7348b4aa"
+  },
+  {
     "name": "charts",
     "path": "/charts",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\charts.vue",
@@ -70,6 +77,13 @@
     "_name": "_4ade58de"
   },
   {
+    "name": "profile",
+    "path": "/profile",
+    "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\profile.vue",
+    "chunkName": "pages/profile",
+    "_name": "_ef6dd818"
+  },
+  {
     "name": "register",
     "path": "/register",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\register.vue",
@@ -82,6 +96,20 @@
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\servicio.vue",
     "chunkName": "pages/servicio",
     "_name": "_57a31a9b"
+  },
+  {
+    "name": "tcredito",
+    "path": "/tcredito",
+    "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\tcredito.vue",
+    "chunkName": "pages/tcredito",
+    "_name": "_b4766532"
+  },
+  {
+    "name": "tercond",
+    "path": "/tercond",
+    "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\tercond.vue",
+    "chunkName": "pages/tercond",
+    "_name": "_3a0be40e"
   },
   {
     "name": "transferencia",

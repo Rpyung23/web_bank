@@ -22,6 +22,14 @@
 
       <sidebar-item
           :link="{
+            name: 'Tarjetas de Crédito',
+            icon: 'ni ni-credit-card text-success',
+            path: '/tcredito'
+          }">
+      </sidebar-item>
+
+      <sidebar-item
+          :link="{
             name: 'Mis Préstamos',
             icon: 'ni ni-active-40 text-success',
             path: '/prestamo'
@@ -50,6 +58,16 @@
             name: 'Contactos',
             icon: 'ni ni-single-02 text-success',
             path: '/contact'
+          }">
+      </sidebar-item>
+
+      
+
+      <sidebar-item
+          :link="{
+            name: 'Términos y condiciones',
+            icon: 'ni ni-paper-diploma text-success',
+            path: '/tercond'
           }">
       </sidebar-item>
 

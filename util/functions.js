@@ -61,3 +61,80 @@ export function  formatNumber(number) {
 export function eliminarcaractExpecial(cadena){
     return cadena.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s-']/g, '');
 }
+
+export function setupInactivityTimer($cookies, $router) {
+    let inactivityTimer;
+    const TIMEOUT = 3 * 60 * 1000; // 3 minutos en milisegundos
+  
+    function resetInactivityTimer() {
+      console.log('Reset inactivity timer');
+      clearTimeout(inactivityTimer);
+      inactivityTimer = setTimeout(() => {
+        const currentPath = $router.currentRoute.path;
+        console.log('Inactivity timeout reached');
+        console.log('Current path:', currentPath);
+  
+        // Redirige solo si no estamos en la URL base, en login o en register
+        if (currentPath !== '/' && currentPath !== '/login' && currentPath !== '/register') {
+          console.log('Redirecting to /login due to inactivity');
+          $cookies.remove('jwtBancaWeb'); // Elimina el JWT
+          $router.push('/login'); // Redirige al login
+        } else {
+          console.log('No redirection needed');
+        }
+      }, TIMEOUT);
+    }
+  
+    // Agregar eventos de actividad del usuario
+    const events = ['click', 'mousemove', 'keydown', 'scroll'];
+    events.forEach(event => window.addEventListener(event, resetInactivityTimer));
+    console.log('Event listeners added:', events);
+  
+    // Inicializar el temporizador cuando se carga la página
+    resetInactivityTimer();
+    console.log('Inactivity timer initialized');
+  
+    // Limpiar eventos cuando el componente se desmonte
+    return () => {
+      console.log('Cleaning up inactivity timer and event listeners');
+      clearTimeout(inactivityTimer);
+      events.forEach(event => window.removeEventListener(event, resetInactivityTimer));
+      console.log('Event listeners removed:', events);
+    };
+  }
+
+export function isValidCreditCard(numeroTarjeta)
+{
+     // Eliminar espacios o guiones
+  numeroTarjeta = numeroTarjeta.replace(/\D/g, '');
+
+  // Comprobar que solo contenga dígitos y que tenga una longitud válida
+  if (!/^\d+$/.test(numeroTarjeta) || numeroTarjeta.length < 13 || numeroTarjeta.length > 19) {
+    return false;
+  }
+
+  let suma = 0;
+  let alternar = false;
+
+  // Recorrer los dígitos desde el final hacia el principio
+  for (let i = numeroTarjeta.length - 1; i >= 0; i--) {
+    let digito = parseInt(numeroTarjeta[i]);
+
+    // Duplicar cada segundo dígito
+    if (alternar) {
+      digito *= 2;
+      if (digito > 9) {
+        digito -= 9;
+      }
+    }
+
+    // Sumar el dígito a la suma total
+    suma += digito;
+
+    // Alternar entre duplicar y no duplicar
+    alternar = !alternar;
+  }
+
+  // Si la suma es divisible por 10, la tarjeta es válida
+  return suma % 10 === 0;
+}  

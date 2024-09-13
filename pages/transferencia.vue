@@ -9,10 +9,47 @@
         <div class="col-lg-12">
           <div class="card-wrapper">
             <card>
-              <!-- Card header -->
-              <h3 slot="header" class="mb-0">
-                Tranferencias Internas / Externas
-              </h3>
+              <template slot="header">
+                <div
+                  class="header-pay-tarjeta"
+                  style="
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                  "
+                >
+                  <strong
+                    ><span>Tranferencias Internas / Externas</span></strong
+                  >
+                  <div
+                    class="totalPay"
+                    style="
+                      display: flex;
+                      display: flex;
+                      justify-content: center;
+                    "
+                  >
+                    <strong style="color: #144c24"
+                      ><h1 style="color: #144c24">
+                        {{
+                          valorTransferencia == null ||
+                          valorTransferencia == ""
+                            ? "0.00"
+                            : oComisionTransfer == null || profi_val_decmn == ""
+                            ? "0.00"
+                            : (
+                                parseFloat(valorTransferencia) +
+                                (isExterno == 1 ? oComisionTransfer.profi_val_decmn : 0)
+                              ).toFixed(2)
+                        }}
+                      </h1></strong
+                    >
+                    <h6 style="color: red">*Incluye comisión</h6>
+                  </div>
+                </div>
+              </template>
+
               <!-- Card body -->
 
               <validation-observer
@@ -79,6 +116,7 @@
                       <base-input
                         label="Tipo de Cuenta"
                         name="Tipo de Cuenta"
+                        disabled
                         prepend-icon="ni ni-bullet-list-67"
                         placeholder="Tipo de Cuenta"
                         required
@@ -92,6 +130,7 @@
                         prepend-icon="ni ni-credit-card"
                         placeholder="Número de Cuenta"
                         required
+                        disabled
                         v-model="accountContact"
                       ></base-input>
                     </div>
@@ -102,6 +141,7 @@
                         label="Nombre del Beneficiario"
                         name="Nombre del Beneficiario"
                         prepend-icon="ni ni-single-02"
+                        disabled
                         placeholder="Nombre del Beneficiario"
                         required
                         v-model="nameContact"
@@ -138,7 +178,10 @@
                       ></base-input>
                     </div>
                   </div>
-                  <base-button type="success" native-type="submit" style="width: 100%;"
+                  <base-button
+                    type="success"
+                    native-type="submit"
+                    style="width: 100%"
                     >CONFIRMAR TRANSFERENCIA</base-button
                   >
                 </form>
@@ -148,6 +191,89 @@
         </div>
       </div>
     </div>
+
+    <modal :show.sync="isComprobante" size="sm" body-classes="p-0">
+      <card
+        type="secondary"
+        header-classes="bg-transparent"
+        body-classes=""
+        class="border-0 mb-0"
+      >
+        <template slot="header">
+          <div class="text-muted text-left">
+            <div class="row">
+              <div class="col">
+                <badge
+                  pill
+                  :type="
+                    oItemLastTransaction.tmovi_cod_tasie != 1
+                      ? 'success'
+                      : 'danger'
+                  "
+                  >{{ oItemLastTransaction.tasie_des_tasie }}</badge
+                >
+              </div>
+              <div class="col">
+                <p class="text-default">{{ oItemLastTransaction.fecha }}</p>
+              </div>
+            </div>
+
+            <div class="row" style="display: flex; justify-content: center">
+              <h1>
+                <strong class="text-default"
+                  >$ {{ oItemLastTransaction.valor }}</strong
+                >
+              </h1>
+            </div>
+          </div>
+        </template>
+
+        <template>
+          <div class="bodyModalComprobante">
+            <base-input
+              alternative
+              disabled
+              class="mb-3"
+              v-model="oItemLastTransaction.concepto"
+              label="Detalle"
+              placeholder="Detalle"
+              prepend-icon="ni ni-email-83"
+            >
+            </base-input>
+            <base-input
+              alternative
+              disabled
+              type="text"
+              label="Desde La Cuenta"
+              v-model="oItemLastTransaction.dmcta_cod_ctadp"
+              placeholder="Desde La Cuenta"
+              prepend-icon="ni ni-lock-circle-open"
+            >
+            </base-input>
+            <base-input
+              alternative
+              disabled
+              class="mb-3"
+              label="Realizado En"
+              value="Cooperativa Virtual Movil / Web / Agencia"
+              placeholder="Realizado En"
+              prepend-icon="ni ni-email-83"
+            >
+            </base-input>
+            <base-input
+              alternative
+              disabled
+              label="Referencia / Motivo"
+              type="text"
+              v-model="oItemLastTransaction.tmovi_des_tmovi"
+              placeholder="Referencia / Motivo"
+              prepend-icon="ni ni-lock-circle-open"
+            >
+            </base-input>
+          </div>
+        </template>
+      </card>
+    </modal>
   </div>
 </template>
 
@@ -176,6 +302,20 @@ export default {
       valorTransferencia: null,
       motivoTransfer: null,
       oComisionTransfer: null,
+      isComprobante: false,
+      isExterno : 0,
+      oItemLastTransaction: {
+        mctad_num_ttran: 0,
+        tmovi_des_tmovi: "",
+        dmcta_cod_ctadp: "",
+        fecha: "",
+        concepto: "",
+        valor: "",
+        codigooficina: 0,
+        codigocajas: 0,
+        tmovi_cod_tasie: 0,
+        tasie_des_tasie: "",
+      },
     };
   },
   methods: {
@@ -225,11 +365,9 @@ export default {
         );
 
         if (response.status == 200) {
-          for(var i = 0;i<response.data.length;i++)
-          {
-            console.log(response.data[i])
-            if(response.data[i].ctadp_cod_depos == 1)
-            {
+          for (var i = 0; i < response.data.length; i++) {
+            console.log(response.data[i]);
+            if (response.data[i].ctadp_cod_depos == 1) {
               this.mListAccount.push(response.data[i]);
             }
           }
@@ -246,6 +384,7 @@ export default {
           this.accountContact = this.mListContact[i].num_ctadp_cod_ctadp;
           this.nameContact = this.mListContact[i].namecontact;
           this.typeAccountContact = this.mListContact[i].ticue_des_ticue;
+          this.isExterno = this.mListContact[i].isexterno
         }
       }
     },
@@ -290,6 +429,9 @@ export default {
             return;
           }
 
+
+          //this.isExterno = objContact.isExterno
+
           if (objContact.isexterno == 0) {
             if (
               parseFloat(this.valorTransferencia) >
@@ -322,7 +464,10 @@ export default {
           }
 
           if (objContact.isexterno == 1) {
-            if (this.oComisionTransfer == null || this.oComisionTransfer == 0) {
+            if (
+              this.oComisionTransfer == null ||
+              this.oComisionTransfer.profi_val_decmn == 0
+            ) {
               this.$notify({
                 message:
                   "No fue posible obtener el valor correspondiente a la comisión.",
@@ -387,18 +532,23 @@ export default {
           }
         );
 
-        swal.close();
-
         if (response.status == 200) {
           //console.log(response.data)
+
           this.$notify({
             message: "Transferencia realiza con éxito",
             timeout: 2000,
             icon: "ni ni-check-bold",
             type: "success",
           });
+
+          await this.readDetailTransaction(
+            data.account_origin,
+            response.data.code_transaction
+          );
           this.clearForm();
         } else {
+          swal.close();
           this.$notify({
             message:
               "No se pudo completar la transferencia. Por favor, inténtalo de nuevo",
@@ -417,15 +567,45 @@ export default {
         });
       }
     },
+    async readDetailTransaction(account, numt) {
+      try {
+        var response = await this.$axios.get(
+          process.env.baseUrl + "/read_transaction/" + account + "/" + numt,
+          {
+            headers: {
+              Authorization: this.$jwtBancaWeb().token,
+            },
+          }
+        );
+
+        swal.close();
+
+        this.isComprobante = true;
+
+        console.log(response);
+
+        if (response.status == 200) {
+          this.oItemLastTransaction = response.data;
+          console.log(this.oItemLastTransaction);
+        } else {
+          console.log(response);
+        }
+      } catch (error) {
+        console.log(error);
+        swal.close();
+        this.isComprobante = true;
+      }
+    },
     clearForm() {
-      this.oSelectAccount = null;
-      this.oSelectContact = null;
-      this.emailContact = null;
-      this.accountContact = null;
-      this.nameContact = null;
-      this.typeAccountContact = null;
-      this.valorTransferencia = null;
-      this.motivoTransfer = null;
+      this.oSelectAccount = null
+      this.oSelectContact = null
+      this.emailContact = null
+      this.accountContact = null
+      this.nameContact = null
+      this.typeAccountContact = null
+      this.valorTransferencia = null
+      this.motivoTransfer = null
+      this.isExterno = 0
     },
     formatInputMoney() {
       // Obtener el valor del input

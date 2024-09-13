@@ -14,45 +14,55 @@
         </div>
       </div>
       Card stats -->
-      <div class="row align-items-center py-2"></div>
     </base-header>
 
-    <!--Modal Add Contact-->
+
     <div class="container-fluid mt--6">
       <!--Tables-->
-      <div class="row">
+      <div class="row py-2">
         <div class="col-xl-12">
-          <ComponentPageContactTable ref="ComponentPageContactTable"></ComponentPageContactTable>
+          <div class="card" style="margin-bottom: 0rem">
+          <iframe style="border: none;" :src="urlTermCondi" width="100%" height="520vh"></iframe>
+
         </div>
+        </div>      
       </div>
       <!--End tables-->
     </div>
-
-
-
   </div>
 </template>
 <script>
+import pdfMake from "pdfmake/build/pdfmake.js";
+import pdfFonts from "pdfmake/build/vfs_fonts.js";
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
-// Tables
-
-import PageContactTable from "@/components/pages/dashboard/PageContactTable.vue";
+import CardPrestamo from "@/components/argon-core/Cards/CardPrestamo";
 
 export default {
   layout: "DashboardLayout",
   components: {
-    ComponentPageContactTable:PageContactTable,
+    CardPrestamoComponent: CardPrestamo,
   },
   data() {
     return {
-      
+      urlTermCondi : null
     };
   },
   methods: {
-
+    async readUrlTermCondi(){
+      try {
+        var data = await this.$axios.get(process.env.baseUrl+"/urlexternal")
+        //console.log(data.data)
+        this.urlTermCondi = data.data.url_term_condi
+      } catch (error) {
+        console.log(error)
+      }
+    }
   },
   mounted() {
+    this.readUrlTermCondi()
   },
 };
 </script>

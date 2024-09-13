@@ -21,8 +21,8 @@ console.log("ENV", process.env.NODE_ENV);
 module.exports = {
   router: {
     base: "/",
-    linkExactActiveClass: "active" /*,
-    middleware: ['redirect']*/,
+    linkExactActiveClass: "active",
+    middleware: ['auth'],
   },
   /*
    ** Headers of the page
@@ -124,5 +124,6 @@ module.exports = {
     baseUrl: "http://localhost:3010",
     nameCoop: "Cooperativa De Ahorro Y Credito Nizag Ltda",
     nameCoopCorto: "COOPERATIVA NIZAG LTDA",
+    CLAVE_TOKEN:"B@NKserverECU@DoR2o24*_/"
   },
 };

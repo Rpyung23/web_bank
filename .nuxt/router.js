@@ -6,6 +6,7 @@ import scrollBehavior from './router.scrollBehavior.js'
 
 const _18048310 = () => interopDefault(import('..\\pages\\alternative.vue' /* webpackChunkName: "pages/alternative" */))
 const _25819103 = () => interopDefault(import('..\\pages\\calendar.vue' /* webpackChunkName: "pages/calendar" */))
+const _7348b4aa = () => interopDefault(import('..\\pages\\camera.vue' /* webpackChunkName: "pages/camera" */))
 const _56b1fdda = () => interopDefault(import('..\\pages\\charts.vue' /* webpackChunkName: "pages/charts" */))
 const _ffbcca2a = () => interopDefault(import('..\\pages\\contact.vue' /* webpackChunkName: "pages/contact" */))
 const _22be72c2 = () => interopDefault(import('..\\pages\\dashboard.vue' /* webpackChunkName: "pages/dashboard" */))
@@ -14,8 +15,11 @@ const _1436baf0 = () => interopDefault(import('..\\pages\\lock.vue' /* webpackCh
 const _46350a74 = () => interopDefault(import('..\\pages\\login.vue' /* webpackChunkName: "pages/login" */))
 const _8151e778 = () => interopDefault(import('..\\pages\\prestamo.vue' /* webpackChunkName: "pages/prestamo" */))
 const _4ade58de = () => interopDefault(import('..\\pages\\pricing.vue' /* webpackChunkName: "pages/pricing" */))
+const _ef6dd818 = () => interopDefault(import('..\\pages\\profile.vue' /* webpackChunkName: "pages/profile" */))
 const _5686ec30 = () => interopDefault(import('..\\pages\\register.vue' /* webpackChunkName: "pages/register" */))
 const _57a31a9b = () => interopDefault(import('..\\pages\\servicio.vue' /* webpackChunkName: "pages/servicio" */))
+const _b4766532 = () => interopDefault(import('..\\pages\\tcredito.vue' /* webpackChunkName: "pages/tcredito" */))
+const _3a0be40e = () => interopDefault(import('..\\pages\\tercond.vue' /* webpackChunkName: "pages/tercond" */))
 const _06f3d91c = () => interopDefault(import('..\\pages\\transferencia.vue' /* webpackChunkName: "pages/transferencia" */))
 const _47b885fa = () => interopDefault(import('..\\pages\\widgets.vue' /* webpackChunkName: "pages/widgets" */))
 const _4db05e76 = () => interopDefault(import('..\\pages\\components\\buttons.vue' /* webpackChunkName: "pages/components/buttons" */))
@@ -56,6 +60,10 @@ export const routerOptions = {
     component: _25819103,
     name: "calendar"
   }, {
+    path: "/camera",
+    component: _7348b4aa,
+    name: "camera"
+  }, {
     path: "/charts",
     component: _56b1fdda,
     name: "charts"
@@ -88,6 +96,10 @@ export const routerOptions = {
     component: _4ade58de,
     name: "pricing"
   }, {
+    path: "/profile",
+    component: _ef6dd818,
+    name: "profile"
+  }, {
     path: "/register",
     component: _5686ec30,
     name: "register"
@@ -95,6 +107,14 @@ export const routerOptions = {
     path: "/servicio",
     component: _57a31a9b,
     name: "servicio"
+  }, {
+    path: "/tcredito",
+    component: _b4766532,
+    name: "tcredito"
+  }, {
+    path: "/tercond",
+    component: _3a0be40e,
+    name: "tercond"
   }, {
     path: "/transferencia",
     component: _06f3d91c,

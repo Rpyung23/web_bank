@@ -14,10 +14,11 @@
         </div>
       </div>
       Card stats -->
+      <div class="row align-items-center py-2"></div>
     </base-header>
     <div class="container-fluid mt--6">
       <!--Tables-->
-      <div class="row py-2">
+      <div class="row">
         <div v-for="credit in mListCreditBank" class="col-xl-3 col-md-6">
           <CardPrestamoComponent
             :title="credit.credi_cod_credi"
