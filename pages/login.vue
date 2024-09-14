@@ -77,27 +77,183 @@
               >
             </div>
             <div class="col-6 text-right">
-              <router-link to="/register" class="text-light"
-                ><small>Crear una nueva cuenta</small></router-link
+              <small
+                class="text-light"
+                style="cursor: -webkit-grabbing; cursor: grabbing"
+                @click="onClickShowModalCreateAccount()"
+                >Crear una nueva cuenta</small
               >
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <modal size="lg" :show.sync="modalCreateAccount">
+      <template slot="header">
+        <el-steps
+          style="width: 100%"
+          :active="activeStepCreateAccount"
+          finish-status="success"
+        >
+          <el-step title="Verifica tu identidad"></el-step>
+          <el-step title="Verificación facial"></el-step>
+          <el-step title="Crea tu usuario y contraseña"></el-step>
+        </el-steps>
+      </template>
+
+      <div class="stepcreate1" v-if="activeStepCreateAccount == 0">
+        <div class="row">
+          <div class="col-md-6">
+            <base-input
+              label="Número de cédula"
+              name="Número de cédula"
+              minlength="1"
+              v-model="numberDniPassCreateAccount"
+              prepend-icon="ni ni-credit-card"
+              placeholder="Número de cédula"
+            ></base-input>
+          </div>
+
+          <div class="col-md-6">
+            <base-input
+              label="Código dactilar"
+              name="Código dactilar"
+              minlength="1"
+              v-model="numberCodDactilarCreateAccount"
+              prepend-icon="ni ni-credit-card"
+              placeholder="Código dactilar"
+            ></base-input>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepcreate2" v-if="activeStepCreateAccount == 1">
+        <div style="display: flex; justify-content: center">
+          <div v-if="!photoCapturedCreateAccount">
+            <video
+              ref="video"
+              style="
+                border-radius: 50%;
+                width: calc(50vh);
+                height: calc(50vh);
+                object-fit: cover;
+                border: 0.1rem solid #144c24;
+              "
+              autoplay
+              playsinline
+            ></video>
+            <base-button
+              @click="capturePhoto"
+              outline
+              size="sm"
+              icon
+              type="success"
+            >
+              <span class="btn-inner--icon"
+                ><i class="ni ni-camera-compact"></i
+              ></span>
+            </base-button>
+            <!--<button @click="capturePhoto">Capturar Foto</button>-->
+          </div>
+
+          <div v-if="photoCapturedCreateAccount">
+            <img
+              style="
+                border-radius: 50%;
+                width: calc(50vh);
+                height: calc(50vh);
+                object-fit: cover;
+                border: 0.1rem solid #144c24;
+              "
+              :src="photoFacilCreateAccount"
+              alt="Foto Capturada"
+            />
+
+            <base-button
+              @click="resetVideo"
+              outline
+              size="sm"
+              icon
+              type="danger"
+            >
+              <span class="btn-inner--icon"
+                ><i class="ni ni-fat-remove"></i
+              ></span>
+            </base-button>
+            <!--<button @click="resetVideo">Tomar otra foto</button>-->
+          </div>
+        </div>
+      </div>
+
+      <div class="stepcreate3" v-if="activeStepCreateAccount == 2">
+        <div class="row">
+          <div class="col-md-12">
+            <base-input
+              label="Usuario Cooperativa Web/Móvil"
+              name="Usuario Cooperativa Web/Móvil"
+              prepend-icon="ni ni-single-02"
+              placeholder="Usuario Cooperativa Web/Móvil"
+            ></base-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <base-input
+              label="Contraseña"
+              name="Contraseña"
+              prepend-icon="ni ni-key-25"
+              placeholder="Contraseña"
+            ></base-input>
+          </div>
+          <div class="col-md-6">
+            <base-input
+              label="Confirmar contraseña"
+              name="Confirmar contraseña"
+              prepend-icon="ni ni-key-25"
+              placeholder="Confirmar contraseña"
+            ></base-input>
+          </div>
+        </div>
+      </div>
+
+      <template slot="footer">
+        <div></div>
+        <base-button @click="onClickCreateAccountStep()" type="success"
+          >Continuar</base-button
+        >
+      </template>
+    </modal>
   </div>
 </template>
 <script>
-import { setupInactivityTimer } from '../util/functions';
+import { setupInactivityTimer } from "../util/functions";
 import nuxtStorage from "nuxt-storage";
 import swal from "sweetalert2";
+import { Step, Steps } from "element-ui";
 import "sweetalert2/dist/sweetalert2.css";
 export default {
   layout: "AuthLayout",
+  components: {
+    [Step.name]: Step,
+    [Steps.name]: Steps,
+  },
   data() {
     return {
       email: "",
       password: "",
+      modalCreateAccount: false,
+      activeStepCreateAccount: 0,
+      photoCapturedCreateAccount: false,
+      photoFacilCreateAccount: "",
+
+      /**model para crear una nueva cuenta***/
+      numberDniPassCreateAccount: null,
+      numberCodDactilarCreateAccount: null,
+      userCreateAccount: null,
+      passCreateAccount: null,
+      passconfirmCreateAccount: null,
+      responseClientCod:null
     };
   },
   methods: {
@@ -123,7 +279,7 @@ export default {
     },
     async onSubmit() {
       try {
-        this.showProgressAlert()
+        this.showProgressAlert();
         var response = await this.$axios.post(
           process.env.baseUrl + "/login_client",
           {
@@ -131,7 +287,7 @@ export default {
             password: this.password,
           }
         );
-        console.log(response.data)
+        console.log(response.data);
         //var sessionLogin = useCookie('jwtNizag')
 
         await this.loginPagoFacil();
@@ -151,15 +307,125 @@ export default {
         }
       }
 
-      swal.close()
+      swal.close();
     },
-  },mounted(){
+    onClickShowModalCreateAccount() {
+      this.modalCreateAccount = !this.modalCreateAccount;
+    },
+    async onClickCreateAccountStep() {
+      //this.startVideo();
+      if (this.activeStepCreateAccount == 0) {
+        if (
+          this.numberDniPassCreateAccount == null ||
+          this.numberDniPassCreateAccount == "" ||
+          this.numberCodDactilarCreateAccount == null ||
+          this.numberCodDactilarCreateAccount == ""
+        ) {
+          this.$notify({
+            message:
+              "Algunos campos de datos requieren obligatoriamente ser completados",
+            timeout: 2000,
+            icon: "ni ni-fat-remove",
+            type: "danger",
+          });
+          return
+        }
+        await this.validateDniCodDac()
+      }
+    },
+    async startVideo() {
+      try {
+
+        if (permissionStatus.state === "denied") {
+      // Si el permiso está denegado, muestra un mensaje al usuario
+      alert(
+        "Has denegado el acceso a la cámara. Por favor, habilítalo en la configuración del navegador."
+      );
+      return;
+    } else if (permissionStatus.state === "prompt") {
+      // Si el permiso aún no se ha solicitado, muestra un mensaje
+      alert(
+        "Por favor, concede el acceso a la cámara cuando se te solicite."
+      );
+    }
+
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user" }, // 'user' para cámara frontal
+        });
+        this.$refs.video.srcObject = stream;
+      } catch (error) {
+        console.error("Error accediendo a la cámara:", error);
+      }
+    },
+    async capturePhoto() {
+      ///await this.startVideo()
+      const video = this.$refs.video;
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext("2d");
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      this.photoFacilCreateAccount = canvas.toDataURL("image/png");
+      this.photoCapturedCreateAccount = true;
+      await this.stopVideo();
+    },
+    stopVideo() {
+      const video = this.$refs.video;
+      const stream = video.srcObject;
+      const tracks = stream.getTracks();
+
+      tracks.forEach((track) => track.stop());
+    },
+    async resetVideo() {
+      this.photoCapturedCreateAccount = false;
+      this.photoFacilCreateAccount = "";
+      await this.startVideo();
+    },
+    async validateDniCodDac() {
+      try {
+        var response = await this.$axios.post(
+          process.env.baseUrl + "/check_dni",
+          {
+            dni_client: this.numberDniPassCreateAccount,
+            huella: this.numberCodDactilarCreateAccount,
+            searchDni: true,
+          }
+        );
+
+        if (response.status == 200) 
+        {
+          this.responseClientCod = response.data.clien_cod_clien
+          this.activeStepCreateAccount = this.activeStepCreateAccount + 1
+          await this.startVideo()
+        } else {
+          this.$notify({
+            message:
+              "Lo sentimos, sus credenciales no han sido encontradas.",
+            timeout: 2000,
+            icon: "ni ni-fat-remove",
+            type: "danger",
+          })
+        }
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+        this.$notify({
+            message:
+              error.toString(),
+            timeout: 2000,
+            icon: "ni ni-fat-remove",
+            type: "danger",
+          })
+      }
+    },
+  },
+  mounted() {
     //this.cleanUpInactivityTimer = setupInactivityTimer(this.$cookies, this.$router);
   },
   beforeDestroy() {
     /*if (this.cleanUpInactivityTimer) {
       this.cleanUpInactivityTimer();
     }*/
-  }
+  },
 };
 </script>
