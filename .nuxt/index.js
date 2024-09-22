@@ -13,6 +13,7 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
+import nuxt_plugin_index_19ebde12 from 'nuxt_plugin_index_19ebde12' // Source: .\\firebase\\index.js (mode: 'all')
 import nuxt_plugin_cookieuniversalnuxt_2cab5c71 from 'nuxt_plugin_cookieuniversalnuxt_2cab5c71' // Source: .\\cookie-universal-nuxt.js (mode: 'all')
 import nuxt_plugin_workbox_00de55a5 from 'nuxt_plugin_workbox_00de55a5' // Source: .\\workbox.js (mode: 'client')
 import nuxt_plugin_metaplugin_18bfd525 from 'nuxt_plugin_metaplugin_18bfd525' // Source: .\\pwa\\meta.plugin.js (mode: 'all')
@@ -217,6 +218,10 @@ async function createApp(ssrContext, config = {}) {
     }
   }
   // Plugin execution
+
+  if (typeof nuxt_plugin_index_19ebde12 === 'function') {
+    await nuxt_plugin_index_19ebde12(app.context, inject)
+  }
 
   if (typeof nuxt_plugin_cookieuniversalnuxt_2cab5c71 === 'function') {
     await nuxt_plugin_cookieuniversalnuxt_2cab5c71(app.context, inject)

@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <el-table
+    <!--<el-table
       class="table-responsive table"
       :data="queriedData"
       header-row-class-name="thead-light"
@@ -59,7 +59,41 @@
           >
         </template>
       </el-table-column>
-    </el-table>
+    </el-table>-->
+
+    <div class="grid-container">
+      <card style="margin-bottom: 0;" v-for="service in filteredServices">
+        <!-- Card body -->
+        <div class="row align-items-center">
+          <!--<div class="col-auto">
+            
+            <a href="#" class="avatar avatar-xl rounded-circle">
+              <img
+                alt="Image placeholder"
+                src="~/static/img/theme/team-2.jpg"
+              />
+            </a>
+          </div>-->
+          <div class="col ml--2">
+            <h4 class="mb-0">
+              {{service.name_service}}
+            </h4>
+            <!--<p class="text-sm text-muted mb-0">Working remoteley</p>-->
+            <span class="text-success">● </span>
+            <small>{{service.status == 1 ? 'Activo' : 'Inactivo'}}</small>
+          </div>
+          <div class="col-auto">
+            <base-button
+            size="sm"
+            outline
+            type="success"
+            @click="showModalPagarService(service)"
+            >Pagar Servicio</base-button
+          >
+          </div>
+        </div>
+      </card>
+    </div>
 
     <modal :show.sync="oModalPagoService">
       <h5 slot="header" class="modal-title" id="modal-title-default">
@@ -146,12 +180,19 @@
       </div>
 
       <div v-if="stepModalService == 2" class="step2">
-        <div class="size" style="height: 1rem;"></div>
-        <span style="margin-top: 1rem;">Su pago de <strong style="color: #144c24;">${{valueValorPagar.toFixed(2)}}</strong> para la entidad <strong style="color: #144c24;">{{tituloModal}}</strong> se ha generado con éxito.</span>
+        <div class="size" style="height: 1rem"></div>
+        <span style="margin-top: 1rem"
+          >Su pago de
+          <strong style="color: #144c24"
+            >${{ valueValorPagar.toFixed(2) }}</strong
+          >
+          para la entidad
+          <strong style="color: #144c24">{{ tituloModal }}</strong> se ha
+          generado con éxito.</span
+        >
       </div>
-
-
     </modal>
+
   </div>
 </template>
 <script>
@@ -170,10 +211,10 @@ import {
   Select,
   Option,
 } from "element-ui";
-import servicePaginationMixin from "~/components/tables/PaginatedTables/servicePaginationMixin";
+//import servicePaginationMixin from "~/components/tables/PaginatedTables/servicePaginationMixin";
 export default {
   name: "page-visits-table",
-  mixins: [servicePaginationMixin],
+  //mixins: [servicePaginationMixin],
   components: {
     [Table.name]: Table,
     [TableColumn.name]: TableColumn,
@@ -195,11 +236,20 @@ export default {
       oService: null,
       oSelectAccount: null,
       valueContrapartida: null,
-      valueMotivoService: '',
+      valueMotivoService: "",
       valueValorPagar: 0,
       oAccountSelect: null,
       oDataService: null,
+      searchQuery:''
     };
+  },
+  computed: {
+    filteredServices() {
+      // Filtrar servicios según el término de búsqueda
+      return this.mListService.filter(service =>
+        service.name_service.trim().toLowerCase().includes(this.searchQuery.trim().toLowerCase())
+      );
+    }
   },
   methods: {
     showProgressAlert() {
@@ -234,25 +284,24 @@ export default {
         console.log(error);
       }
     },
-    clearModalService(){
-      this.tituloModal = ""
-      this.stepModalService = 0
-      this.oService = null
-      this.oSelectAccount = null
-      this.valueContrapartida = null
-      this.valueMotivoService = ''
-      this.valueValorPagar = 0
-      this.oAccountSelect = null
-      this.oDataService = null
+    clearModalService() {
+      this.tituloModal = "";
+      this.stepModalService = 0;
+      this.oService = null;
+      this.oSelectAccount = null;
+      this.valueContrapartida = null;
+      this.valueMotivoService = "";
+      this.valueValorPagar = 0;
+      this.oAccountSelect = null;
+      this.oDataService = null;
     },
-    async showModalPagarService(data) 
-    {
-      this.clearModalService()
-      await this.reasMyAccount()
+    async showModalPagarService(data) {
+      this.clearModalService();
+      await this.reasMyAccount();
       if (data != null) {
-        this.oModalPagoService = true
-        this.tituloModal = data.name_service
-        this.oService = data
+        this.oModalPagoService = true;
+        this.tituloModal = data.name_service;
+        this.oService = data;
       }
     },
     async readDetallePagoService() {
@@ -336,13 +385,13 @@ export default {
     },
     async generarPagoFacil() {
       var oAccount = this.getAccount();
-      //console.log(oAccount);
+      //console.log(this.oService);
+      //return
       if (oAccount != null) {
-        if (this.oDataService != null && this.oDataService.rubros.length > 0) 
-        {
+        if (this.oDataService != null && this.oDataService.rubros.length > 0) {
           if (this.valueValorPagar <= parseFloat(oAccount.ctadp_sal_dispo)) {
             try {
-              this.showProgressAlert()
+              this.showProgressAlert();
               var response = await this.$axios.post(
                 process.env.baseUrl + "/PayPagoFacil",
                 {
@@ -352,6 +401,9 @@ export default {
                     identificacion: this.oDataService.identificacion,
                     nombres: this.oDataService.nombres,
                   },
+                  cod_producto: this.oService.producto,
+                  tipo_transac: this.oService.tipo_trx_pago,
+                  isApp: false,
                   rubro: {
                     valorPagado: this.oDataService.rubros[0].valorPagado,
                     comision: this.oDataService.comision,
@@ -368,17 +420,16 @@ export default {
                     Authorization: this.$jwtBancaWeb().token,
                   },
                 }
-              )
+              );
 
-              if (response.data.success == true) 
-              {
+              if (response.data.success == true) {
                 this.$notify({
                   message: "Tu pago se ha realizado con éxito.",
                   timeout: 1500,
                   icon: "ni ni-check-bold",
                   type: "success",
-                })
-                this.stepModalService = 2
+                });
+                this.stepModalService = 2;
               } else {
                 this.$notify({
                   message:
@@ -392,12 +443,11 @@ export default {
             } catch (error) {
               console.log(error);
               this.$notify({
-              message:
-                error.toString(),
-              timeout: 3000,
-              icon: "ni ni-fat-remove",
-              type: "danger",
-            });
+                message: error.toString(),
+                timeout: 3000,
+                icon: "ni ni-fat-remove",
+                type: "danger",
+              });
             }
             swal.close();
           } else {
@@ -430,8 +480,18 @@ export default {
     },
   },
   mounted() {
-    this.readAllService()
+    this.readAllService();
   },
 };
 </script>
-<style></style>
+<style>
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+  padding-bottom: 1.5rem;
+  gap: 20px;
+  justify-content: start;
+}
+</style>

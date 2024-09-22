@@ -35,6 +35,13 @@
     "_name": "_ffbcca2a"
   },
   {
+    "name": "create",
+    "path": "/create",
+    "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\create.vue",
+    "chunkName": "pages/create",
+    "_name": "_3cd3cf01"
+  },
+  {
     "name": "dashboard",
     "path": "/dashboard",
     "component": "V:\\\\TRABAJOS PERSONALEs\\\\WEB\\\\web_coop_bank\\\\pages\\\\dashboard.vue",

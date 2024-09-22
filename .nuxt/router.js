@@ -9,6 +9,7 @@ const _25819103 = () => interopDefault(import('..\\pages\\calendar.vue' /* webpa
 const _7348b4aa = () => interopDefault(import('..\\pages\\camera.vue' /* webpackChunkName: "pages/camera" */))
 const _56b1fdda = () => interopDefault(import('..\\pages\\charts.vue' /* webpackChunkName: "pages/charts" */))
 const _ffbcca2a = () => interopDefault(import('..\\pages\\contact.vue' /* webpackChunkName: "pages/contact" */))
+const _3cd3cf01 = () => interopDefault(import('..\\pages\\create.vue' /* webpackChunkName: "pages/create" */))
 const _22be72c2 = () => interopDefault(import('..\\pages\\dashboard.vue' /* webpackChunkName: "pages/dashboard" */))
 const _6372f09e = () => interopDefault(import('..\\pages\\inversion.vue' /* webpackChunkName: "pages/inversion" */))
 const _1436baf0 = () => interopDefault(import('..\\pages\\lock.vue' /* webpackChunkName: "pages/lock" */))
@@ -71,6 +72,10 @@ export const routerOptions = {
     path: "/contact",
     component: _ffbcca2a,
     name: "contact"
+  }, {
+    path: "/create",
+    component: _3cd3cf01,
+    name: "create"
   }, {
     path: "/dashboard",
     component: _22be72c2,

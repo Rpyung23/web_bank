@@ -137,4 +137,22 @@ export function isValidCreditCard(numeroTarjeta)
 
   // Si la suma es divisible por 10, la tarjeta es válida
   return suma % 10 === 0;
-}  
+} 
+export function isUsernameValid(username) {
+  var lengthValid = username.length >= 8 && username.length <= 14;
+  var containsNumber = /[0-9]/.test(username);
+  var containsLetter = /[A-Z]/.test(username) || /[a-z]/.test(username);
+
+  return lengthValid && containsNumber && containsLetter;
+}
+
+
+export function isPasswordValid(password) {
+  const lengthValid = password.length >= 8 && password.length <= 16;
+  const containsNumber = /[0-9]/.test(password);
+  const containsUppercase = /[A-Z]/.test(password);
+  const containsLowercase = /[a-z]/.test(password);
+  const containsSpecialChar = /[_*?!@#\$\/(){}=.,:;]/.test(password);
+
+  return lengthValid && containsNumber && containsUppercase && containsLowercase && containsSpecialChar;
+}

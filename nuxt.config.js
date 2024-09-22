@@ -22,7 +22,7 @@ module.exports = {
   router: {
     base: "/",
     linkExactActiveClass: "active",
-    middleware: ['auth'],
+  
   },
   /*
    ** Headers of the page
@@ -44,7 +44,10 @@ module.exports = {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700",
       },
-      { rel: 'stylesheet', href: 'https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' },
+      {
+        rel: "stylesheet",
+        href: "https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css",
+      },
       {
         rel: "stylesheet",
         href: "https://use.fontawesome.com/releases/v5.6.3/css/all.css",
@@ -89,6 +92,22 @@ module.exports = {
     "@nuxtjs/axios",
     "@nuxtjs/pwa",
     "cookie-universal-nuxt",
+    ["@nuxtjs/firebase",
+    {
+      config: {
+        apiKey: "AIzaSyAvx0VDCG8mgkS7PBUKM6GT_JUlLMz8GqE",
+        authDomain: "bank-da882.firebaseapp.com",
+        databaseURL: "https://bank-da882-default-rtdb.firebaseio.com",
+        projectId: "bank-da882",
+        storageBucket: "bank-da882.appspot.com",
+        messagingSenderId: "545632853297",
+        appId: "1:545632853297:web:09823f02b050ac0a9ae410",
+        measurementId: "G-2CW2MVXZPT",
+      },
+      services: {
+        storage: true, // Just as example. Can be any other service.
+      },
+    },]
   ],
   /*
    ** Axios module configuration
@@ -124,6 +143,6 @@ module.exports = {
     baseUrl: "http://localhost:3010",
     nameCoop: "Cooperativa De Ahorro Y Credito Nizag Ltda",
     nameCoopCorto: "COOPERATIVA NIZAG LTDA",
-    CLAVE_TOKEN:"B@NKserverECU@DoR2o24*_/"
+    CLAVE_TOKEN: "B@NKserverECU@DoR2o24*_/",
   },
 };

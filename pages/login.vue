@@ -30,16 +30,12 @@
                   srcset=""
                 />
               </div>
-              <validation-observer
-                v-slot="{ handleSubmit }"
-                ref="formValidator"
-              >
-                <form role="form" @submit.prevent="handleSubmit(onSubmit)">
+              <div
+                >
+                
                   <base-input
                     alternative
                     class="mb-3"
-                    name="Usuario"
-                    :rules="{ required: true, email: false }"
                     prepend-icon="ni ni-email-83"
                     placeholder="Usuario"
                     v-model="email"
@@ -49,8 +45,6 @@
                   <base-input
                     alternative
                     class="mb-3"
-                    name="Contraseña"
-                    :rules="{ required: true, min: 6 }"
                     prepend-icon="ni ni-lock-circle-open"
                     type="password"
                     placeholder="Contraseña"
@@ -63,11 +57,11 @@
                       type="primary"
                       native-type="submit"
                       class="my-4"
+                      @click="onSubmit()"
                       >Ingresar</base-button
                     >
                   </div>
-                </form>
-              </validation-observer>
+                </div>
             </div>
           </div>
           <div class="row mt-3">
@@ -77,11 +71,9 @@
               >
             </div>
             <div class="col-6 text-right">
-              <small
-                class="text-light"
-                style="cursor: -webkit-grabbing; cursor: grabbing"
-                @click="onClickShowModalCreateAccount()"
-                >Crear una nueva cuenta</small
+
+              <router-link to="/create" class="text-light"
+                ><small>Crear una nueva cuenta</small></router-link
               >
             </div>
           </div>
@@ -226,6 +218,7 @@
     </modal>
   </div>
 </template>
+
 <script>
 import { setupInactivityTimer } from "../util/functions";
 import nuxtStorage from "nuxt-storage";
@@ -253,7 +246,7 @@ export default {
       userCreateAccount: null,
       passCreateAccount: null,
       passconfirmCreateAccount: null,
-      responseClientCod:null
+      responseClientCod: null,
     };
   },
   methods: {
@@ -279,7 +272,32 @@ export default {
     },
     async onSubmit() {
       try {
+        //console.log(this.email)
+        //console.log(this.password)
+
+        if(this.email == null || this.email.trim() == '')
+        {
+          this.$notify({
+            message: 'Por favor, ingrese su usuario para la cooperativa virtual.',
+            timeout: 3000,
+            icon: "ni ni-bell-55",
+            type: "danger",
+          })
+          return
+        }
+
+        if(this.password == null || this.password.trim() == ''){
+          this.$notify({
+            message: 'Por favor, ingrese su contraseña para la cooperativa virtual.',
+            timeout: 3000,
+            icon: "ni ni-bell-55",
+            type: "danger",
+          })
+          return
+        }
+
         this.showProgressAlert();
+        console.log(this.password)
         var response = await this.$axios.post(
           process.env.baseUrl + "/login_client",
           {
@@ -287,7 +305,7 @@ export default {
             password: this.password,
           }
         );
-        console.log(response.data);
+        //console.log(response.data);
         //var sessionLogin = useCookie('jwtNizag')
 
         await this.loginPagoFacil();
@@ -295,7 +313,8 @@ export default {
         //nuxtStorage.sessionStorage.setData('jwtNizag', response.data,1,'d');
         //console.log(nuxtStorage.sessionStorage.getData('jwtNizag'));
         this.$router.push("/dashboard");
-      } catch (error) {
+      } catch (error) 
+      {
         console.log(error);
         if (error.response) {
           this.$notify({
@@ -328,26 +347,28 @@ export default {
             icon: "ni ni-fat-remove",
             type: "danger",
           });
-          return
+          return;
         }
-        await this.validateDniCodDac()
+        await this.validateDniCodDac();
       }
     },
     async startVideo() {
       try {
-
+        var permissionStatus = await navigator.permissions.query({
+          name: "camera",
+        });
         if (permissionStatus.state === "denied") {
-      // Si el permiso está denegado, muestra un mensaje al usuario
-      alert(
-        "Has denegado el acceso a la cámara. Por favor, habilítalo en la configuración del navegador."
-      );
-      return;
-    } else if (permissionStatus.state === "prompt") {
-      // Si el permiso aún no se ha solicitado, muestra un mensaje
-      alert(
-        "Por favor, concede el acceso a la cámara cuando se te solicite."
-      );
-    }
+          // Si el permiso está denegado, muestra un mensaje al usuario
+          alert(
+            "Has denegado el acceso a la cámara. Por favor, habilítalo en la configuración del navegador."
+          );
+          return;
+        } else if (permissionStatus.state === "prompt") {
+          // Si el permiso aún no se ha solicitado, muestra un mensaje
+          alert(
+            "Por favor, concede el acceso a la cámara cuando se te solicite."
+          );
+        }
 
         const stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: "user" }, // 'user' para cámara frontal
@@ -392,30 +413,27 @@ export default {
           }
         );
 
-        if (response.status == 200) 
-        {
-          this.responseClientCod = response.data.clien_cod_clien
-          this.activeStepCreateAccount = this.activeStepCreateAccount + 1
-          await this.startVideo()
+        if (response.status == 200) {
+          this.responseClientCod = response.data.clien_cod_clien;
+          this.activeStepCreateAccount = this.activeStepCreateAccount + 1;
+          await this.startVideo();
         } else {
           this.$notify({
-            message:
-              "Lo sentimos, sus credenciales no han sido encontradas.",
+            message: "Lo sentimos, sus credenciales no han sido encontradas.",
             timeout: 2000,
             icon: "ni ni-fat-remove",
             type: "danger",
-          })
+          });
         }
         console.log(response.data);
       } catch (error) {
         console.log(error);
         this.$notify({
-            message:
-              error.toString(),
-            timeout: 2000,
-            icon: "ni ni-fat-remove",
-            type: "danger",
-          })
+          message: error.toString(),
+          timeout: 2000,
+          icon: "ni ni-fat-remove",
+          type: "danger",
+        });
       }
     },
   },
