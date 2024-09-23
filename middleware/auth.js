@@ -17,16 +17,16 @@ export default function ({ route, redirect, $cookies }) {
     } else {
       try {
         // Verifica la validez del token
-        //jwt.verify(token, SECRET_KEY);
+        //jwt.verify(tokenData, SECRET_KEY);
         console.log("Token válido");
       } catch (err) {
         console.error("Error al verificar el token:", err.message);
         // Si la verificación falla, redirige a /login
-        return redirect("/login");
+        return redirect("/");
       }
     }
   } catch (error) {
     console.error("Error general:", error);
-    return redirect("/login");
+    return redirect("/");
   }
 }

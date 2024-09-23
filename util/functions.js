@@ -75,7 +75,7 @@ export function setupInactivityTimer($cookies, $router) {
         console.log('Current path:', currentPath);
   
         // Redirige solo si no estamos en la URL base, en login o en register
-        if (currentPath !== '/' && currentPath !== '/login' && currentPath !== '/register') {
+        if (currentPath !== '/' && currentPath !== '/login' && currentPath !== '/create') {
           console.log('Redirecting to /login due to inactivity');
           $cookies.remove('jwtBancaWeb'); // Elimina el JWT
           $router.push('/login'); // Redirige al login

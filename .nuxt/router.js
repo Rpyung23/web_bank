@@ -4,41 +4,16 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _18048310 = () => interopDefault(import('..\\pages\\alternative.vue' /* webpackChunkName: "pages/alternative" */))
-const _25819103 = () => interopDefault(import('..\\pages\\calendar.vue' /* webpackChunkName: "pages/calendar" */))
-const _7348b4aa = () => interopDefault(import('..\\pages\\camera.vue' /* webpackChunkName: "pages/camera" */))
-const _56b1fdda = () => interopDefault(import('..\\pages\\charts.vue' /* webpackChunkName: "pages/charts" */))
 const _ffbcca2a = () => interopDefault(import('..\\pages\\contact.vue' /* webpackChunkName: "pages/contact" */))
 const _3cd3cf01 = () => interopDefault(import('..\\pages\\create.vue' /* webpackChunkName: "pages/create" */))
 const _22be72c2 = () => interopDefault(import('..\\pages\\dashboard.vue' /* webpackChunkName: "pages/dashboard" */))
 const _6372f09e = () => interopDefault(import('..\\pages\\inversion.vue' /* webpackChunkName: "pages/inversion" */))
-const _1436baf0 = () => interopDefault(import('..\\pages\\lock.vue' /* webpackChunkName: "pages/lock" */))
-const _46350a74 = () => interopDefault(import('..\\pages\\login.vue' /* webpackChunkName: "pages/login" */))
 const _8151e778 = () => interopDefault(import('..\\pages\\prestamo.vue' /* webpackChunkName: "pages/prestamo" */))
-const _4ade58de = () => interopDefault(import('..\\pages\\pricing.vue' /* webpackChunkName: "pages/pricing" */))
 const _ef6dd818 = () => interopDefault(import('..\\pages\\profile.vue' /* webpackChunkName: "pages/profile" */))
-const _5686ec30 = () => interopDefault(import('..\\pages\\register.vue' /* webpackChunkName: "pages/register" */))
 const _57a31a9b = () => interopDefault(import('..\\pages\\servicio.vue' /* webpackChunkName: "pages/servicio" */))
 const _b4766532 = () => interopDefault(import('..\\pages\\tcredito.vue' /* webpackChunkName: "pages/tcredito" */))
 const _3a0be40e = () => interopDefault(import('..\\pages\\tercond.vue' /* webpackChunkName: "pages/tercond" */))
 const _06f3d91c = () => interopDefault(import('..\\pages\\transferencia.vue' /* webpackChunkName: "pages/transferencia" */))
-const _47b885fa = () => interopDefault(import('..\\pages\\widgets.vue' /* webpackChunkName: "pages/widgets" */))
-const _4db05e76 = () => interopDefault(import('..\\pages\\components\\buttons.vue' /* webpackChunkName: "pages/components/buttons" */))
-const _62454ed0 = () => interopDefault(import('..\\pages\\components\\cards.vue' /* webpackChunkName: "pages/components/cards" */))
-const _3e12e6ea = () => interopDefault(import('..\\pages\\components\\grid-system.vue' /* webpackChunkName: "pages/components/grid-system" */))
-const _eacfde62 = () => interopDefault(import('..\\pages\\components\\icons.vue' /* webpackChunkName: "pages/components/icons" */))
-const _c24162c6 = () => interopDefault(import('..\\pages\\components\\notifications.vue' /* webpackChunkName: "pages/components/notifications" */))
-const _40305a4a = () => interopDefault(import('..\\pages\\components\\typography.vue' /* webpackChunkName: "pages/components/typography" */))
-const _673064d0 = () => interopDefault(import('..\\pages\\forms\\components.vue' /* webpackChunkName: "pages/forms/components" */))
-const _1460eab1 = () => interopDefault(import('..\\pages\\forms\\elements.vue' /* webpackChunkName: "pages/forms/elements" */))
-const _03cbc0b3 = () => interopDefault(import('..\\pages\\forms\\validation.vue' /* webpackChunkName: "pages/forms/validation" */))
-const _44fcb0d6 = () => interopDefault(import('..\\pages\\maps\\google.vue' /* webpackChunkName: "pages/maps/google" */))
-const _3a1b959f = () => interopDefault(import('..\\pages\\maps\\vector.vue' /* webpackChunkName: "pages/maps/vector" */))
-const _51bc43d0 = () => interopDefault(import('..\\pages\\pages\\timeline.vue' /* webpackChunkName: "pages/pages/timeline" */))
-const _45a2d9da = () => interopDefault(import('..\\pages\\pages\\user.vue' /* webpackChunkName: "pages/pages/user" */))
-const _c9c5525a = () => interopDefault(import('..\\pages\\tables\\paginated.vue' /* webpackChunkName: "pages/tables/paginated" */))
-const _8a7730bc = () => interopDefault(import('..\\pages\\tables\\regular.vue' /* webpackChunkName: "pages/tables/regular" */))
-const _182f2ce2 = () => interopDefault(import('..\\pages\\tables\\sortable.vue' /* webpackChunkName: "pages/tables/sortable" */))
 const _7c8d675d = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
@@ -53,22 +28,6 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
-    path: "/alternative",
-    component: _18048310,
-    name: "alternative"
-  }, {
-    path: "/calendar",
-    component: _25819103,
-    name: "calendar"
-  }, {
-    path: "/camera",
-    component: _7348b4aa,
-    name: "camera"
-  }, {
-    path: "/charts",
-    component: _56b1fdda,
-    name: "charts"
-  }, {
     path: "/contact",
     component: _ffbcca2a,
     name: "contact"
@@ -85,29 +44,13 @@ export const routerOptions = {
     component: _6372f09e,
     name: "inversion"
   }, {
-    path: "/lock",
-    component: _1436baf0,
-    name: "lock"
-  }, {
-    path: "/login",
-    component: _46350a74,
-    name: "login"
-  }, {
     path: "/prestamo",
     component: _8151e778,
     name: "prestamo"
   }, {
-    path: "/pricing",
-    component: _4ade58de,
-    name: "pricing"
-  }, {
     path: "/profile",
     component: _ef6dd818,
     name: "profile"
-  }, {
-    path: "/register",
-    component: _5686ec30,
-    name: "register"
   }, {
     path: "/servicio",
     component: _57a31a9b,
@@ -124,74 +67,6 @@ export const routerOptions = {
     path: "/transferencia",
     component: _06f3d91c,
     name: "transferencia"
-  }, {
-    path: "/widgets",
-    component: _47b885fa,
-    name: "widgets"
-  }, {
-    path: "/components/buttons",
-    component: _4db05e76,
-    name: "components-buttons"
-  }, {
-    path: "/components/cards",
-    component: _62454ed0,
-    name: "components-cards"
-  }, {
-    path: "/components/grid-system",
-    component: _3e12e6ea,
-    name: "components-grid-system"
-  }, {
-    path: "/components/icons",
-    component: _eacfde62,
-    name: "components-icons"
-  }, {
-    path: "/components/notifications",
-    component: _c24162c6,
-    name: "components-notifications"
-  }, {
-    path: "/components/typography",
-    component: _40305a4a,
-    name: "components-typography"
-  }, {
-    path: "/forms/components",
-    component: _673064d0,
-    name: "forms-components"
-  }, {
-    path: "/forms/elements",
-    component: _1460eab1,
-    name: "forms-elements"
-  }, {
-    path: "/forms/validation",
-    component: _03cbc0b3,
-    name: "forms-validation"
-  }, {
-    path: "/maps/google",
-    component: _44fcb0d6,
-    name: "maps-google"
-  }, {
-    path: "/maps/vector",
-    component: _3a1b959f,
-    name: "maps-vector"
-  }, {
-    path: "/pages/timeline",
-    component: _51bc43d0,
-    name: "pages-timeline"
-  }, {
-    path: "/pages/user",
-    component: _45a2d9da,
-    name: "pages-user"
-  }, {
-    path: "/tables/paginated",
-    component: _c9c5525a,
-    name: "tables-paginated"
-  }, {
-    path: "/tables/regular",
-    component: _8a7730bc,
-    name: "tables-regular"
-  }, {
-    path: "/tables/sortable",
-    component: _182f2ce2,
-    name: "tables-sortable"
   }, {
     path: "/",
     component: _7c8d675d,

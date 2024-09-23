@@ -7,9 +7,9 @@
           <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8 px-5">
               <h1 class="text-white">Ooops!</h1>
-              <p class="text-lead text-white">Page not found. Don't worry though, we have plenty of other pages to explore</p>
+              <p class="text-lead text-white">Página no encontrada. Pero no te preocupes, tenemos muchas otras páginas para explorar.</p>
 
-              <nuxt-link to="/dashboard" class="font-weight-bold text-white mt-5">Back to dashboard</nuxt-link>
+              <nuxt-link to="/" class="font-weight-bold text-white mt-5">Volver al inicio de sesión</nuxt-link>
             </div>
           </div>
         </div>

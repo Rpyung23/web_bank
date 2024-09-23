@@ -422,7 +422,7 @@ export default {
               icon: "ni ni-fat-remove",
               type: "danger",
             })
-            this.$router.push("/login")
+            this.$router.push("/")
           }
         } else {
           this.$notify({

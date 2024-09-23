@@ -182,5 +182,6 @@
 <style lang="scss">
   .auth-layout {
     min-height: 100vh;
+    background-color: #172b4d;//f4f6f9
   }
 </style>

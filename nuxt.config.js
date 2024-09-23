@@ -22,7 +22,7 @@ module.exports = {
   router: {
     base: "/",
     linkExactActiveClass: "active",
-    middleware: ['auth'],
+    middleware: ['auth','remove'],
   },
   /*
    ** Headers of the page

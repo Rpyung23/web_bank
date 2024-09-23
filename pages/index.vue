@@ -1,346 +1,583 @@
 <template>
   <div>
-    <!--Header-->
-    <div class="header bg-success pt-5 pb-7">
-      <div class="container">
-        <div class="header-body">
-          <div class="row align-items-center">
-            <div class="col-lg-6">
-              <div class="pr-5">
-                <h1 class="display-2 text-white font-weight-bold mb-0">Argon Dashboard PRO</h1>
-                <h2 class="display-4 text-white font-weight-light">A beautiful premium dashboard for Bootstrap 4.</h2>
-                <p class="text-white mt-4">Argon perfectly combines reusable HTML and modular CSS with a modern styling and beautiful markup throughout each HTML template in the pack.</p>
-                <div class="mt-5">
-                  <nuxt-link to="/dashboard" class="btn btn-neutral my-2">Explore Dashboard</nuxt-link>
-                  <a href="https://www.creative-tim.com/product/nuxt-argon-dashboard-pro" class="btn btn-default my-2">Purchase now</a>
-                </div>
+    <notifications></notifications>
+    <!-- Header -->
+    <div class="header bg-gradient-success py-7 py-lg-8"></div>
+    <!-- Page content -->
+    <div class="container mt--9 pb-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+          <div class="card border-0 mb-0">
+            <!--<div class="card-header bg-transparent pb-5">
+              <div class="text-muted text-center mt-2 mb-3"><small>Sign in with</small></div>
+              <div class="btn-wrapper text-center">
+                <a href="#" class="btn btn-neutral btn-icon">
+                  <span class="btn-inner--icon"><img src="~/static/img/icons/common/github.svg"></span>
+                  <span class="btn-inner--text">Github</span>
+                </a>
+                <a href="#" class="btn btn-neutral btn-icon">
+                  <span class="btn-inner--icon"><img src="~/static/img/icons/common/google.svg"></span>
+                  <span class="btn-inner--text">Google</span>
+                </a>
               </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="row pt-5">
-                <div class="col-md-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow mb-4">
-                        <i class="ni ni-active-40"></i>
-                      </div>
-                      <h5 class="h3">Components</h5>
-                      <p>Argon comes with over 70 handcrafted components.</p>
-                    </div>
-                  </div>
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow mb-4">
-                        <i class="ni ni-active-40"></i>
-                      </div>
-                      <h5 class="h3">Plugins</h5>
-                      <p>Fully integrated and extendable third-party plugins that you will love.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 pt-lg-5 pt-4">
-                  <div class="card mb-4">
-                    <div class="card-body">
-                      <div class="icon icon-shape bg-gradient-success text-white rounded-circle shadow mb-4">
-                        <i class="ni ni-active-40"></i>
-                      </div>
-                      <h5 class="h3">Pages</h5>
-                      <p>From simple to complex, you get a beautiful set of 15+ page examples.</p>
-                    </div>
-                  </div>
-                  <div class="card mb-4">
-                    <div class="card-body">
-                      <div class="icon icon-shape bg-gradient-warning text-white rounded-circle shadow mb-4">
-                        <i class="ni ni-active-40"></i>
-                      </div>
-                      <h5 class="h3">Documentation</h5>
-                      <p>You will love how easy is to to work with Argon.</p>
-                    </div>
-                  </div>
+            </div>-->
+            <div class="card-body px-lg-5 py-lg-5">
+              <div class="text-center text-muted mb-4">
+                <img
+                  src="../static/img/brand/logo_coop.png"
+                  style="height: 3.5rem; width: 9.5rem"
+                  alt=""
+                  srcset=""
+                />
+              </div>
+              <div>
+                <base-input
+                  alternative
+                  class="mb-3"
+                  prepend-icon="ni ni-email-83"
+                  placeholder="Usuario"
+                  v-model="email"
+                >
+                </base-input>
+
+                <base-input
+                  alternative
+                  class="mb-3"
+                  prepend-icon="ni ni-lock-circle-open"
+                  type="password"
+                  placeholder="Contraseña"
+                  v-model="password"
+                >
+                </base-input>
+
+                <div class="text-center">
+                  <base-button
+                    type="success"
+                    native-type="submit"
+                    class="my-4"
+                    @click="onSubmit()"
+                    >Ingresar</base-button
+                  >
                 </div>
               </div>
             </div>
           </div>
+          <div class="row mt-3">
+            <div class="col-6">
+              <router-link to="/dashboard" class="text-light"
+                ><small>Has olvidado tu contraseña?</small></router-link
+              >
+            </div>
+            <div class="col-6 text-right">
+              <router-link to="/create" class="text-light"
+                ><small>Crear una nueva cuenta</small></router-link
+              >
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="separator separator-bottom separator-skew zindex-100">
-        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
-          <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
-        </svg>
       </div>
     </div>
-    <!-- Page content -->
-    <section class="py-6 pb-9 bg-default">
-      <div class="row justify-content-center text-center">
-        <div class="col-md-6">
-          <h2 class="display-3 text-white">A complete HTML solution</h2>
-          <p class="lead text-white">
-            Argon is a completly new product built on our newest re-built from scratch framework structure that is meant to make our products more intuitive,
-            more adaptive and, needless to say, so much easier to customize. Let Argon amaze you with its cool features and build tools and get your project to a whole new level.
-          </p>
-        </div>
-      </div>
-    </section>
-    <section class="section section-lg pt-lg-0 mt--7">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-12">
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="card card-lift--hover shadow border-0">
-                  <div class="card-body py-5">
-                    <div class="icon icon-shape bg-gradient-primary text-white rounded-circle mb-4">
-                      <i class="ni ni-check-bold"></i>
-                    </div>
-                    <h4 class="h3 text-primary text-uppercase">Based on Bootstrap 4</h4>
-                    <p class="description mt-3">Argon is built on top of the most popular open source toolkit for developing with HTML, CSS, and JS.</p>
-                    <div>
-                      <span class="badge badge-pill badge-primary">bootstrap 4</span>
-                      <span class="badge badge-pill badge-primary">dashboard</span>
-                      <span class="badge badge-pill badge-primary">template</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="card card-lift--hover shadow border-0">
-                  <div class="card-body py-5">
-                    <div class="icon icon-shape bg-gradient-success text-white rounded-circle mb-4">
-                      <i class="ni ni-istanbul"></i>
-                    </div>
-                    <h4 class="h3 text-success text-uppercase">Integrated build tools</h4>
-                    <p class="description mt-3">Use Argons's included npm and gulp scripts to compile source code, run tests, and more with just a few simple commands.</p>
-                    <div>
-                      <span class="badge badge-pill badge-success">npm</span>
-                      <span class="badge badge-pill badge-success">gulp</span>
-                      <span class="badge badge-pill badge-success">build tools</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="card card-lift--hover shadow border-0">
-                  <div class="card-body py-5">
-                    <div class="icon icon-shape bg-gradient-warning text-white rounded-circle mb-4">
-                      <i class="ni ni-planet"></i>
-                    </div>
-                    <h4 class="h3 text-warning text-uppercase">Full Sass support</h4>
-                    <p class="description mt-3">Argon makes customization easier than ever before. You get all the tools to make your website building process a breeze.</p>
-                    <div>
-                      <span class="badge badge-pill badge-warning">sass</span>
-                      <span class="badge badge-pill badge-warning">design</span>
-                      <span class="badge badge-pill badge-warning">customize</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="py-6 bg-secondary">
-      <div class="container">
-        <div class="row row-grid align-items-center">
-          <div class="col-md-6 order-md-2">
-            <img src="~/static/img/theme/landing-1.png" class="img-fluid" alt="Landing image">
-          </div>
-          <div class="col-md-6 order-md-1">
-            <div class="pr-md-5">
-              <h1>Awesome features</h1>
-              <p>This dashboard comes with super cool features that are meant to help in the process. Handcrafted components, page examples and functional widgets are just a few things you will see and love at first sight.</p>
-              <ul class="list-unstyled mt-5">
-                <li class="py-2">
-                  <div class="d-flex align-items-center">
-                    <div>
-                      <div class="badge badge-circle badge-success mr-3">
-                        <i class="ni ni-settings-gear-65"></i>
-                      </div>
-                    </div>
-                    <div>
-                      <h4 class="mb-0">Carefully crafted components</h4>
-                    </div>
-                  </div>
-                </li>
-                <li class="py-2">
-                  <div class="d-flex align-items-center">
-                    <div>
-                      <div class="badge badge-circle badge-success mr-3">
-                        <i class="ni ni-html5"></i>
-                      </div>
-                    </div>
-                    <div>
-                      <h4 class="mb-0">Amazing page examples</h4>
-                    </div>
-                  </div>
-                </li>
-                <li class="py-2">
-                  <div class="d-flex align-items-center">
-                    <div>
-                      <div class="badge badge-circle badge-success mr-3">
-                        <i class="ni ni-satisfied"></i>
-                      </div>
-                    </div>
-                    <div>
-                      <h4 class="mb-0">Super friendly support team</h4>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="py-6">
-      <div class="container">
-        <div class="row row-grid align-items-center">
+
+    <modal size="lg" :show.sync="modalCreateAccount">
+      <template slot="header">
+        <el-steps
+          style="width: 100%"
+          :active="activeStepCreateAccount"
+          finish-status="success"
+        >
+          <el-step title="Verifica tu identidad"></el-step>
+          <el-step title="Verificación facial"></el-step>
+          <el-step title="Crea tu usuario y contraseña"></el-step>
+        </el-steps>
+      </template>
+
+      <div class="stepcreate1" v-if="activeStepCreateAccount == 0">
+        <div class="row">
           <div class="col-md-6">
-            <img src="~/static/img/theme/landing-2.png" class="img-fluid" alt="Landing image 2">
+            <base-input
+              label="Número de cédula"
+              name="Número de cédula"
+              minlength="1"
+              v-model="numberDniPassCreateAccount"
+              prepend-icon="ni ni-credit-card"
+              placeholder="Número de cédula"
+            ></base-input>
+          </div>
+
+          <div class="col-md-6">
+            <base-input
+              label="Código dactilar"
+              name="Código dactilar"
+              minlength="1"
+              v-model="numberCodDactilarCreateAccount"
+              prepend-icon="ni ni-credit-card"
+              placeholder="Código dactilar"
+            ></base-input>
+          </div>
+        </div>
+      </div>
+
+      <div class="stepcreate2" v-if="activeStepCreateAccount == 1">
+        <div style="display: flex; justify-content: center">
+          <div v-if="!photoCapturedCreateAccount">
+            <video
+              ref="video"
+              style="
+                border-radius: 50%;
+                width: calc(50vh);
+                height: calc(50vh);
+                object-fit: cover;
+                border: 0.1rem solid #144c24;
+              "
+              autoplay
+              playsinline
+            ></video>
+            <base-button
+              @click="capturePhoto"
+              outline
+              size="sm"
+              icon
+              type="success"
+            >
+              <span class="btn-inner--icon"
+                ><i class="ni ni-camera-compact"></i
+              ></span>
+            </base-button>
+            <!--<button @click="capturePhoto">Capturar Foto</button>-->
+          </div>
+
+          <div v-if="photoCapturedCreateAccount">
+            <img
+              style="
+                border-radius: 50%;
+                width: calc(50vh);
+                height: calc(50vh);
+                object-fit: cover;
+                border: 0.1rem solid #144c24;
+              "
+              :src="photoFacilCreateAccount"
+              alt="Foto Capturada"
+            />
+
+            <base-button
+              @click="resetVideo"
+              outline
+              size="sm"
+              icon
+              type="danger"
+            >
+              <span class="btn-inner--icon"
+                ><i class="ni ni-fat-remove"></i
+              ></span>
+            </base-button>
+            <!--<button @click="resetVideo">Tomar otra foto</button>-->
+          </div>
+        </div>
+      </div>
+
+      <div class="stepcreate3" v-if="activeStepCreateAccount == 2">
+        <div class="row">
+          <div class="col-md-12">
+            <base-input
+              label="Usuario Cooperativa Web/Móvil"
+              name="Usuario Cooperativa Web/Móvil"
+              prepend-icon="ni ni-single-02"
+              placeholder="Usuario Cooperativa Web/Móvil"
+            ></base-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <base-input
+              label="Contraseña"
+              name="Contraseña"
+              prepend-icon="ni ni-key-25"
+              placeholder="Contraseña"
+            ></base-input>
           </div>
           <div class="col-md-6">
-            <div class="pr-md-5">
-              <h1>Example pages</h1>
-              <p>If you want to get inspiration or just show something directly to your clients, you can jump start your development with our pre-built example pages.</p>
-              <nuxt-link to="/pages/user" class="font-weight-bold text-warning mt-5">Explore pages</nuxt-link>
-            </div>
+            <base-input
+              label="Confirmar contraseña"
+              name="Confirmar contraseña"
+              prepend-icon="ni ni-key-25"
+              placeholder="Confirmar contraseña"
+            ></base-input>
           </div>
         </div>
       </div>
-    </section>
-    <section class="py-6">
-      <div class="container">
-        <div class="row row-grid align-items-center">
-          <div class="col-md-6 order-md-2">
-            <img src="~/static/img/theme/landing-3.png" class="img-fluid" alt="Landing image 3">
-          </div>
-          <div class="col-md-6 order-md-1">
-            <div class="pr-md-5">
-              <h1>Lovable widgets and cards</h1>
-              <p>We love cards and everybody on the web seems to. We have gone above and beyond with options for you to organise your information. From cards designed for content, to pricing cards or user profiles, you will have many options to choose from.</p>
-              <nuxt-link to="/widgets" class="font-weight-bold text-info mt-5">Explore widgets</nuxt-link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="py-7 section-nucleo-icons bg-white overflow-hidden">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-8 text-center">
-            <h2 class="display-3">Nucleo Icons</h2>
-            <p class="lead">
-              The official package contains over 21.000 icons which are looking great in combination with Argon Design System. Make sure you check all of them and use those that you like the most.
-            </p>
-            <div class="btn-wrapper">
-              <a href="https://demos.creative-tim.com/nuxt-argon-dashboard-pro/documentation/foundation/icons.html" class="btn btn-primary">View demo icons</a>
-              <a href="https://nucleoapp.com/?ref=1712" target="_blank" rel="noopener" class="btn btn-default mt-3 mt-md-0">View all icons</a>
-            </div>
-          </div>
-        </div>
-        <div class="blur--hover">
-          <a href="https://demos.creative-tim.com/nuxt-argon-dashboard-pro/documentation/foundation/icons.html">
-            <div class="icons-container blur-item mt-5">
-              <!-- Center -->
-              <i class="icon ni ni-diamond"></i>
-              <!-- Right 1 -->
-              <i class="icon icon-sm ni ni-album-2"></i>
-              <i class="icon icon-sm ni ni-app"></i>
-              <i class="icon icon-sm ni ni-atom"></i>
-              <!-- Right 2 -->
-              <i class="icon ni ni-bag-17"></i>
-              <i class="icon ni ni-bell-55"></i>
-              <i class="icon ni ni-credit-card"></i>
-              <!-- Left 1 -->
-              <i class="icon icon-sm ni ni-briefcase-24"></i>
-              <i class="icon icon-sm ni ni-building"></i>
-              <i class="icon icon-sm ni ni-button-play"></i>
-              <!-- Left 2 -->
-              <i class="icon ni ni-calendar-grid-58"></i>
-              <i class="icon ni ni-camera-compact"></i>
-              <i class="icon ni ni-chart-bar-32"></i>
-            </div>
-            <span class="blur-hidden h5 text-success">Eplore all the 21.000+ Nucleo Icons</span>
-          </a>
-        </div>
-      </div>
-    </section>
-    <section class="py-7">
-      <div class="container">
-        <div class="row row-grid justify-content-center">
-          <div class="col-lg-8 text-center">
-            <h2 class="display-3">Do you love this awesome <span class="text-success">Dashboard for Bootstrap 4?</span></h2>
-            <p class="lead">Cause if you do, it can be yours now. Hit the button below to navigate to get the free version or purchase a license for your next project. Build a new web app or give an old Bootstrap project a new look!</p>
-            <div class="btn-wrapper">
-              <a href="https://www.creative-tim.com/product/nuxt-argon-dashboard?ref=nvadp-index-page" class="btn btn-neutral mb-3 mb-sm-0" target="_blank" rel="noopener">
-                <span class="btn-inner--text">Get FREE version</span>
-              </a>
-              <a href="https://www.creative-tim.com/product/nuxt-argon-dashboard-pro?ref=vadp-index-page" class="btn btn-success btn-icon mb-3 mb-sm-0">
-                <span class="btn-inner--icon"><i class="ni ni-basket"></i></span>
-                <span class="btn-inner--text">Purchase now</span>
-                <span class="badge badge-md badge-pill badge-floating badge-danger border-white">$99</span>
-              </a>
-            </div>
-            <div class="text-center">
-              <h4 class="display-4 mb-5 mt-5">Available on these technologies</h4>
-              <div class="row justify-content-center">
-                <div class="col-md-2 col-3 my-2">
-                  <el-tooltip placement="top" content="Bootstrap 4 - Most popular front-end component library">
-                    <a href="https://www.creative-tim.com/product/argon-dashboard?ref=nvadp-index-page" target="_blank" rel="noopener" aria-label="Bootstrap">
-                      <img src="https://s3.amazonaws.com/creativetim_bucket/tim_static_images/presentation-page/bootstrap.jpg" class="img-fluid rounded-circle shadow shadow-lg--hover" alt="Bootstrap image">
-                    </a>
-                  </el-tooltip>
-                </div>
-                <div class="col-md-2 col-3 my-2">
-                  <el-tooltip placement="top" content="Vue.js - The progressive javascript framework">
-                    <a href="https://www.creative-tim.com/product/nuxt-argon-dashboard?ref=nvadp-index-page" target="_blank" rel="noopener" aria-label="Vue">
-                      <img src="https://s3.amazonaws.com/creativetim_bucket/tim_static_images/presentation-page/vue.jpg" class="img-fluid rounded-circle" alt="Vue logo">
-                    </a>
-                  </el-tooltip>
-                </div>
-                <div class="col-md-2 col-3 my-2">
-                  <el-tooltip placement="top" content="[Coming Soon] Sketch - Digital design toolkit">
-                    <a href=" https://www.sketchapp.com/" target="_blank" rel="noopener" aria-label="Sketch">
-                      <img src="https://s3.amazonaws.com/creativetim_bucket/tim_static_images/presentation-page/sketch.jpg" class="img-fluid rounded-circle opacity-3" alt="Sketch logo">
-                    </a>
-                  </el-tooltip>
-                </div>
-                <div class="col-md-2 col-3 my-2">
-                  <el-tooltip placement="top" content="[Coming Soon] Adobe Photoshop - Software for digital images manipulation">
-                    <a href=" https://www.adobe.com/products/photoshop.html" target="_blank" rel="noopener" aria-label="Photoshop">
-                      <img src="https://s3.amazonaws.com/creativetim_bucket/tim_static_images/presentation-page/ps.jpg" class="img-fluid rounded-circle opacity-3" alt="Photoshop logo">
-                    </a>
-                  </el-tooltip>
-                </div>
-                <div class="col-md-2 col-3 my-2">
-                  <el-tooltip placement="top" content="Angular - One framework. Mobile ">
-                    <a href="https://www.creative-tim.com/product/argon-dashboard-angular?ref=nvadp-index-page" target="_blank" rel="noopener" aria-label="Angular">
-                      <img src="https://s3.amazonaws.com/creativetim_bucket/tim_static_images/presentation-page/angular.jpg" class="img-fluid rounded-circle" alt="Angular logo">
-                    </a>
-                  </el-tooltip>
-                </div>
-                <div class="col-md-2 col-3 my-2">
-                  <el-tooltip placement="top" content="React - A JavaScript library for building user interfaces">
-                    <a href="https://www.creative-tim.com/product/argon-dashboard-react?ref=nvadp-index-page" target="_blank" rel="noopener" aria-label="React">
-                      <img src="https://s3.amazonaws.com/creativetim_bucket/tim_static_images/presentation-page/react.jpg" class="img-fluid rounded-circle" alt="React logo">
-                    </a>
-                  </el-tooltip>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+
+      <template slot="footer">
+        <div></div>
+        <base-button @click="onClickCreateAccountStep()" type="success"
+          >Continuar</base-button
+        >
+      </template>
+    </modal>
+
+    <modal size="lg" :show.sync="modalTermCondi">
+      <template slot="header"> </template>
+
+      <iframe
+        style="border: none"
+        :src="urlTermCondi"
+        width="100%"
+        height="450vh"
+      ></iframe>
+
+      <template slot="footer">
+        <div></div>
+        <base-button type="success" @click="AcceptTermCondi()" size="sm"
+          >He leído y acepto los Términos y Condiciones.</base-button
+        >
+      </template>
+    </modal>
   </div>
 </template>
+
 <script>
-  import { Tooltip } from 'element-ui'
-  export default {
-    layout: 'AuthLayout',
-    name: 'home-page',
-    components: {
-      [Tooltip.name]: Tooltip
-    }
-  };
+import { setupInactivityTimer } from "../util/functions";
+import nuxtStorage from "nuxt-storage";
+import swal from "sweetalert2";
+import { Step, Steps } from "element-ui";
+import "sweetalert2/dist/sweetalert2.css";
+export default {
+  layout: "AuthLayout",
+  components: {
+    [Step.name]: Step,
+    [Steps.name]: Steps,
+  },
+  data() {
+    return {
+      email: "",
+      password: "",
+      modalCreateAccount: false,
+      activeStepCreateAccount: 0,
+      photoCapturedCreateAccount: false,
+      photoFacilCreateAccount: "",
+      /**model para crear una nueva cuenta***/
+      numberDniPassCreateAccount: null,
+      numberCodDactilarCreateAccount: null,
+      userCreateAccount: null,
+      passCreateAccount: null,
+      passconfirmCreateAccount: null,
+      responseClientCod: null,
+      modalTermCondi: false,
+      urlTermCondi: null,
+    };
+  },
+  methods: {
+    async obtenerIPLocal() {
+      return new Promise(function (resolve, reject) {
+        var pc = new RTCPeerConnection({
+          iceServers: [],
+        });
+
+        // Crea un canal de datos vacío
+        pc.createDataChannel("");
+
+        // Crea una oferta y establece la descripción local
+        pc.createOffer()
+          .then((offer) => pc.setLocalDescription(offer))
+          .catch((error) => {
+            console.error("Error al crear la oferta:", error);
+            resolve(""); // En caso de error, retornar cadena vacía
+          });
+
+        // Al encontrar una nueva ICE candidate
+        pc.onicecandidate = function (event) {
+          if (event && event.candidate && event.candidate.candidate) {
+            // Extraer la IP de la cadena candidate
+            var ipMatch = event.candidate.candidate.match(
+              /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/
+            );
+            if (ipMatch) {
+              pc.close(); // Cerrar la conexión
+              resolve(ipMatch[0]); // Devolver la IP local encontrada
+            }
+          } else if (!event.candidate) {
+            // Si no se encuentra candidato, retornar cadena vacía
+            resolve("");
+          }
+        };
+      });
+    },
+    async readUrlTermCondi() {
+      try {
+        var data = await this.$axios.get(process.env.baseUrl + "/urlexternal");
+        //console.log(data.data)
+        this.urlTermCondi = data.data.url_term_condi;
+        return data.data.url_term_condi;
+      } catch (error) {
+        console.log(error);
+      }
+      return null;
+    },
+    showProgressAlert() {
+      swal.fire({
+        text: `Por favor, espere un momento mientras procesamos su solicitud.`,
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false, // No permite el cierre al hacer clic fuera del modal
+        allowEscapeKey: false,
+        didOpen: () => {
+          swal.showLoading();
+        },
+      });
+    },
+    async loginPagoFacil() {
+      var response = await this.$axios.get(
+        process.env.baseUrl + "/AuthPagoFacil"
+      );
+      if (response.status == 200) {
+        this.$cookies.set("jwtBancaWebPagoFacil", response.data.accessToken);
+      }
+    },
+    async onSubmit() {
+      try {
+        //console.log(this.email)
+        //console.log(this.password)
+
+        if (this.email == null || this.email.trim() == "") {
+          this.$notify({
+            message:
+              "Por favor, ingrese su usuario para la cooperativa virtual.",
+            timeout: 3000,
+            icon: "ni ni-bell-55",
+            type: "danger",
+          });
+          return;
+        }
+
+        if (this.password == null || this.password.trim() == "") {
+          this.$notify({
+            message:
+              "Por favor, ingrese su contraseña para la cooperativa virtual.",
+            timeout: 3000,
+            icon: "ni ni-bell-55",
+            type: "danger",
+          });
+          return;
+        }
+
+        this.showProgressAlert();
+
+        var termcond = await this.readUrlTermCondi();
+
+        if (termcond != null) {
+          var mi_ip = "";
+          try {
+            mi_ip = await this.obtenerIPLocal();
+          } catch (error) {}
+
+          //console.log(mi_ip)
+
+          var response = await this.$axios.post(
+            process.env.baseUrl + "/login_client",
+            {
+              usuario: this.email,
+              password: this.password,
+              isLocalAuth: false,
+              ipaccess: mi_ip,
+            }
+          );
+
+          //console.log(this.password)
+          if (response.status == 200) {
+            await this.loginPagoFacil();
+            await this.$cookies.set("jwtBancaWeb", response.data, 1);
+
+            if (response.data.accept_term_condition == 0) {
+              swal.close();
+              this.modalTermCondi = true;
+            } else {
+              this.$router.push("/dashboard");
+            }
+          } else {
+            this.$notify({
+              message: "No existen datos disponibles",
+              timeout: 3000,
+              icon: "ni ni-bell-55",
+              type: "danger",
+            });
+          }
+        } else {
+          swal.close();
+          this.$notify({
+            message:
+              "Lo sentimos, no hemos podido encontrar los términos y condiciones.",
+            timeout: 3000,
+            icon: "ni ni-bell-55",
+            type: "danger",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        if (error.response) {
+          this.$notify({
+            message: error.response.data.msm,
+            timeout: 3000,
+            icon: "ni ni-bell-55",
+            type: "danger",
+          });
+        }
+      }
+
+      swal.close();
+    },
+    onClickShowModalCreateAccount() {
+      this.modalCreateAccount = !this.modalCreateAccount;
+    },
+    async onClickCreateAccountStep() {
+      //this.startVideo();
+      if (this.activeStepCreateAccount == 0) {
+        if (
+          this.numberDniPassCreateAccount == null ||
+          this.numberDniPassCreateAccount == "" ||
+          this.numberCodDactilarCreateAccount == null ||
+          this.numberCodDactilarCreateAccount == ""
+        ) {
+          this.$notify({
+            message:
+              "Algunos campos de datos requieren obligatoriamente ser completados",
+            timeout: 2000,
+            icon: "ni ni-fat-remove",
+            type: "danger",
+          });
+          return;
+        }
+        await this.validateDniCodDac();
+      }
+    },
+    async startVideo() {
+      try {
+        var permissionStatus = await navigator.permissions.query({
+          name: "camera",
+        });
+        if (permissionStatus.state === "denied") {
+          // Si el permiso está denegado, muestra un mensaje al usuario
+          alert(
+            "Has denegado el acceso a la cámara. Por favor, habilítalo en la configuración del navegador."
+          );
+          return;
+        } else if (permissionStatus.state === "prompt") {
+          // Si el permiso aún no se ha solicitado, muestra un mensaje
+          alert(
+            "Por favor, concede el acceso a la cámara cuando se te solicite."
+          );
+        }
+
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user" }, // 'user' para cámara frontal
+        });
+        this.$refs.video.srcObject = stream;
+      } catch (error) {
+        console.error("Error accediendo a la cámara:", error);
+      }
+    },
+    async capturePhoto() {
+      ///await this.startVideo()
+      const video = this.$refs.video;
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext("2d");
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      this.photoFacilCreateAccount = canvas.toDataURL("image/png");
+      this.photoCapturedCreateAccount = true;
+      await this.stopVideo();
+    },
+    stopVideo() {
+      const video = this.$refs.video;
+      const stream = video.srcObject;
+      const tracks = stream.getTracks();
+
+      tracks.forEach((track) => track.stop());
+    },
+    async resetVideo() {
+      this.photoCapturedCreateAccount = false;
+      this.photoFacilCreateAccount = "";
+      await this.startVideo();
+    },
+    async validateDniCodDac() {
+      try {
+        var response = await this.$axios.post(
+          process.env.baseUrl + "/check_dni",
+          {
+            dni_client: this.numberDniPassCreateAccount,
+            huella: this.numberCodDactilarCreateAccount,
+            searchDni: true,
+          }
+        );
+
+        if (response.status == 200) {
+          this.responseClientCod = response.data.clien_cod_clien;
+          this.activeStepCreateAccount = this.activeStepCreateAccount + 1;
+          await this.startVideo();
+        } else {
+          this.$notify({
+            message: "Lo sentimos, sus credenciales no han sido encontradas.",
+            timeout: 2000,
+            icon: "ni ni-fat-remove",
+            type: "danger",
+          });
+        }
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+        this.$notify({
+          message: error.toString(),
+          timeout: 2000,
+          icon: "ni ni-fat-remove",
+          type: "danger",
+        });
+      }
+    },
+    async AcceptTermCondi() {
+      this.showProgressAlert();
+      //console.log(this.$jwtBancaWeb().token)
+      try {
+        var response = await this.$axios.put(
+          `${process.env.baseUrl}/accepTermCond`,{},
+          {
+            headers: {
+              Authorization: this.$jwtBancaWeb().token,
+            },
+          }
+        );
+
+        swal.close()
+
+        if (response.status == 200) {
+          this.$router.push("/dashboard");
+        } else {
+          swal.close();
+          this.$notify({
+            message:
+              "Lo sentimos, no hemos podido aceptar términos y condiciones.",
+            timeout: 3000,
+            icon: "ni ni-bell-55",
+            type: "danger",
+          });
+        }
+      } catch (error) {
+        swal.close();
+        this.$notify({
+          message:
+            "Lo sentimos, no hemos podido aceptar términos y condiciones.",
+          timeout: 3000,
+          icon: "ni ni-bell-55",
+          type: "danger",
+        });
+      }
+    },
+  },
+  mounted() {
+    //this.cleanUpInactivityTimer = setupInactivityTimer(this.$cookies, this.$router);
+  },
+  beforeDestroy() {
+    /*if (this.cleanUpInactivityTimer) {
+      this.cleanUpInactivityTimer();
+    }*/
+  },
+};
 </script>
