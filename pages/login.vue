@@ -30,38 +30,36 @@
                   srcset=""
                 />
               </div>
-              <div
+              <div>
+                <base-input
+                  alternative
+                  class="mb-3"
+                  prepend-icon="ni ni-email-83"
+                  placeholder="Usuario"
+                  v-model="email"
                 >
-                
-                  <base-input
-                    alternative
-                    class="mb-3"
-                    prepend-icon="ni ni-email-83"
-                    placeholder="Usuario"
-                    v-model="email"
-                  >
-                  </base-input>
+                </base-input>
 
-                  <base-input
-                    alternative
-                    class="mb-3"
-                    prepend-icon="ni ni-lock-circle-open"
-                    type="password"
-                    placeholder="Contraseña"
-                    v-model="password"
-                  >
-                  </base-input>
+                <base-input
+                  alternative
+                  class="mb-3"
+                  prepend-icon="ni ni-lock-circle-open"
+                  type="password"
+                  placeholder="Contraseña"
+                  v-model="password"
+                >
+                </base-input>
 
-                  <div class="text-center">
-                    <base-button
-                      type="primary"
-                      native-type="submit"
-                      class="my-4"
-                      @click="onSubmit()"
-                      >Ingresar</base-button
-                    >
-                  </div>
+                <div class="text-center">
+                  <base-button
+                    type="primary"
+                    native-type="submit"
+                    class="my-4"
+                    @click="onSubmit()"
+                    >Ingresar</base-button
+                  >
                 </div>
+              </div>
             </div>
           </div>
           <div class="row mt-3">
@@ -71,7 +69,6 @@
               >
             </div>
             <div class="col-6 text-right">
-
               <router-link to="/create" class="text-light"
                 ><small>Crear una nueva cuenta</small></router-link
               >
@@ -239,7 +236,6 @@ export default {
       activeStepCreateAccount: 0,
       photoCapturedCreateAccount: false,
       photoFacilCreateAccount: "",
-
       /**model para crear una nueva cuenta***/
       numberDniPassCreateAccount: null,
       numberCodDactilarCreateAccount: null,
@@ -250,6 +246,42 @@ export default {
     };
   },
   methods: {
+    async obtenerIPLocal() {
+      return new Promise(function (resolve, reject) {
+        var pc = new RTCPeerConnection({
+          iceServers: [],
+        });
+
+        // Crea un canal de datos vacío
+        pc.createDataChannel("");
+
+        // Crea una oferta y establece la descripción local
+        pc.createOffer()
+          .then((offer) => pc.setLocalDescription(offer))
+          .catch((error) => {
+            console.error("Error al crear la oferta:", error);
+            resolve(""); // En caso de error, retornar cadena vacía
+          });
+
+        // Al encontrar una nueva ICE candidate
+        pc.onicecandidate = function (event) {
+          if (event && event.candidate && event.candidate.candidate) {
+            // Extraer la IP de la cadena candidate
+            var ipMatch = event.candidate.candidate.match(
+              /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/
+            );
+            if (ipMatch) {
+              pc.close(); // Cerrar la conexión
+              resolve(ipMatch[0]); // Devolver la IP local encontrada
+            }
+          } else if (!event.candidate) {
+            // Si no se encuentra candidato, retornar cadena vacía
+            resolve("");
+          }
+        };
+      });
+    },
+
     showProgressAlert() {
       swal.fire({
         text: `Por favor, espere un momento mientras procesamos su solicitud.`,
@@ -275,46 +307,67 @@ export default {
         //console.log(this.email)
         //console.log(this.password)
 
-        if(this.email == null || this.email.trim() == '')
-        {
+        if (this.email == null || this.email.trim() == "") {
           this.$notify({
-            message: 'Por favor, ingrese su usuario para la cooperativa virtual.',
+            message:
+              "Por favor, ingrese su usuario para la cooperativa virtual.",
             timeout: 3000,
             icon: "ni ni-bell-55",
             type: "danger",
-          })
-          return
+          });
+          return;
         }
 
-        if(this.password == null || this.password.trim() == ''){
+        if (this.password == null || this.password.trim() == "") {
           this.$notify({
-            message: 'Por favor, ingrese su contraseña para la cooperativa virtual.',
+            message:
+              "Por favor, ingrese su contraseña para la cooperativa virtual.",
             timeout: 3000,
             icon: "ni ni-bell-55",
             type: "danger",
-          })
-          return
+          });
+          return;
         }
 
         this.showProgressAlert();
-        console.log(this.password)
+
+        var mi_ip = "";
+
+        try {
+          mi_ip = await this.obtenerIPLocal();
+        } catch (error) {}
+
+        console.log(mi_ip)
+
         var response = await this.$axios.post(
           process.env.baseUrl + "/login_client",
           {
             usuario: this.email,
             password: this.password,
+            isLocalAuth: false,
+            ipaccess: mi_ip,
           }
         );
-        //console.log(response.data);
-        //var sessionLogin = useCookie('jwtNizag')
 
-        await this.loginPagoFacil();
-        await this.$cookies.set("jwtBancaWeb", response.data, 1);
-        //nuxtStorage.sessionStorage.setData('jwtNizag', response.data,1,'d');
-        //console.log(nuxtStorage.sessionStorage.getData('jwtNizag'));
-        this.$router.push("/dashboard");
-      } catch (error) 
-      {
+        //console.log(this.password)
+        if (response.status == 200) {
+          console.log(response);
+          //var sessionLogin = useCookie('jwtNizag')
+
+          await this.loginPagoFacil();
+          await this.$cookies.set("jwtBancaWeb", response.data, 1);
+          //nuxtStorage.sessionStorage.setData('jwtNizag', response.data,1,'d');
+          //console.log(nuxtStorage.sessionStorage.getData('jwtNizag'));
+          this.$router.push("/dashboard");
+        } else {
+          this.$notify({
+            message: "No existen datos disponibles",
+            timeout: 3000,
+            icon: "ni ni-bell-55",
+            type: "danger",
+          });
+        }
+      } catch (error) {
         console.log(error);
         if (error.response) {
           this.$notify({

@@ -174,14 +174,31 @@
             class="footercard"
             style="width: 100%; display: flex; justify-content: flex-end"
           >
-            <base-button @click="resetVideo" outline type="danger"
+            <base-button
+              v-if="
+                activeStepCreateAccount == 1 &&
+                photoCapturedCreateAccount == true
+              "
+              size="sm"
+              @click="resetVideo"
+              outline
+              type="danger"
               >Repetir</base-button
             >
-            <base-button outline @click="capturePhoto" type="success"
+            <base-button
+              v-if="
+                activeStepCreateAccount == 1 &&
+                photoCapturedCreateAccount == false
+              "
+              size="sm"
+              outline
+              @click="capturePhoto"
+              type="success"
               >Capturar</base-button
             >
             <base-button
-              v-if="activeStepCreateAccount != 2"
+              size="sm"
+              v-if="activeStepCreateAccount == 0"
               @click="onClickCreateAccountStep()"
               type="success"
               >Continuar</base-button
@@ -227,8 +244,8 @@ export default {
       passCreateAccount: null,
       passConfirmCreateAccount: null,
       responseClientCod: null,
-      responseWelcomeMsm:null,
-      uuidPhoto :null
+      responseWelcomeMsm: null,
+      uuidPhoto: null,
     };
   },
   methods: {
@@ -246,19 +263,19 @@ export default {
       }
     },
     async deleteImage(uuid) {
-  try {
-    // Crea una referencia al archivo que deseas eliminar
-    var storageRef = this.$fire.storage.ref().child(`face/${uuid}.jpg`);
+      try {
+        // Crea una referencia al archivo que deseas eliminar
+        var storageRef = this.$fire.storage.ref().child(`face/${uuid}.jpg`);
 
-    // Elimina el archivo
-    await storageRef.delete();
-    console.log("Imagen eliminada con éxito.");
-    return true; // Devuelve true si la eliminación fue exitosa
-  } catch (e) {
-    console.error("Error al eliminar la imagen:", e);
-    return false; // Devuelve false si hubo un error
-  }
-},
+        // Elimina el archivo
+        await storageRef.delete();
+        console.log("Imagen eliminada con éxito.");
+        return true; // Devuelve true si la eliminación fue exitosa
+      } catch (e) {
+        console.error("Error al eliminar la imagen:", e);
+        return false; // Devuelve false si hubo un error
+      }
+    },
     showProgressAlert() {
       swal.fire({
         text: `Por favor, espere un momento mientras procesamos su solicitud.`,
@@ -335,20 +352,23 @@ export default {
         var context = canvas.getContext("2d");
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        var imgCanvas = canvas.toDataURL("image/png")
+        var imgCanvas = canvas.toDataURL("image/png");
         /*this.photoFacilCreateAccount = canvas.toDataURL("image/png");
         this.photoCapturedCreateAccount = true;*/
         // Convertir base64 a Blob para subirlo a Firebase
-        var blob = this.dataURLtoBlob(imgCanvas)
+        var blob = this.dataURLtoBlob(imgCanvas);
         this.uuidPhoto = uuidv4(); // Asegúrate de tener un UUID o identificador único
-        var downloadURL = await this.uploadPictureFirebase(blob, this.uuidPhoto)
+        var downloadURL = await this.uploadPictureFirebase(
+          blob,
+          this.uuidPhoto
+        );
 
         if (downloadURL != null) {
           this.showProgressAlert();
           this.photoFacilCreateAccount = downloadURL;
           this.photoCapturedCreateAccount = true;
           this.validateFaceID(downloadURL);
-          swal.close();
+          //swal.close();
         }
 
         await this.stopVideo();
@@ -385,11 +405,25 @@ export default {
           }
         );
 
+        swal.close();
+
         if (response.status === 200) {
           this.responseClientCod = response.data.clien_cod_clien;
           this.responseWelcomeMsm = response.data.welcome_msm;
-          this.activeStepCreateAccount++;
-          await this.startVideo();
+
+          if ((await this.isExistAccountName()) == false) {
+            this.activeStepCreateAccount++;
+            await this.startVideo();
+          } else {
+            this.$notify({
+              message:
+                "Lo sentimos, ya posee una cuenta de cooperativa móvil/web.",
+              timeout: 4000,
+              icon: "ni ni-fat-remove",
+              type: "danger",
+            })
+            this.$router.push("/login")
+          }
         } else {
           this.$notify({
             message: "Lo sentimos, sus credenciales no han sido encontradas.",
@@ -411,21 +445,21 @@ export default {
     },
     async validateFaceID(downloadURL) {
       //console.log(this.responseClientCod)
-      console.log(downloadURL);
+      //console.log(downloadURL);
+      this.showProgressAlert();
       try {
         var response = await this.$axios.post(
           process.env.baseUrl + "/check_face_id/" + this.responseClientCod,
           {
             face_picture: downloadURL,
           }
-        )
+        );
 
-        swal.close()
+        swal.close();
 
         if (response.status == 200) {
-          if (response.data.similarity >= 70) 
-          {
-            this.deleteImage(this.uuidPhoto)
+          if (response.data.similarity >= 70) {
+            this.deleteImage(this.uuidPhoto);
             this.activeStepCreateAccount++;
           } else {
             this.$notify({
@@ -446,6 +480,7 @@ export default {
           });
         }
       } catch (error) {
+        swal.close();
         this.$notify({
           message:
             "Lo sentimos, no fue posible reconocer tus rasgos faciales 0 %",
@@ -565,39 +600,39 @@ export default {
     },
     async createAccount() {
       try {
-        if (this.validateFormCreateAccount()) 
-        {
-          this.showProgressAlert()
+        if (this.validateFormCreateAccount()) {
+          this.showProgressAlert();
 
-          if (await this.isExisteUsername())
-           {
-            var response = await this.$axios.post(process.env.baseUrl+"/createUserBanca", {
-              usuario_banca: this.userCreateAccount.trim(),
-              clien_cod_clien: this.responseClientCod,
-              contrasenia_banca: this.passCreateAccount.trim(),
-              welcome_msm: this.responseWelcomeMsm,
-            })
+          if (await this.isExisteUsername()) {
+            var response = await this.$axios.post(
+              process.env.baseUrl + "/createUserBanca",
+              {
+                usuario_banca: this.userCreateAccount.trim(),
+                clien_cod_clien: this.responseClientCod,
+                contrasenia_banca: this.passCreateAccount.trim(),
+                welcome_msm: this.responseWelcomeMsm,
+              }
+            );
 
-            if(response.status == 200)
-            {
-              swal.close()
+            if (response.status == 200) {
+              swal.close();
               this.$notify({
-              message:
-                "Su cuenta en la cooperativa virtual ha sido creada con éxito.",
-              timeout: 2000,
-              icon: "ni ni-check-bold",
-              type: "success",
-            })
-            this.$router.push("/login")
-            }else{
+                message:
+                  "Su cuenta en la cooperativa virtual ha sido creada con éxito.",
+                timeout: 2000,
+                icon: "ni ni-check-bold",
+                type: "success",
+              });
+              this.$router.push("/login");
+            } else {
               this.$notify({
-              message:
-                "Lo sentimos, no hemos podido crear su cuenta en la cooperativa virtual.",
-              timeout: 2000,
-              icon: "ni ni-fat-remove",
-              type: "danger",
-            })
-            swal.close()
+                message:
+                  "Lo sentimos, no hemos podido crear su cuenta en la cooperativa virtual.",
+                timeout: 2000,
+                icon: "ni ni-fat-remove",
+                type: "danger",
+              });
+              swal.close();
             }
           } else {
             swal.close();
@@ -609,7 +644,7 @@ export default {
               timeout: 4000,
               icon: "ni ni-fat-remove",
               type: "danger",
-            })
+            });
           }
         }
       } catch (error) {
@@ -620,6 +655,20 @@ export default {
           icon: "ni ni-fat-remove",
           type: "danger",
         });
+      }
+    },
+    async isExistAccountName() {
+      try {
+        var response = await this.$axios.get(
+          process.env.baseUrl + "/isExistAccount/" + this.responseClientCod
+        );
+        if (response.status == 200) {
+          return false;
+        } else {
+          return true;
+        }
+      } catch (error) {
+        return true;
       }
     },
   },
