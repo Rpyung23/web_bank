@@ -85,7 +85,7 @@ import { getBase64LogoReportes } from "../util/base64Img";
 import {eliminarcaractExpecial} from "../util/functions"
 
 import CardPrestamo from "@/components/argon-core/Cards/CardPrestamo";
-
+import { setupInactivityTimer } from "../util/functions";
 export default {
   layout: "DashboardLayout",
   components: {
@@ -96,6 +96,7 @@ export default {
       mListCreditBank: [],
       isTablaAmortizacion: false,
       baseURlPDFTablaAmortizacion: null,
+      cleanUpInactivityTimer : null
     };
   },
   methods: {
@@ -255,8 +256,14 @@ export default {
     },
   },
   mounted() {
-    //this.initBigChart(0);
-    this.readAllCreditBank();
+    //this.initBigChart(0)
+    this.cleanUpInactivityTimer = setupInactivityTimer(this.$cookies, this.$router)
+    this.readAllCreditBank()
+  },
+  beforeDestroy() {
+    if (this.cleanUpInactivityTimer) {
+      this.cleanUpInactivityTimer();
+    }
   },
 };
 </script>

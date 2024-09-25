@@ -107,20 +107,23 @@
       </el-steps>
 
       <div v-if="stepModalService == 0" class="step0" style="margin-top: 1rem">
-        <form>
-          <base-input
+        <base-input
             label="Contrapartida"
             v-model="valueContrapartida"
             placeholder="Ejemplo : 060259978652"
           />
-          <base-button
+          <div class="row" style="display: flex;justify-content: end;">
+            <div class="col-4">
+              <base-button
             class="btn-block btn-icon"
-            type="primary"
+            type="success"
+            size="sm"
             @click="readDetallePagoService()"
             icon="ni ni-bag-17"
             >Buscar</base-button
           >
-        </form>
+            </div>
+          </div>
       </div>
 
       <div v-if="stepModalService == 1" class="step1">
@@ -265,6 +268,7 @@ export default {
       });
     },
     async readAllService() {
+      console.log(this.$jwtBancaWeb().token)
       this.mListService = [];
       try {
         var response = await this.$axios.get(
@@ -281,6 +285,7 @@ export default {
           this.mListService.push(...response.data);
         }
       } catch (error) {
+        console.log("ERROR readAllService..")
         console.log(error);
       }
     },

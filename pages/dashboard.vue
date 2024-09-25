@@ -67,6 +67,7 @@
   </div>
 </template>
 <script>
+import { setupInactivityTimer } from "../util/functions";
 import pdfMake from "pdfmake/build/pdfmake.js";
 import pdfFonts from "pdfmake/build/vfs_fonts.js";
 
@@ -92,6 +93,7 @@ export default {
       baseURlPDFMiQR: null,
       oSelectAccount: null,
       mListAccountClient: [],
+      cleanUpInactivityTimer : null
     };
   },
   methods: {
@@ -162,7 +164,13 @@ export default {
   },
   mounted() {
     //this.initBigChart(0);
+    this.cleanUpInactivityTimer = setupInactivityTimer(this.$cookies, this.$router);
     this.readAccountClient();
+  },
+  beforeDestroy() {
+    if (this.cleanUpInactivityTimer) {
+      this.cleanUpInactivityTimer();
+    }
   },
 };
 </script>

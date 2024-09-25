@@ -36,7 +36,7 @@
 
 
 // Tables
-
+import { setupInactivityTimer } from "../util/functions";
 import PageContactTable from "@/components/pages/dashboard/PageContactTable.vue";
 
 export default {
@@ -46,13 +46,19 @@ export default {
   },
   data() {
     return {
-      
+      cleanUpInactivityTimer : null
     };
   },
   methods: {
 
   },
   mounted() {
+    this.cleanUpInactivityTimer = setupInactivityTimer(this.$cookies, this.$router);
+  },
+  beforeDestroy() {
+    if (this.cleanUpInactivityTimer) {
+      this.cleanUpInactivityTimer();
+    }
   },
 };
 </script>

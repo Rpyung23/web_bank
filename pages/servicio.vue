@@ -42,7 +42,7 @@ import StatsCard from "@/components/argon-core/Cards/StatsCard";
 // Tables
 
 import ComponentPageServiceTable from "@/components/pages/dashboard/PageServiceTable.vue";
-
+import { setupInactivityTimer } from "../util/functions";
 export default {
   layout: "DashboardLayout",
   components: {
@@ -51,11 +51,18 @@ export default {
   },
   data() {
     return {    
+      cleanUpInactivityTimer : null
     };
   },
   methods: {
   },
   mounted() {
+    this.cleanUpInactivityTimer = setupInactivityTimer(this.$cookies, this.$router);
+  },
+  beforeDestroy() {
+    if (this.cleanUpInactivityTimer) {
+      this.cleanUpInactivityTimer();
+    }
   },
 };
 </script>

@@ -48,7 +48,7 @@
   </div>
 </template>
 <script>
-
+import { setupInactivityTimer } from "../util/functions";
 import CardInvestment from "@/components/argon-core/Cards/CardInvestment";
 
 export default {
@@ -59,6 +59,7 @@ export default {
   data() {
     return {
       mListInvestment: [],
+      cleanUpInactivityTimer : null
     };
   },
   methods: {
@@ -88,7 +89,13 @@ export default {
   },
   mounted() {
     //this.initBigChart(0);
-    this.readAllInvesment();
+    this.cleanUpInactivityTimer = setupInactivityTimer(this.$cookies, this.$router)
+    this.readAllInvesment()
+  },
+  beforeDestroy() {
+    if (this.cleanUpInactivityTimer) {
+      this.cleanUpInactivityTimer();
+    }
   },
 };
 </script>

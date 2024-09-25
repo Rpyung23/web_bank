@@ -54,9 +54,16 @@
                   <base-button
                     type="success"
                     native-type="submit"
+                    size="sm"
                     class="my-4"
                     @click="onSubmit()"
                     >Ingresar</base-button
+                  >
+                </div>
+
+                <div class="col-12 text-center">
+                  <router-link to="/create" class="text-success"
+                    ><small>Crear una nueva cuenta</small></router-link
                   >
                 </div>
               </div>
@@ -64,31 +71,40 @@
           </div>
           <div class="row mt-3">
             <div class="col-6">
-              <router-link to="/dashboard" class="text-light"
-                ><small>Has olvidado tu contraseña?</small></router-link
+              <small
+                class="text-light"
+                @click="onClickShowmodalRecoveryPass('p')"
+                >Has olvidado tu contraseña?</small
               >
             </div>
+
             <div class="col-6 text-right">
-              <router-link to="/create" class="text-light"
-                ><small>Crear una nueva cuenta</small></router-link
-              >
+              <small class="text-light" @click="onClickShowmodalRecoveryPass('u')">Has olvidado tu usuario?</small>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <modal size="lg" :show.sync="modalCreateAccount">
+    <modal size="lg" :show.sync="modalRecoveryPass">
       <template slot="header">
-        <el-steps
-          style="width: 100%"
-          :active="activeStepCreateAccount"
-          finish-status="success"
+        <div
+          class="headerModalRecPassUsername"
+          style="width: 100%; display: flex; flex-direction: column"
         >
-          <el-step title="Verifica tu identidad"></el-step>
-          <el-step title="Verificación facial"></el-step>
-          <el-step title="Crea tu usuario y contraseña"></el-step>
-        </el-steps>
+          <h2>
+            <strong style="color:#525f7f">{{ titleModalRecoveryPassUsername }}</strong>
+          </h2>
+          <el-steps
+            style="width: 100%; margin-top: 1rem"
+            :active="activeStepCreateAccount"
+            finish-status="success"
+          >
+            <el-step title="Verifica tu identidad"></el-step>
+            <el-step title="Verificación facial"></el-step>
+            <el-step :title="titleStep3"></el-step>
+          </el-steps>
+        </div>
       </template>
 
       <div class="stepcreate1" v-if="activeStepCreateAccount == 0">
@@ -124,15 +140,15 @@
               ref="video"
               style="
                 border-radius: 50%;
-                width: calc(50vh);
-                height: calc(50vh);
+                width: calc(45vh);
+                height: calc(45vh);
                 object-fit: cover;
                 border: 0.1rem solid #144c24;
               "
               autoplay
               playsinline
             ></video>
-            <base-button
+            <!--<base-button
               @click="capturePhoto"
               outline
               size="sm"
@@ -143,15 +159,15 @@
                 ><i class="ni ni-camera-compact"></i
               ></span>
             </base-button>
-            <!--<button @click="capturePhoto">Capturar Foto</button>-->
+            <button @click="capturePhoto">Capturar Foto</button>-->
           </div>
 
           <div v-if="photoCapturedCreateAccount">
             <img
               style="
                 border-radius: 50%;
-                width: calc(50vh);
-                height: calc(50vh);
+                width: calc(45vh);
+                height: calc(45vh);
                 object-fit: cover;
                 border: 0.1rem solid #144c24;
               "
@@ -159,7 +175,7 @@
               alt="Foto Capturada"
             />
 
-            <base-button
+            <!--<base-button
               @click="resetVideo"
               outline
               size="sm"
@@ -170,22 +186,12 @@
                 ><i class="ni ni-fat-remove"></i
               ></span>
             </base-button>
-            <!--<button @click="resetVideo">Tomar otra foto</button>-->
+            <button @click="resetVideo">Tomar otra foto</button>-->
           </div>
         </div>
       </div>
 
-      <div class="stepcreate3" v-if="activeStepCreateAccount == 2">
-        <div class="row">
-          <div class="col-md-12">
-            <base-input
-              label="Usuario Cooperativa Web/Móvil"
-              name="Usuario Cooperativa Web/Móvil"
-              prepend-icon="ni ni-single-02"
-              placeholder="Usuario Cooperativa Web/Móvil"
-            ></base-input>
-          </div>
-        </div>
+      <div class="stepcreate3" v-if="activeStepCreateAccount == 2 && typeRecoveryPassUser == 'p'">
         <div class="row">
           <div class="col-md-6">
             <base-input
@@ -193,12 +199,16 @@
               name="Contraseña"
               prepend-icon="ni ni-key-25"
               placeholder="Contraseña"
+              type="password"
+              v-model="passCreateAccount"
             ></base-input>
           </div>
           <div class="col-md-6">
             <base-input
               label="Confirmar contraseña"
               name="Confirmar contraseña"
+              type="password"
+              v-model="passConfirmCreateAccount"
               prepend-icon="ni ni-key-25"
               placeholder="Confirmar contraseña"
             ></base-input>
@@ -206,11 +216,62 @@
         </div>
       </div>
 
-      <template slot="footer">
+
+      <div class="stepcreate3" v-if="activeStepCreateAccount == 2 && typeRecoveryPassUser == 'u'">
+
+      <div class="size"></div>
+        <span style="margin-top: 1rem"
+          >Estamado socio(a) le recordamos que el Usuario de su Coopertiva Virtual es :  
+          <strong style="color: #144c24"
+            >{{ userNameRecovery }}</strong
+          ><br>Le recordamos mantener en un lugar seguro sus credenciales de acceso.</span
+        >
+        
+      </div>
+
+      <template
+        slot="footer"
+        style="width: 100%; display: flex; justify-content: flex-end"
+      >
         <div></div>
-        <base-button @click="onClickCreateAccountStep()" type="success"
+
+        <base-button
+          v-if="
+            activeStepCreateAccount == 1 && photoCapturedCreateAccount == true
+          "
+          size="sm"
+          @click="resetVideo"
+          outline
+          type="danger"
+          >Repetir</base-button
+        >
+        <base-button
+          v-if="
+            activeStepCreateAccount == 1 && photoCapturedCreateAccount == false
+          "
+          size="sm"
+          outline
+          @click="capturePhoto"
+          type="success"
+          >Capturar</base-button
+        >
+
+        <base-button
+          v-if="activeStepCreateAccount == 0"
+          @click="onClickCreateAccountStep()"
+          type="success"
+          size="sm"
           >Continuar</base-button
         >
+
+        <base-button
+          v-if="activeStepCreateAccount == 2 && typeRecoveryPassUser == 'p'"
+          @click="onResetPassword()"
+          type="success"
+          size="sm"
+          >Restablecer Contraseña</base-button
+        >
+
       </template>
     </modal>
 
@@ -235,6 +296,8 @@
 </template>
 
 <script>
+import { isUsernameValid, isPasswordValid } from "../util/functions";
+import { v4 as uuidv4 } from "uuid";
 import { setupInactivityTimer } from "../util/functions";
 import nuxtStorage from "nuxt-storage";
 import swal from "sweetalert2";
@@ -250,7 +313,7 @@ export default {
     return {
       email: "",
       password: "",
-      modalCreateAccount: false,
+      modalRecoveryPass: false,
       activeStepCreateAccount: 0,
       photoCapturedCreateAccount: false,
       photoFacilCreateAccount: "",
@@ -259,13 +322,157 @@ export default {
       numberCodDactilarCreateAccount: null,
       userCreateAccount: null,
       passCreateAccount: null,
-      passconfirmCreateAccount: null,
+      passConfirmCreateAccount: null,
       responseClientCod: null,
       modalTermCondi: false,
       urlTermCondi: null,
+      titleModalRecoveryPassUsername: "Recuperar Nombre de Usuario",
+      titleStep3 : "Restablecer Contraseña",
+      uuidPhoto: null,
+      typeRecoveryPassUser:"p",
+      userNameRecovery:""
     };
   },
   methods: {
+    async recoveryUsername()
+    {
+      try {
+        this.showProgressAlert()
+      var response = await this.$axios.get(process.env.baseUrl+"/recoveryUsername/"+this.responseClientCod)
+      console.log(response)
+      swal.close()
+      if(response.status == 200){
+        this.userNameRecovery = response.data.pk_usuario_banca
+      }else{
+        this.$notify({
+          message:
+            "Lo sentimos, no fue posible encontrar su usuario de la cooperativa virtual.",
+          timeout: 3000,
+          icon: "ni ni-fat-remove",
+          type: "danger",
+        })
+      }
+      } catch (error) {
+        console.log(error)
+        swal.close()
+        this.$notify({
+          message:
+            "Lo sentimos, no fue posible encontrar su usuario de la cooperativa virtual.",
+          timeout: 3000,
+          icon: "ni ni-fat-remove",
+          type: "danger",
+        })
+      }
+    },
+    validateForm(){
+      
+      if (this.passCreateAccount == null || this.passCreateAccount == "") {
+        this.$notify({
+          message: "Por favor ingrese su contraseña de la cooperativa virtual",
+          timeout: 2000,
+          icon: "ni ni-fat-remove",
+          type: "danger",
+        });
+        return false;
+      }
+
+      if (
+        this.passConfirmCreateAccount == null ||
+        this.passConfirmCreateAccount == ""
+      ) {
+        this.$notify({
+          message: "Por favor ingrese su contraseña de la cooperativa virtual",
+          timeout: 2000,
+          icon: "ni ni-fat-remove",
+          type: "danger",
+        });
+        return false;
+      }
+
+      if (isPasswordValid(this.passCreateAccount) == false) {
+        this.$notify({
+          message:
+            "Lo sentimos, tu contraseña no es válida. Debe tener entre 8 y 16 caracteres, incluir al menos un número, una letra mayúscula, una letra minúscula y uno de los siguientes caracteres especiales: _*?!@#$/(){}=.,:;",
+          timeout: 4000,
+          icon: "ni ni-fat-remove",
+          type: "danger",
+        });
+        return false;
+      }
+
+      if (this.passCreateAccount != this.passConfirmCreateAccount) {
+        this.$notify({
+          message:
+            "Lo sentimos, su usuario de la cooperativa virtual no coincide",
+          timeout: 2000,
+          icon: "ni ni-fat-remove",
+          type: "danger",
+        });
+        return false;
+      }
+
+      return true
+    },
+    async onResetPassword()
+    {
+      if(this.validateForm() == false)
+      {
+        return
+      }
+
+      this.showProgressAlert()
+
+      var response = await this.$axios.put(process.env.baseUrl+"/recovery_update_password",{
+        idClient: this.responseClientCod, passw: this.passCreateAccount
+      })
+      this.modalRecoveryPass = false
+      swal.close()
+
+      if(response.status == 200)
+      {
+        this.$notify({
+            message: "Su contraseña ha sido actualizada con éxito.",
+            timeout: 2000,
+            icon: "ni ni-check-bold",
+            type: "success",
+          })
+      }else{
+        this.$notify({
+              message:
+                "Lo sentimos, no fue posible actualizar su contraseña.",
+              timeout: 2000,
+              icon: "ni ni-fat-remove",
+              type: "danger",
+            });
+      }
+    },
+    async uploadPictureFirebase(imageFile, uuid) {
+      try {
+        var storageRef = this.$fire.storage.ref().child(`face/${uuid}.jpg`);
+
+        var snapshot = await storageRef.put(imageFile);
+        //alert("File uploaded.");
+        var downloadURL = await snapshot.ref.getDownloadURL();
+        return downloadURL;
+      } catch (e) {
+        console.error("Error al subir la imagen:", e);
+        return null;
+      }
+    },
+    async deleteImage(uuid) {
+      try {
+        // Crea una referencia al archivo que deseas eliminar
+        var storageRef = this.$fire.storage.ref().child(`face/${uuid}.jpg`);
+
+        // Elimina el archivo
+        await storageRef.delete();
+        console.log("Imagen eliminada con éxito.");
+        return true; // Devuelve true si la eliminación fue exitosa
+      } catch (e) {
+        console.error("Error al eliminar la imagen:", e);
+        return false; // Devuelve false si hubo un error
+      }
+    },
     async obtenerIPLocal() {
       return new Promise(function (resolve, reject) {
         var pc = new RTCPeerConnection({
@@ -382,10 +589,11 @@ export default {
           );
 
           //console.log(this.password)
-          if (response.status == 200) {
-            await this.loginPagoFacil();
+          if (response.status == 200) 
+          {
             await this.$cookies.set("jwtBancaWeb", response.data, 1);
-
+            await this.loginPagoFacil();
+            
             if (response.data.accept_term_condition == 0) {
               swal.close();
               this.modalTermCondi = true;
@@ -424,8 +632,30 @@ export default {
 
       swal.close();
     },
-    onClickShowModalCreateAccount() {
-      this.modalCreateAccount = !this.modalCreateAccount;
+    async cleanModalRecoveryPass(){
+      this.passCreateAccount = null
+      this.passConfirmCreateAccount = null
+      this.numberDniPassCreateAccount = null
+      this.numberCodDactilarCreateAccount = null
+      this.photoCapturedCreateAccount = false
+      this.photoFacilCreateAccount = null
+      this.userNameRecovery = ""
+    },
+    onClickShowmodalRecoveryPass(type) 
+    {
+      this.activeStepCreateAccount = 0
+      this.typeRecoveryPassUser = type
+
+      this.cleanModalRecoveryPass()
+
+      if (type == "p") {
+        this.titleModalRecoveryPassUsername = "Restabler Contraseña";
+        this.titleStep3 = "Restablecer Contraseña"
+      } else if (type == 'u') {
+        this.titleModalRecoveryPassUsername = "Recuperar Nombre de Usuario";
+        this.titleStep3 = "Usuario Cooperativa Virtual"
+      }
+      this.modalRecoveryPass = !this.modalRecoveryPass;
     },
     async onClickCreateAccountStep() {
       //this.startVideo();
@@ -474,17 +704,108 @@ export default {
         console.error("Error accediendo a la cámara:", error);
       }
     },
+    dataURLtoBlob(dataURL) {
+      const byteString = atob(dataURL.split(",")[1]);
+      const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
+
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+
+      return new Blob([ab], { type: mimeString });
+    },
     async capturePhoto() {
-      ///await this.startVideo()
-      const video = this.$refs.video;
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const context = canvas.getContext("2d");
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      this.photoFacilCreateAccount = canvas.toDataURL("image/png");
-      this.photoCapturedCreateAccount = true;
-      await this.stopVideo();
+      try {
+        var video = this.$refs.video;
+        var canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        var context = canvas.getContext("2d");
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        var imgCanvas = canvas.toDataURL("image/png");
+        /*this.photoFacilCreateAccount = canvas.toDataURL("image/png");
+        this.photoCapturedCreateAccount = true;*/
+        // Convertir base64 a Blob para subirlo a Firebase
+        var blob = this.dataURLtoBlob(imgCanvas);
+        this.uuidPhoto = uuidv4(); // Asegúrate de tener un UUID o identificador único
+        var downloadURL = await this.uploadPictureFirebase(
+          blob,
+          this.uuidPhoto
+        );
+
+        if (downloadURL != null) {
+          this.showProgressAlert();
+          this.photoFacilCreateAccount = downloadURL;
+          this.photoCapturedCreateAccount = true;
+          this.validateFaceID(downloadURL);
+          //swal.close();
+        }
+
+        await this.stopVideo();
+      } catch (error) {
+        console.log("CATCH capturePhoto");
+        console.log(error);
+      }
+    },
+    async validateFaceID(downloadURL) {
+      //console.log(this.responseClientCod)
+      //console.log(downloadURL);
+      this.showProgressAlert();
+      try {
+        var response = await this.$axios.post(
+          process.env.baseUrl + "/check_face_id/" + this.responseClientCod,
+          {
+            face_picture: downloadURL,
+          }
+        );
+
+        swal.close()
+
+        console.log("_________________RESPoNSE FACEID")
+        console.log(response)
+
+        if (response.status == 200) 
+        {
+          if (response.data.similarity >= 70) 
+          {
+            this.deleteImage(this.uuidPhoto);
+            
+            if(this.typeRecoveryPassUser == 'u')
+            {
+              this.recoveryUsername()
+            }
+            this.activeStepCreateAccount++
+          } else {
+            this.$notify({
+              message:
+                "Lo sentimos, no fue posible reconocer tus rasgos faciales 0 %",
+              timeout: 2000,
+              icon: "ni ni-fat-remove",
+              type: "danger",
+            });
+          }
+        } else {
+          this.$notify({
+            message:
+              "Lo sentimos, no fue posible reconocer tus rasgos faciales 0 %",
+            timeout: 2000,
+            icon: "ni ni-fat-remove",
+            type: "danger",
+          });
+        }
+      } catch (error) {
+        swal.close();
+        this.$notify({
+          message:
+            "Lo sentimos, no fue posible reconocer tus rasgos faciales 0 %",
+          timeout: 2000,
+          icon: "ni ni-fat-remove",
+          type: "danger",
+        })
+      }
     },
     stopVideo() {
       const video = this.$refs.video;
@@ -499,6 +820,7 @@ export default {
       await this.startVideo();
     },
     async validateDniCodDac() {
+      this.showProgressAlert();
       try {
         var response = await this.$axios.post(
           process.env.baseUrl + "/check_dni",
@@ -508,6 +830,8 @@ export default {
             searchDni: true,
           }
         );
+
+        swal.close();
 
         if (response.status == 200) {
           this.responseClientCod = response.data.clien_cod_clien;
@@ -523,9 +847,9 @@ export default {
         }
         console.log(response.data);
       } catch (error) {
-        console.log(error);
+        swal.close();
         this.$notify({
-          message: error.toString(),
+          message: "Lo sentimos, sus credenciales no han sido encontradas.",
           timeout: 2000,
           icon: "ni ni-fat-remove",
           type: "danger",
@@ -537,7 +861,8 @@ export default {
       //console.log(this.$jwtBancaWeb().token)
       try {
         var response = await this.$axios.put(
-          `${process.env.baseUrl}/accepTermCond`,{},
+          `${process.env.baseUrl}/accepTermCond`,
+          {},
           {
             headers: {
               Authorization: this.$jwtBancaWeb().token,
@@ -545,7 +870,7 @@ export default {
           }
         );
 
-        swal.close()
+        swal.close();
 
         if (response.status == 200) {
           this.$router.push("/dashboard");
@@ -581,3 +906,9 @@ export default {
   },
 };
 </script>
+<style>
+.el-step__title.is-process {
+    font-weight: 600;
+    color: #525f7f;
+}
+</style>

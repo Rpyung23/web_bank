@@ -14,7 +14,7 @@
           "
         >
           <base-button size="sm" type="success" @click="showModalAddContact()"
-            >NUEVO CONTACTO</base-button
+            >Nuevo Contacto</base-button
           >
         </div>
       </div>
@@ -140,7 +140,7 @@
             <base-button
               v-if="isSearchAccountLocal"
               icon
-              type="primary"
+              type="success"
               @click="readDataContactLocal()"
               style="margin-left: 0.5rem"
               size="sm"
@@ -231,8 +231,9 @@
         <div></div>
         <base-button
           v-if="activiButtonSaveContact"
+          size="sm"
           @click="onClickButtonCreateContactModal()"
-          type="primary"
+          type="success"
           >Guardar Contacto</base-button
         >
       </template>

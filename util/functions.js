@@ -148,6 +148,7 @@ export function isUsernameValid(username) {
 
 
 export function isPasswordValid(password) {
+  
   const lengthValid = password.length >= 8 && password.length <= 16;
   const containsNumber = /[0-9]/.test(password);
   const containsUppercase = /[A-Z]/.test(password);

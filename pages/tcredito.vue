@@ -39,7 +39,7 @@
 // Tables
 
 import PageTCreditoTable from "@/components/pages/dashboard/PageTCreditoTable.vue";
-
+import { setupInactivityTimer } from "../util/functions";
 export default {
   layout: "DashboardLayout",
   components: {
@@ -47,13 +47,19 @@ export default {
   },
   data() {
     return {
-      
+      cleanUpInactivityTimer : null
     };
   },
   methods: {
 
   },
   mounted() {
+    this.cleanUpInactivityTimer = setupInactivityTimer(this.$cookies, this.$router);
+  },
+  beforeDestroy() {
+    if (this.cleanUpInactivityTimer) {
+      this.cleanUpInactivityTimer();
+    }
   },
 };
 </script>

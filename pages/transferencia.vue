@@ -281,7 +281,7 @@
 import { Select, Option } from "element-ui";
 import swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
-
+import { setupInactivityTimer } from "../util/functions";
 export default {
   name: "form-components",
   layout: "DashboardLayout",
@@ -304,6 +304,7 @@ export default {
       oComisionTransfer: null,
       isComprobante: false,
       isExterno : 0,
+      cleanUpInactivityTimer : null,
       oItemLastTransaction: {
         mctad_num_ttran: 0,
         tmovi_des_tmovi: "",
@@ -652,9 +653,15 @@ export default {
     },
   },
   mounted() {
-    this.readMyContact();
-    this.reasMyAccount();
-    this.readComisionTransfer();
+    this.cleanUpInactivityTimer = setupInactivityTimer(this.$cookies, this.$router)
+    this.readMyContact()
+    this.reasMyAccount()
+    this.readComisionTransfer()
+  },
+  beforeDestroy() {
+    if (this.cleanUpInactivityTimer) {
+      this.cleanUpInactivityTimer();
+    }
   },
 };
 </script>

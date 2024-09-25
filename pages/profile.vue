@@ -24,14 +24,26 @@
   import EditProfileForm from '~/components/pages/UserProfile/EditProfileForm.vue';
   import UserCard from '~/components/pages/UserProfile/UserCard.vue';
   import ProgressTrackList from '~/components/widgets/ProgressTrackList.vue';
-
+  import { setupInactivityTimer } from "../util/functions";
   export default {
     layout: 'DashboardLayout',
     components: {
       EditProfileForm,
       UserCard,
       ProgressTrackList
+    },  mounted() {
+    this.cleanUpInactivityTimer = setupInactivityTimer(this.$cookies, this.$router);
+  },
+  data(){
+    return {
+      cleanUpInactivityTimer : null
     }
+  },
+  beforeDestroy() {
+    if (this.cleanUpInactivityTimer) {
+      this.cleanUpInactivityTimer();
+    }
+  },
   };
 </script>
 <style>
