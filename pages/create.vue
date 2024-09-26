@@ -407,6 +407,8 @@ export default {
 
         swal.close();
 
+        //console.log(response)
+
         if (response.status === 200) {
           this.responseClientCod = response.data.clien_cod_clien;
           this.responseWelcomeMsm = response.data.welcome_msm;
@@ -453,7 +455,10 @@ export default {
           {
             face_picture: downloadURL,
           }
-        );
+        )
+
+        console.log(response)
+        console.log(response.data.similarity)
 
         swal.close();
 
@@ -480,6 +485,7 @@ export default {
           });
         }
       } catch (error) {
+        console.log(error)
         swal.close();
         this.$notify({
           message:

@@ -620,14 +620,12 @@ export default {
         }
       } catch (error) {
         console.log(error);
-        if (error.response) {
-          this.$notify({
-            message: error.response.data.msm,
+        this.$notify({
+            message: "Lo sentimos, no hemos podido encontrar los términos y condiciones.",
             timeout: 3000,
             icon: "ni ni-bell-55",
             type: "danger",
-          });
-        }
+          })
       }
 
       swal.close();
