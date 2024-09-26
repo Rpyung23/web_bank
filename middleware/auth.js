@@ -5,10 +5,12 @@ export default function ({ route, redirect, $cookies })
 {
 
     // Rutas públicas que no requieren autenticación
-    const publicPaths = ["/login", "/register", "/"];
+    const publicPaths = ["/login", "/create", "/"];
   
     // Si estamos en una ruta pública, no hacemos nada
     if (publicPaths.includes(route.path)) {
+      $cookies.remove('jwtBancaWeb'); // Elimina el JWT
+      $cookies.remove('jwtBancaWebPagoFacil'); // Elimina el JWT
       return;
     }
   
