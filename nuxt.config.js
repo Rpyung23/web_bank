@@ -1,24 +1,12 @@
-/*!
-
-=========================================================
-* Nuxt Argon Dashboard PRO - v1.4.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/nuxt-argon-dashboard-pro
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Coded by www.creative-tim.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
 const pkg = require("./package");
 console.log("ENV", process.env.NODE_ENV);
 
 module.exports = {
+  server: {
+    port: 3010, // Cambia este número al puerto que desees (por ejemplo, 3010)
+    host: '0.0.0.0' // Esto permite que la aplicación sea accesible en la red local
+  },
+  
   router: {
     base: "/",
     linkExactActiveClass: "active",
