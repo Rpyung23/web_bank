@@ -1,8 +1,8 @@
 {
-  "name": "nuxt-argon-dashboard-pro",
-  "version": "1.4.0",
-  "description": "Nuxt version of the Vue Argon Dashboard Pro",
-  "author": "Creative Tim",
+  "name": "coacnizagltda",
+  "version": "1.0.0",
+  "description": "Cooperativa De Ahorro Y Credito Nizag Ltda",
+  "author": "COAC NIZAG LTDA",
   "private": true,
   "scripts": {
     "dev": "nuxt",
