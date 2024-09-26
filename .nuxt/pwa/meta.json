@@ -1,5 +1,5 @@
 {
-  "title": "nuxt-argon-dashboard-pro",
+  "title": "coacnizagltda",
   "meta": [
     {
       "hid": "charset",
@@ -18,7 +18,7 @@
     {
       "hid": "apple-mobile-web-app-title",
       "name": "apple-mobile-web-app-title",
-      "content": "nuxt-argon-dashboard-pro"
+      "content": "coacnizagltda"
     },
     {
       "hid": "og:type",
@@ -30,19 +30,19 @@
       "hid": "og:title",
       "name": "og:title",
       "property": "og:title",
-      "content": "nuxt-argon-dashboard-pro"
+      "content": "coacnizagltda"
     },
     {
       "hid": "og:site_name",
       "name": "og:site_name",
       "property": "og:site_name",
-      "content": "nuxt-argon-dashboard-pro"
+      "content": "coacnizagltda"
     }
   ],
   "link": [
     {
       "rel": "manifest",
-      "href": "/_nuxt/manifest.5d9a2a5d.json",
+      "href": "/_nuxt/manifest.eb567608.json",
       "hid": "manifest"
     }
   ],

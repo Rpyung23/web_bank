@@ -3,10 +3,10 @@ console.log("ENV", process.env.NODE_ENV);
 
 module.exports = {
   server: {
-    port: 3010, // Cambia este número al puerto que desees (por ejemplo, 3010)
+    port: 3000, // Cambia este número al puerto que desees (por ejemplo, 3010)
     host: '0.0.0.0' // Esto permite que la aplicación sea accesible en la red local
   },
-  
+
   router: {
     base: "/",
     linkExactActiveClass: "active",
