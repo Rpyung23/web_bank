@@ -129,7 +129,7 @@ module.exports = {
 
   env: {
     baseUrl: "https://8f08ub5vwb.execute-api.us-east-2.amazonaws.com/prod",
-    nameCoop: "Cooperativa De Ahorro Y Credito Nizag Ltda",
+    nameCoop: "Cooperativa De Ahorro Y Crédito Nizag Ltda",
     nameCoopCorto: "COOPERATIVA NIZAG LTDA",
     CLAVE_TOKEN: "B@NKserverECU@DoR2o24*_/",
   },

@@ -62,7 +62,7 @@
           <base-button
             size="sm"
             outline
-            type="primary"
+            type="success"
             @click="showModalComprobante(row)"
             >Comprobante</base-button
           >

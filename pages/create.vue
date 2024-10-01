@@ -629,7 +629,7 @@ export default {
                 icon: "ni ni-check-bold",
                 type: "success",
               });
-              this.$router.push("/login");
+              this.$router.push("/");
             } else {
               this.$notify({
                 message:

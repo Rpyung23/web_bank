@@ -79,7 +79,11 @@
             </div>
 
             <div class="col-6 text-right">
-              <small class="text-light" @click="onClickShowmodalRecoveryPass('u')">Has olvidado tu usuario?</small>
+              <small
+                class="text-light"
+                @click="onClickShowmodalRecoveryPass('u')"
+                >Has olvidado tu usuario?</small
+              >
             </div>
           </div>
         </div>
@@ -93,7 +97,9 @@
           style="width: 100%; display: flex; flex-direction: column"
         >
           <h2>
-            <strong style="color:#525f7f">{{ titleModalRecoveryPassUsername }}</strong>
+            <strong style="color: #525f7f">{{
+              titleModalRecoveryPassUsername
+            }}</strong>
           </h2>
           <el-steps
             style="width: 100%; margin-top: 1rem"
@@ -191,7 +197,10 @@
         </div>
       </div>
 
-      <div class="stepcreate3" v-if="activeStepCreateAccount == 2 && typeRecoveryPassUser == 'p'">
+      <div
+        class="stepcreate3"
+        v-if="activeStepCreateAccount == 2 && typeRecoveryPassUser == 'p'"
+      >
         <div class="row">
           <div class="col-md-6">
             <base-input
@@ -216,17 +225,18 @@
         </div>
       </div>
 
-
-      <div class="stepcreate3" v-if="activeStepCreateAccount == 2 && typeRecoveryPassUser == 'u'">
-
-      <div class="size"></div>
+      <div
+        class="stepcreate3"
+        v-if="activeStepCreateAccount == 2 && typeRecoveryPassUser == 'u'"
+      >
+        <div class="size"></div>
         <span style="margin-top: 1rem"
-          >Estamado socio(a) le recordamos que el Usuario de su Coopertiva Virtual es :  
-          <strong style="color: #144c24"
-            >{{ userNameRecovery }}</strong
-          ><br>Le recordamos mantener en un lugar seguro sus credenciales de acceso.</span
+          >Estamado socio(a) le recordamos que el Usuario de su Coopertiva
+          Virtual es :
+          <strong style="color: #144c24">{{ userNameRecovery }}</strong
+          ><br />Le recordamos mantener en un lugar seguro sus credenciales de
+          acceso.</span
         >
-        
       </div>
 
       <template
@@ -271,7 +281,6 @@
           size="sm"
           >Restablecer Contraseña</base-button
         >
-
       </template>
     </modal>
 
@@ -327,45 +336,45 @@ export default {
       modalTermCondi: false,
       urlTermCondi: null,
       titleModalRecoveryPassUsername: "Recuperar Nombre de Usuario",
-      titleStep3 : "Restablecer Contraseña",
+      titleStep3: "Restablecer Contraseña",
       uuidPhoto: null,
-      typeRecoveryPassUser:"p",
-      userNameRecovery:""
+      typeRecoveryPassUser: "p",
+      userNameRecovery: "",
     };
   },
   methods: {
-    async recoveryUsername()
-    {
+    async recoveryUsername() {
       try {
-        this.showProgressAlert()
-      var response = await this.$axios.get(process.env.baseUrl+"/recoveryUsername/"+this.responseClientCod)
-      console.log(response)
-      swal.close()
-      if(response.status == 200){
-        this.userNameRecovery = response.data.pk_usuario_banca
-      }else{
-        this.$notify({
-          message:
-            "Lo sentimos, no fue posible encontrar su usuario de la cooperativa virtual.",
-          timeout: 3000,
-          icon: "ni ni-fat-remove",
-          type: "danger",
-        })
-      }
+        this.showProgressAlert();
+        var response = await this.$axios.get(
+          process.env.baseUrl + "/recoveryUsername/" + this.responseClientCod
+        );
+        console.log(response);
+        swal.close();
+        if (response.status == 200) {
+          this.userNameRecovery = response.data.pk_usuario_banca;
+        } else {
+          this.$notify({
+            message:
+              "Lo sentimos, no fue posible encontrar su usuario de la cooperativa virtual.",
+            timeout: 3000,
+            icon: "ni ni-fat-remove",
+            type: "danger",
+          });
+        }
       } catch (error) {
-        console.log(error)
-        swal.close()
+        console.log(error);
+        swal.close();
         this.$notify({
           message:
             "Lo sentimos, no fue posible encontrar su usuario de la cooperativa virtual.",
           timeout: 3000,
           icon: "ni ni-fat-remove",
           type: "danger",
-        })
+        });
       }
     },
-    validateForm(){
-      
+    validateForm() {
       if (this.passCreateAccount == null || this.passCreateAccount == "") {
         this.$notify({
           message: "Por favor ingrese su contraseña de la cooperativa virtual",
@@ -411,39 +420,39 @@ export default {
         return false;
       }
 
-      return true
+      return true;
     },
-    async onResetPassword()
-    {
-      if(this.validateForm() == false)
-      {
-        return
+    async onResetPassword() {
+      if (this.validateForm() == false) {
+        return;
       }
 
-      this.showProgressAlert()
+      this.showProgressAlert();
 
-      var response = await this.$axios.put(process.env.baseUrl+"/recovery_update_password",{
-        idClient: this.responseClientCod, passw: this.passCreateAccount
-      })
-      this.modalRecoveryPass = false
-      swal.close()
+      var response = await this.$axios.put(
+        process.env.baseUrl + "/recovery_update_password",
+        {
+          idClient: this.responseClientCod,
+          passw: this.passCreateAccount,
+        }
+      );
+      this.modalRecoveryPass = false;
+      swal.close();
 
-      if(response.status == 200)
-      {
+      if (response.status == 200) {
         this.$notify({
-            message: "Su contraseña ha sido actualizada con éxito.",
-            timeout: 2000,
-            icon: "ni ni-check-bold",
-            type: "success",
-          })
-      }else{
+          message: "Su contraseña ha sido actualizada con éxito.",
+          timeout: 2000,
+          icon: "ni ni-check-bold",
+          type: "success",
+        });
+      } else {
         this.$notify({
-              message:
-                "Lo sentimos, no fue posible actualizar su contraseña.",
-              timeout: 2000,
-              icon: "ni ni-fat-remove",
-              type: "danger",
-            });
+          message: "Lo sentimos, no fue posible actualizar su contraseña.",
+          timeout: 2000,
+          icon: "ni ni-fat-remove",
+          type: "danger",
+        });
       }
     },
     async uploadPictureFirebase(imageFile, uuid) {
@@ -536,7 +545,10 @@ export default {
         process.env.baseUrl + "/AuthPagoFacil"
       );
       if (response.status == 200) {
-        this.$cookies.set("jwtBancaWebPagoFacil", response.data.accessToken);
+        this.$cookies.set("jwtBancaWebPagoFacil", response.data.accessToken,{
+              path: "/",
+              sameSite: "lax",
+            });
       }
     },
     async onSubmit() {
@@ -589,11 +601,13 @@ export default {
           );
 
           //console.log(this.password)
-          if (response.status == 200) 
-          {
-            await this.$cookies.set("jwtBancaWeb", response.data, 1);
+          if (response.status == 200) {
+            await this.$cookies.set("jwtBancaWeb", response.data, {
+              path: "/",
+              sameSite: "lax",
+            });
             await this.loginPagoFacil();
-            
+
             if (response.data.accept_term_condition == 0) {
               swal.close();
               this.modalTermCondi = true;
@@ -621,37 +635,37 @@ export default {
       } catch (error) {
         console.log(error);
         this.$notify({
-            message: "Lo sentimos, no hemos podido encontrar los términos y condiciones.",
-            timeout: 3000,
-            icon: "ni ni-bell-55",
-            type: "danger",
-          })
+          message:
+            "Lo sentimos, no hemos podido encontrar los términos y condiciones.",
+          timeout: 3000,
+          icon: "ni ni-bell-55",
+          type: "danger",
+        });
       }
 
       swal.close();
     },
-    async cleanModalRecoveryPass(){
-      this.passCreateAccount = null
-      this.passConfirmCreateAccount = null
-      this.numberDniPassCreateAccount = null
-      this.numberCodDactilarCreateAccount = null
-      this.photoCapturedCreateAccount = false
-      this.photoFacilCreateAccount = null
-      this.userNameRecovery = ""
+    async cleanModalRecoveryPass() {
+      this.passCreateAccount = null;
+      this.passConfirmCreateAccount = null;
+      this.numberDniPassCreateAccount = null;
+      this.numberCodDactilarCreateAccount = null;
+      this.photoCapturedCreateAccount = false;
+      this.photoFacilCreateAccount = null;
+      this.userNameRecovery = "";
     },
-    onClickShowmodalRecoveryPass(type) 
-    {
-      this.activeStepCreateAccount = 0
-      this.typeRecoveryPassUser = type
+    onClickShowmodalRecoveryPass(type) {
+      this.activeStepCreateAccount = 0;
+      this.typeRecoveryPassUser = type;
 
-      this.cleanModalRecoveryPass()
+      this.cleanModalRecoveryPass();
 
       if (type == "p") {
         this.titleModalRecoveryPassUsername = "Restabler Contraseña";
-        this.titleStep3 = "Restablecer Contraseña"
-      } else if (type == 'u') {
+        this.titleStep3 = "Restablecer Contraseña";
+      } else if (type == "u") {
         this.titleModalRecoveryPassUsername = "Recuperar Nombre de Usuario";
-        this.titleStep3 = "Usuario Cooperativa Virtual"
+        this.titleStep3 = "Usuario Cooperativa Virtual";
       }
       this.modalRecoveryPass = !this.modalRecoveryPass;
     },
@@ -760,22 +774,19 @@ export default {
           }
         );
 
-        swal.close()
+        swal.close();
 
-        console.log("_________________RESPoNSE FACEID")
-        console.log(response)
+        console.log("_________________RESPoNSE FACEID");
+        console.log(response);
 
-        if (response.status == 200) 
-        {
-          if (response.data.similarity >= 70) 
-          {
+        if (response.status == 200) {
+          if (response.data.similarity >= 70) {
             this.deleteImage(this.uuidPhoto);
-            
-            if(this.typeRecoveryPassUser == 'u')
-            {
-              this.recoveryUsername()
+
+            if (this.typeRecoveryPassUser == "u") {
+              this.recoveryUsername();
             }
-            this.activeStepCreateAccount++
+            this.activeStepCreateAccount++;
           } else {
             this.$notify({
               message:
@@ -802,7 +813,7 @@ export default {
           timeout: 2000,
           icon: "ni ni-fat-remove",
           type: "danger",
-        })
+        });
       }
     },
     stopVideo() {
@@ -906,7 +917,7 @@ export default {
 </script>
 <style>
 .el-step__title.is-process {
-    font-weight: 600;
-    color: #525f7f;
+  font-weight: 600;
+  color: #525f7f;
 }
 </style>
