@@ -36,6 +36,7 @@
                   class="mb-3"
                   prepend-icon="ni ni-email-83"
                   placeholder="Usuario"
+                  name="user_user_random"
                   v-model="email"
                 >
                 </base-input>
@@ -46,6 +47,7 @@
                   prepend-icon="ni ni-lock-circle-open"
                   type="password"
                   placeholder="Contraseña"
+                  name="user_pass_random"
                   v-model="password"
                 >
                 </base-input>
