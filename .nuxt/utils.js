@@ -200,7 +200,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: app.router.options.base,
-      env: {"baseUrl":"http://localhost:3010","nameCoop":"Cooperativa De Ahorro Y Crédito Nizag Ltda","nameCoopCorto":"COOPERATIVA NIZAG LTDA","CLAVE_TOKEN":"B@NKserverECU@DoR2o24*_/"}
+      env: {"baseUrl":"https://8f08ub5vwb.execute-api.us-east-2.amazonaws.com/prod","nameCoop":"Cooperativa De Ahorro Y Crédito Nizag Ltda","nameCoopCorto":"COOPERATIVA NIZAG LTDA","CLAVE_TOKEN":"B@NKserverECU@DoR2o24*_/"}
     }
     // Only set once
 

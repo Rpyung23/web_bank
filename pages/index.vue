@@ -1,14 +1,39 @@
 <template>
-  <div>
+  <div style="background-color: white;">
     <notifications></notifications>
-    <!-- Header -->
-    <div class="header bg-gradient-success py-7 py-lg-8"></div>
-    <!-- Page content -->
-    <div class="container mt--9 pb-5">
-      <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-7">
-          <div class="card border-0 mb-0">
-            <!--<div class="card-header bg-transparent pb-5">
+
+    <div class="row_web_coop_bank" style="background-color: #f4f6f9;margin: 0">
+      <div class="item_step_nizag" style="background-color: white;height: 100vh;">
+        <div class="header">
+          <img
+            src="../static/img/brand/logo_coop.png"
+            height="65px"
+            alt="NIZAG LTDA"
+            class="logo"
+            style="margin-bottom: 0.5rem;"
+          />
+          <h2 style="margin-bottom: 0.5rem;"><strong>Verifica en tu navegador que estás en Cooperativa Web.</strong></h2>
+        </div>
+
+        <div class="verification" style="display: flex;justify-content: center;width: 100%;">
+            <img src="../static/img/icons/login.png" height="300px" alt="Persona señalando" class="illustration">
+        </div>
+
+        <div class="instructions">
+          <p>
+            <span><strong>01.</strong></span> Cuida tu usuario y contraseña
+          </p>
+          <p>
+            <span><strong>02.</strong></span> Antes de ingresar tu contraseña, verifica que hayas ingresado correctamente tu nombre de usuario.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div>
+              <div class="card border-0 mb-0">
+                <!--<div class="card-header bg-transparent pb-5">
               <div class="text-muted text-center mt-2 mb-3"><small>Sign in with</small></div>
               <div class="btn-wrapper text-center">
                 <a href="#" class="btn btn-neutral btn-icon">
@@ -21,71 +46,73 @@
                 </a>
               </div>
             </div>-->
-            <div class="card-body px-lg-5 py-lg-5">
-              <div class="text-center text-muted mb-4">
-                <img
-                  src="../static/img/brand/logo_coop.png"
-                  style="height: 3.5rem; width: 9.5rem"
-                  alt=""
-                  srcset=""
-                />
+                <div class="card-body">
+                  <div class="text-center text-muted mb-4">
+                    <img
+                      src="../static/img/brand/logo_coop.png"
+                      style="height: 3.5rem; width: 9.5rem"
+                      alt=""
+                      srcset=""
+                    />
+                  </div>
+                  <div>
+                    <base-input
+                      alternative
+                      class="mb-3"
+                      prepend-icon="ni ni-email-83"
+                      placeholder="Usuario"
+                      name="user_user_random"
+                      v-model="email"
+                    >
+                    </base-input>
+
+                    <base-input
+                      alternative
+                      class="mb-3"
+                      prepend-icon="ni ni-lock-circle-open"
+                      type="password"
+                      placeholder="Contraseña"
+                      name="user_pass_random"
+                      v-model="password"
+                    >
+                    </base-input>
+
+                    <div class="text-center">
+                      <base-button
+                        type="success"
+                        native-type="submit"
+                        size="sm"
+                        class="my-4"
+                        @click="onSubmit()"
+                        >Ingresar</base-button
+                      >
+                    </div>
+
+                    <div class="col-12 text-center">
+                      <router-link to="/create" class="text-success"
+                        ><small>Crear una nueva cuenta</small></router-link
+                      >
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <base-input
-                  alternative
-                  class="mb-3"
-                  prepend-icon="ni ni-email-83"
-                  placeholder="Usuario"
-                  name="user_user_random"
-                  v-model="email"
-                >
-                </base-input>
-
-                <base-input
-                  alternative
-                  class="mb-3"
-                  prepend-icon="ni ni-lock-circle-open"
-                  type="password"
-                  placeholder="Contraseña"
-                  name="user_pass_random"
-                  v-model="password"
-                >
-                </base-input>
-
-                <div class="text-center">
-                  <base-button
-                    type="success"
-                    native-type="submit"
-                    size="sm"
-                    class="my-4"
-                    @click="onSubmit()"
-                    >Ingresar</base-button
+              <div class="row mt-3">
+                <div class="col-6">
+                  <small
+                    class="text-success"
+                    @click="onClickShowmodalRecoveryPass('p')"
+                    >Has olvidado tu contraseña?</small
                   >
                 </div>
 
-                <div class="col-12 text-center">
-                  <router-link to="/create" class="text-success"
-                    ><small>Crear una nueva cuenta</small></router-link
+                <div class="col-6 text-right">
+                  <small
+                    class="text-success"
+                    @click="onClickShowmodalRecoveryPass('u')"
+                    >Has olvidado tu usuario?</small
                   >
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-6">
-              <small
-                class="text-light"
-                @click="onClickShowmodalRecoveryPass('p')"
-                >Has olvidado tu contraseña?</small
-              >
-            </div>
-
-            <div class="col-6 text-right">
-              <small
-                class="text-light"
-                @click="onClickShowmodalRecoveryPass('u')"
-                >Has olvidado tu usuario?</small
-              >
             </div>
           </div>
         </div>
@@ -315,7 +342,7 @@ import swal from "sweetalert2";
 import { Step, Steps } from "element-ui";
 import "sweetalert2/dist/sweetalert2.css";
 export default {
-  layout: "AuthLayout",
+ 
   components: {
     [Step.name]: Step,
     [Steps.name]: Steps,
@@ -547,10 +574,10 @@ export default {
         process.env.baseUrl + "/AuthPagoFacil"
       );
       if (response.status == 200) {
-        this.$cookies.set("jwtBancaWebPagoFacil", response.data.accessToken,{
-              path: "/",
-              sameSite: "lax",
-            });
+        this.$cookies.set("jwtBancaWebPagoFacil", response.data.accessToken, {
+          path: "/",
+          sameSite: "lax",
+        });
       }
     },
     async onSubmit() {
@@ -922,4 +949,25 @@ export default {
   font-weight: 600;
   color: #525f7f;
 }
+
+.row_web_coop_bank{
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.item_step_nizag{
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+@media only screen and (max-width: 768px) {
+    .item_step_nizag {
+        display: none;
+    }
+}
+
 </style>
