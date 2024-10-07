@@ -958,7 +958,7 @@ export default {
   align-items: center;
 }
 .item_step_nizag{
-  padding: 2rem;
+  padding: 5rem;
   display: flex;
   flex-direction: column;
   align-items: start;
