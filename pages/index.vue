@@ -549,7 +549,7 @@ export default {
     async readUrlTermCondi() {
       try {
         var data = await this.$axios.get(process.env.baseUrl + "/urlexternal");
-        //console.log(data.data)
+        console.log(data.data)
         this.urlTermCondi = data.data.url_term_condi;
         return data.data.url_term_condi;
       } catch (error) {
@@ -610,6 +610,7 @@ export default {
         this.showProgressAlert();
 
         var termcond = await this.readUrlTermCondi();
+       
 
         if (termcond != null) {
           var mi_ip = "";

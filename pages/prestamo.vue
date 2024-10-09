@@ -148,6 +148,7 @@ export default {
         );
 
         if (response.status == 200) {
+          console.log(response.data)
           this.createPDFTablaAmortizacion(credit, response.data);
         }
       } catch (error) {
@@ -169,7 +170,7 @@ export default {
 
         DetalleReport.push([
           { text: mTablaAmortizacion[i].numerodecuota, alignment: "center",fontSize: 10 },
-          { text: mTablaAmortizacion[i].feculpag, alignment: "center",fontSize: 10 },
+          { text: mTablaAmortizacion[i].fechapago, alignment: "center",fontSize: 10 },
           { text: mTablaAmortizacion[i].capital, alignment: "center",fontSize: 10 },
           { text: mTablaAmortizacion[i].interes, alignment: "center",fontSize: 10 },
           { text: Number(mTablaAmortizacion[i].otros).toFixed(2), alignment: "center",fontSize: 10 },
@@ -206,7 +207,8 @@ export default {
               { text: "Cuotas: ", bold: true },
               credit.credi_num_cuota+"\n",
               { text: "Estado del préstamo: ", bold: true },
-              credit.ecred_des_ecred+"\n",
+              credit.ecred_des_ecred+"\n\n",
+              { text: "*Otros Rubros: Esto puede deberse a la activación del seguro, la aplicación de intereses moratorios o el envío de notificaciones extrajudiciales.\n", bold: false,fontSize:9 },
             ],
             margin: [0, 20, 0, 20],
           },
@@ -221,7 +223,7 @@ export default {
                   { text: "Fecha de Pago", style: "tableHeader",fontSize:12 },
                   { text: "Capital", style: "tableHeader",fontSize:12 },
                   { text: "Interés", style: "tableHeader",fontSize:12 },
-                  { text: "*Otros Intereses", style: "tableHeader",fontSize:12 },
+                  { text: "*Otros Rubros", style: "tableHeader",fontSize:12 },
                   { text: "Total de Cuota", style: "tableHeader",fontSize:12 },
                   { text: "Saldo de capital", style: "tableHeader",fontSize:12 },
                 ],
