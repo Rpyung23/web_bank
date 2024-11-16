@@ -1,22 +1,37 @@
 <template>
-  <div style="background-color: white;">
+  <div style="background-color: white">
     <notifications></notifications>
 
-    <div class="row_web_coop_bank" style="background-color: #f4f6f9;margin: 0">
-      <div class="item_step_nizag" style="background-color: white;height: 100vh;">
+    <div class="row_web_coop_bank" style="background-color: #f4f6f9; margin: 0">
+      <div
+        class="item_step_nizag"
+        style="background-color: white; height: 100vh"
+      >
         <div class="header">
           <img
             src="../static/img/brand/logo_coop.png"
             height="65px"
             alt="NIZAG LTDA"
             class="logo"
-            style="margin-bottom: 0.5rem;"
+            style="margin-bottom: 0.5rem"
           />
-          <h2 style="margin-bottom: 0.5rem;"><strong>Verifica en tu navegador que estás en Cooperativa Web.</strong></h2>
+          <h2 style="margin-bottom: 0.5rem">
+            <strong
+              >Verifica en tu navegador que estás en Cooperativa Web.</strong
+            >
+          </h2>
         </div>
 
-        <div class="verification" style="display: flex;justify-content: center;width: 100%;">
-            <img src="../static/img/icons/login.png" height="300px" alt="Persona señalando" class="illustration">
+        <div
+          class="verification"
+          style="display: flex; justify-content: center; width: 100%"
+        >
+          <img
+            src="../static/img/icons/login.png"
+            height="300px"
+            alt="Persona señalando"
+            class="illustration"
+          />
         </div>
 
         <div class="instructions">
@@ -24,7 +39,8 @@
             <span><strong>01.</strong></span> Cuida tu usuario y contraseña
           </p>
           <p>
-            <span><strong>02.</strong></span> Antes de ingresar tu contraseña, verifica que hayas ingresado correctamente tu nombre de usuario.
+            <span><strong>02.</strong></span> Antes de ingresar tu contraseña,
+            verifica que hayas ingresado correctamente tu nombre de usuario.
           </p>
         </div>
       </div>
@@ -330,6 +346,47 @@
         >
       </template>
     </modal>
+
+    <modal
+      :show.sync="modalOTP"
+      body-classes="p-0"
+      modal-classes="modal-dialog-centered modal-sm"
+    >
+      <card
+        type="secondary"
+        shadow
+        header-classes="bg-white pb-5"
+        body-classes="px-lg-5 py-lg-5"
+        class="border-0 mb-0"
+      >
+        <form role="form">
+          <div class="text-muted text-center mb-3">
+            <small>Ingresar Codigo OTP</small>
+          </div>
+          <base-input
+            placeholder="Código OTP"
+            v-model="model_codigo_otp"
+            type="number"
+          ></base-input>
+          <div class="buttons_otp">
+            <base-button
+              :disabled="active_repeat_code"
+              type="secondary"
+              size="sm"
+              @click="getCodeOTP()"
+              >Volver a generar código</base-button
+            >
+            <base-button
+              
+              type="success"
+              size="sm"
+              @click="checkOtp()"
+              >Verificar</base-button
+            >
+          </div>
+        </form>
+      </card>
+    </modal>
   </div>
 </template>
 
@@ -342,7 +399,6 @@ import swal from "sweetalert2";
 import { Step, Steps } from "element-ui";
 import "sweetalert2/dist/sweetalert2.css";
 export default {
- 
   components: {
     [Step.name]: Step,
     [Steps.name]: Steps,
@@ -352,9 +408,11 @@ export default {
       email: "",
       password: "",
       modalRecoveryPass: false,
+      modalOTP: false,
       activeStepCreateAccount: 0,
       photoCapturedCreateAccount: false,
       photoFacilCreateAccount: "",
+      active_repeat_code: false,
       /**model para crear una nueva cuenta***/
       numberDniPassCreateAccount: null,
       numberCodDactilarCreateAccount: null,
@@ -369,9 +427,35 @@ export default {
       uuidPhoto: null,
       typeRecoveryPassUser: "p",
       userNameRecovery: "",
+      codigo_otp: null,
+      model_codigo_otp: null,
+      //RESPALDO DE TOKEN
+      data_response_login: null,
+      data_response_login_pay: null,
     };
   },
   methods: {
+    startCountdown(seconds) {
+      let remaining = seconds
+
+      const interval = setInterval(() => {
+        console.log(`Quedan ${remaining} segundos.`);
+        remaining--;
+
+        if (remaining < 0) {
+          clearInterval(interval); // Detener el temporizador
+          console.log("¡El tiempo se acabó!");
+        }
+      }, 1000);
+
+      // Detener todo después de los 60 segundos (como seguridad adicional)
+      setTimeout(() => {
+        clearInterval(interval)
+        this.codigo_otp = null
+        this.active_repeat_code = false
+        //console.log("El temporizador se detuvo después de 60 segundos.");
+      }, seconds * 1000);
+    },
     async recoveryUsername() {
       try {
         this.showProgressAlert();
@@ -549,7 +633,7 @@ export default {
     async readUrlTermCondi() {
       try {
         var data = await this.$axios.get(process.env.baseUrl + "/urlexternal");
-        console.log(data.data)
+        console.log(data.data);
         this.urlTermCondi = data.data.url_term_condi;
         return data.data.url_term_condi;
       } catch (error) {
@@ -573,11 +657,75 @@ export default {
       var response = await this.$axios.get(
         process.env.baseUrl + "/AuthPagoFacil"
       );
+
       if (response.status == 200) {
-        this.$cookies.set("jwtBancaWebPagoFacil", response.data.accessToken, {
+        this.data_response_login_pay = response.data.accessToken;
+        /*this.$cookies.set("jwtBancaWebPagoFacil", response.data.accessToken, {
           path: "/",
           sameSite: "lax",
+        })*/
+      }
+    },
+    async checkOtp() {
+      if (this.model_codigo_otp == null || this.model_codigo_otp == "") {
+        this.$notify({
+          message:
+            "El código ingresado no es válido. Por favor, verifica e inténtalo nuevamente.",
+          timeout: 3000,
+          icon: "ni ni-bell-55",
+          type: "danger",
         });
+      }
+
+      if (this.codigo_otp === this.model_codigo_otp) {
+        try {
+          this.$cookies.set("jwtBancaWeb", this.data_response_login, {
+            path: "/",
+            sameSite: "lax",
+          });
+
+          this.$cookies.set(
+            "jwtBancaWebPagoFacil",
+            this.data_response_login_pay,
+            {
+              path: "/",
+              sameSite: "lax",
+            }
+          );
+
+          this.$router.push("/dashboard");
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        this.$notify({
+          message:
+            "El código ingresado no es válido. Por favor, verifica e inténtalo nuevamente.",
+          timeout: 3000,
+          icon: "ni ni-bell-55",
+          type: "danger",
+        });
+      }
+    },
+    async getCodeOTP() {
+      this.modalOTP = true
+      this.model_codigo_otp = null
+      this.codigo_otp = null
+      this.active_repeat_code = true
+      var response = await this.$axios.get(
+        process.env.baseUrl + "/create_otp",
+        {
+          headers: {
+            Authorization: this.data_response_login.token,
+          },
+        }
+      )
+
+      this.startCountdown(60)
+
+      if (response.status == 200) {
+        this.codigo_otp = response.data.otp;
+        //console.log(this.codigo_otp);
       }
     },
     async onSubmit() {
@@ -610,7 +758,6 @@ export default {
         this.showProgressAlert();
 
         var termcond = await this.readUrlTermCondi();
-       
 
         if (termcond != null) {
           var mi_ip = "";
@@ -630,19 +777,23 @@ export default {
             }
           );
 
-          //console.log(this.password)
           if (response.status == 200) {
-            await this.$cookies.set("jwtBancaWeb", response.data, {
+            /*await this.$cookies.set("jwtBancaWeb", response.data, {
               path: "/",
               sameSite: "lax",
-            });
-            await this.loginPagoFacil();
+            })*/
+
+            this.data_response_login = response.data;
+
+            await this.loginPagoFacil()
 
             if (response.data.accept_term_condition == 0) {
-              swal.close();
+              swal.close()
               this.modalTermCondi = true;
             } else {
-              this.$router.push("/dashboard");
+              swal.close()
+              this.getCodeOTP()
+              //this.$router.push("/dashboard")
             }
           } else {
             this.$notify({
@@ -904,15 +1055,18 @@ export default {
           {},
           {
             headers: {
-              Authorization: this.$jwtBancaWeb().token,
+              Authorization: this.data_response_login.token,
             },
           }
         );
 
         swal.close();
 
-        if (response.status == 200) {
-          this.$router.push("/dashboard");
+        if (response.status == 200) 
+        {
+          this.modalTermCondi = false
+          this.getCodeOTP()
+          //this.$router.push("/dashboard");
         } else {
           swal.close();
           this.$notify({
@@ -946,19 +1100,23 @@ export default {
 };
 </script>
 <style>
+.buttons_otp {
+  display: flex;
+  justify-content: space-between;
+}
 .el-step__title.is-process {
   font-weight: 600;
   color: #525f7f;
 }
 
-.row_web_coop_bank{
+.row_web_coop_bank {
   min-height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.item_step_nizag{
+.item_step_nizag {
   padding: 5rem;
   display: flex;
   flex-direction: column;
@@ -966,9 +1124,8 @@ export default {
   justify-content: center;
 }
 @media only screen and (max-width: 768px) {
-    .item_step_nizag {
-        display: none;
-    }
+  .item_step_nizag {
+    display: none;
+  }
 }
-
 </style>

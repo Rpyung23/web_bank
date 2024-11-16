@@ -33,14 +33,15 @@
                     <strong style="color: #144c24"
                       ><h1 style="color: #144c24">
                         {{
-                          valorTransferencia == null ||
-                          valorTransferencia == ""
+                          valorTransferencia == null || valorTransferencia == ""
                             ? "0.00"
                             : oComisionTransfer == null || profi_val_decmn == ""
                             ? "0.00"
                             : (
                                 parseFloat(valorTransferencia) +
-                                (isExterno == 1 ? oComisionTransfer.profi_val_decmn : 0)
+                                (isExterno == 1
+                                  ? oComisionTransfer.profi_val_decmn
+                                  : 0)
                               ).toFixed(2)
                         }}
                       </h1></strong
@@ -303,8 +304,8 @@ export default {
       motivoTransfer: null,
       oComisionTransfer: null,
       isComprobante: false,
-      isExterno : 0,
-      cleanUpInactivityTimer : null,
+      isExterno: 0,
+      cleanUpInactivityTimer: null,
       oItemLastTransaction: {
         mctad_num_ttran: 0,
         tmovi_des_tmovi: "",
@@ -385,7 +386,7 @@ export default {
           this.accountContact = this.mListContact[i].num_ctadp_cod_ctadp;
           this.nameContact = this.mListContact[i].namecontact;
           this.typeAccountContact = this.mListContact[i].ticue_des_ticue;
-          this.isExterno = this.mListContact[i].isexterno
+          this.isExterno = this.mListContact[i].isexterno;
         }
       }
     },
@@ -401,7 +402,7 @@ export default {
       );
       return contact || null;
     },
-    clickButtonCreateTransfer() {
+    async clickButtonCreateTransfer() {
       try {
         var objAccount = this.getAccountOrigin(this.oSelectAccount);
 
@@ -430,6 +431,83 @@ export default {
             return;
           }
 
+          //CONFIRMAR RANGO PERMITIDO
+
+          this.showProgressAlert();
+
+          var responseDay = 500;
+          var responseMounthly = 500;
+
+          try {
+            var responseDayHttp = await this.$axios.post(
+              process.env.baseUrl + "/check_limit_transaction_day",
+              {
+                account: objAccount.ctadp_cod_ctadp,
+                amount:
+                  objContact.isexterno == 0
+                    ? this.valorTransferencia
+                    : this.oComisionTransfer.profi_val_decmn +
+                      parseFloat(this.valorTransferencia),
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: this.$jwtBancaWeb().token,
+                },
+              }
+            );
+            responseDay = responseDayHttp.status;
+          } catch (error) {
+            responseDay = 500;
+          }
+
+          try {
+            var responseMounthlyHttp = await this.$axios.post(
+              process.env.baseUrl + "/check_limit_transaction_monthly",
+              {
+                account: objAccount.ctadp_cod_ctadp,
+                amount:
+                  objContact.isexterno == 0
+                    ? this.valorTransferencia
+                    : this.oComisionTransfer.profi_val_decmn +
+                      parseFloat(this.valorTransferencia),
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: this.$jwtBancaWeb().token,
+                },
+              }
+            )
+            console.log(responseMounthlyHttp.status)
+            responseMounthly = responseMounthlyHttp.status;
+          } catch (error) {
+            responseMounthly = 500;
+          }
+
+          swal.close();
+
+          if (responseDay == 500) {
+            this.$notify({
+              message:
+                "Lo sentimos, ha excedido su límite diario de transferencias.",
+              timeout: 2000,
+              icon: "ni ni-fat-remove",
+              type: "danger",
+            });
+            return;
+          }
+
+          if (responseMounthly == 500) {
+            this.$notify({
+              message:
+                "Lo sentimos, ha excedido su límite mensual de transferencias.",
+              timeout: 2000,
+              icon: "ni ni-fat-remove",
+              type: "danger",
+            });
+            return;
+          }
 
           //this.isExterno = objContact.isExterno
 
@@ -449,7 +527,7 @@ export default {
             }
           }
 
-          console.log(objContact);
+          //console.log(objContact);
 
           if (objContact.isexterno == 0) {
             this.sendCreateTransferLocalExternal(
@@ -598,15 +676,15 @@ export default {
       }
     },
     clearForm() {
-      this.oSelectAccount = null
-      this.oSelectContact = null
-      this.emailContact = null
-      this.accountContact = null
-      this.nameContact = null
-      this.typeAccountContact = null
-      this.valorTransferencia = null
-      this.motivoTransfer = null
-      this.isExterno = 0
+      this.oSelectAccount = null;
+      this.oSelectContact = null;
+      this.emailContact = null;
+      this.accountContact = null;
+      this.nameContact = null;
+      this.typeAccountContact = null;
+      this.valorTransferencia = null;
+      this.motivoTransfer = null;
+      this.isExterno = 0;
     },
     formatInputMoney() {
       // Obtener el valor del input
@@ -653,10 +731,13 @@ export default {
     },
   },
   mounted() {
-    this.cleanUpInactivityTimer = setupInactivityTimer(this.$cookies, this.$router)
-    this.readMyContact()
-    this.reasMyAccount()
-    this.readComisionTransfer()
+    this.cleanUpInactivityTimer = setupInactivityTimer(
+      this.$cookies,
+      this.$router
+    );
+    this.readMyContact();
+    this.reasMyAccount();
+    this.readComisionTransfer();
   },
   beforeDestroy() {
     if (this.cleanUpInactivityTimer) {
