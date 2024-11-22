@@ -361,7 +361,7 @@
       >
         <form role="form">
           <div class="text-muted text-center mb-3">
-            <small>Hola, {{data_response_login.first_name}}. Te hemos enviado un código de acceso vía SMS a tu celular</small>
+            <small>Hola, {{data_response_login == null ? '' : data_response_login.first_name}}. Te hemos enviado un código de acceso vía SMS a tu celular</small>
           </div>
           <base-input
             placeholder="Código OTP"
