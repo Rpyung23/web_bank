@@ -89,6 +89,7 @@
                       type="password"
                       placeholder="Contraseña"
                       name="user_pass_random"
+                      @keyup.enter="onSubmit()"
                       v-model="password"
                     >
                     </base-input>
@@ -359,13 +360,16 @@
         body-classes="px-lg-5 py-lg-5"
         class="border-0 mb-0"
       >
-        <form role="form">
+        <form @submit.prevent>
           <div class="text-muted text-center mb-3">
             <small>Hola, {{data_response_login == null ? '' : data_response_login.first_name}}. Te hemos enviado un código de acceso vía SMS a tu celular</small>
           </div>
           <base-input
             placeholder="Código OTP"
+            name="Código OTP"
             v-model="model_codigo_otp"
+            @keyup.enter="checkOtp()"
+            :required="true"
             type="number"
           ></base-input>
           <div class="buttons_otp">
@@ -667,14 +671,27 @@ export default {
       }
     },
     async checkOtp() {
-      if (this.model_codigo_otp == null || this.model_codigo_otp == "") {
+      if (this.model_codigo_otp == "" || this.model_codigo_otp == "") 
+      {
         this.$notify({
           message:
             "El código ingresado no es válido. Por favor, verifica e inténtalo nuevamente.",
           timeout: 3000,
           icon: "ni ni-bell-55",
           type: "danger",
-        });
+        })
+        return
+      }
+
+      if (this.model_codigo_otp == null || this.model_codigo_otp == null) {
+        this.$notify({
+          message:
+            "El código ingresado no es válido. Por favor, verifica e inténtalo nuevamente.",
+          timeout: 3000,
+          icon: "ni ni-bell-55",
+          type: "danger",
+        })
+        return
       }
 
       if (this.codigo_otp === this.model_codigo_otp) {
