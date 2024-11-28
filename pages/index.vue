@@ -699,6 +699,8 @@ export default {
           this.$cookies.set("jwtBancaWeb", this.data_response_login, {
             path: "/",
             sameSite: "lax",
+            httpOnly : true,
+            secure: true
           });
 
           this.$cookies.set(
@@ -707,6 +709,8 @@ export default {
             {
               path: "/",
               sameSite: "lax",
+              httpOnly : true,
+              secure: true
             }
           );
 

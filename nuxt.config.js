@@ -68,6 +68,7 @@ module.exports = {
     "~/plugins/dashboard/dashboard-plugin",
     "~/plugins/token.js",
     "~/plugins/tokenPFacil.js",
+    '~/plugins/disable-right-click.js',
     { src: "~/plugins/dashboard/full-calendar", ssr: false },
     { src: "~/plugins/dashboard/world-map", ssr: false },
   ],
@@ -128,10 +129,10 @@ module.exports = {
   },
 
   env: {
-    baseUrl: "https://8f08ub5vwb.execute-api.us-east-2.amazonaws.com/prod",
-    //baseUrl: "http://localhost:3010",
-    nameCoop: "Cooperativa De Ahorro Y Crédito Nizag Ltda",
-    nameCoopCorto: "COOPERATIVA NIZAG LTDA",
-    CLAVE_TOKEN: "B@NKserverECU@DoR2o24*_/",
+    baseUrl: process.env.baseUrl || "https://8f08ub5vwb.execute-api.us-east-2.amazonaws.com/prod",
+    //baseUrl: process.env.baseUrl || "http://localhost:3010",
+    nameCoop: process.env.nameCoop || "Cooperativa De Ahorro Y Crédito Nizag Ltda",
+    nameCoopCorto: process.env.nameCoopCorto || "COOPERATIVA NIZAG LTDA",
+    CLAVE_TOKEN: process.env.CLAVE_TOKEN ||  "B@NKserverECU@DoR2o24*_/",
   },
 };
